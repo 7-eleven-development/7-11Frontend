@@ -1,4 +1,5 @@
 import { Tabs } from "expo-router";
+import { AntDesign, Ionicons, Entypo } from "@expo/vector-icons";
 const TabLayout = () => {
   return (
     <Tabs>
@@ -6,30 +7,66 @@ const TabLayout = () => {
         name="index"
         options={{
           title: "Home",
+          tabBarIcon: ({ color, focused }) => (
+            <Ionicons
+              name={focused ? "home" : "home-outline"}
+              size={24}
+              //   color={color}
+            />
+          ),
         }}
       ></Tabs.Screen>
       <Tabs.Screen
         name="location"
         options={{
           title: "Location",
+          tabBarIcon: ({ color, focused }) => (
+            <AntDesign
+              name={focused ? "enviroment" : "enviromento"}
+              size={24}
+              //   color={color}
+            />
+          ),
         }}
       ></Tabs.Screen>
       <Tabs.Screen
         name="soundLevel"
         options={{
-          title: "Sound Level", 
+          title: "Sound Level",
+          tabBarIcon: ({ color, focused }) => (
+            <Ionicons
+              name={focused ? "headset" : "headset-outline"}
+              size={24}
+              //   color={color}
+            />
+          ),
         }}
       ></Tabs.Screen>
       <Tabs.Screen
         name="gas"
         options={{
           title: "Gas",
+          tabBarIcon: ({ color, focused }) => (
+            <Entypo
+              //   name={focused ? "home" : "home-outline"}
+              name={"air"}
+              size={24}
+              //   color={color}
+            />
+          ),
         }}
       ></Tabs.Screen>
       <Tabs.Screen
         name="heartRate"
         options={{
           title: "Heart Rate",
+          tabBarIcon: ({ color, focused }) => (
+            <AntDesign
+              name={focused ? "heart" : "hearto"}
+              size={24}
+              //   color={color}
+            />
+          ),
         }}
       ></Tabs.Screen>
     </Tabs>
