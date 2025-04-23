@@ -6,6 +6,7 @@ const RootLayout = () => {
     <SafeAreaView style={styles.safeArea}>
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen name="+not-found" />
       </Stack>
     </SafeAreaView>
   );
