@@ -5,21 +5,29 @@ import { Colors } from "@/theme/Colors"
 
 const TabLayout = () => {
 
-const colors = useColorScheme();
+const colorScheme = useColorScheme();
 
   return (
     <Tabs screenOptions={{
-      tabBarActiveTintColor: Colors[colors ?? 'light'].tint
+      tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+      headerShown: false,
+      tabBarStyle: {
+        backgroundColor: Colors[colorScheme ?? 'light'].tabBarBackground,
+        position: "absolute",
+        borderTopWidth: 0,
+        elevation: 0,
+      },
     }}>
       <Tabs.Screen
         name="index"
         options={{
           title: "Home",
           tabBarIcon: ({ color, focused }) => (
+            console.log(color),
             <Ionicons
               name={focused ? "home" : "home-outline"}
               size={24}
-              //   color={color}
+              color={color}
             />
           ),
         }}
@@ -32,7 +40,7 @@ const colors = useColorScheme();
             <AntDesign
               name={focused ? "enviroment" : "enviromento"}
               size={24}
-              //   color={color}
+              color={color}
             />
           ),
         }}
@@ -45,7 +53,7 @@ const colors = useColorScheme();
             <Ionicons
               name={focused ? "headset" : "headset-outline"}
               size={24}
-              //   color={color}
+            color={color}
             />
           ),
         }}
@@ -59,7 +67,7 @@ const colors = useColorScheme();
               //   name={focused ? "home" : "home-outline"}
               name={"air"}
               size={24}
-              //   color={color}
+              color={color}
             />
           ),
         }}
@@ -72,7 +80,7 @@ const colors = useColorScheme();
             <AntDesign
               name={focused ? "heart" : "hearto"}
               size={24}
-              //   color={color}
+              color={color}
             />
           ),
         }}
