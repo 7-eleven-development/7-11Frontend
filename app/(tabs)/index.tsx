@@ -1,6 +1,12 @@
 import Card from "@/components/Card";
 import { View, Text } from "react-native";
+import useThemeColors from '../../theme/useThemeColors';
+
+
 const Index = () => {
+  const colors = useThemeColors();
+
+
   return (
     <View>
       <Text>Index</Text>

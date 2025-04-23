@@ -1,8 +1,16 @@
 import { Tabs } from "expo-router";
 import { AntDesign, Ionicons, Entypo } from "@expo/vector-icons";
+import { useColorScheme} from '@/hooks/useColorScheme'
+import { Colors } from "@/theme/Colors"
+
 const TabLayout = () => {
+
+const colors = useColorScheme();
+
   return (
-    <Tabs>
+    <Tabs screenOptions={{
+      tabBarActiveTintColor: Colors(colors ?? 'light').tint
+    }}>
       <Tabs.Screen
         name="index"
         options={{
