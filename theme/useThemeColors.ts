@@ -1,11 +1,21 @@
-import { useColorScheme } from 'react-native';
-import { Colors } from './Colors';
+/**
+ * Learn more about light and dark modes:
+ * https://docs.expo.dev/guides/color-schemes/
+ */
 
-type Theme = 'light' | 'dark';
+import { Colors } from "@/theme/Colors";
+import { useColorScheme } from '@/hooks/useColorScheme';
 
-type ThemeColors = typeof Colors.light;
+export function useThemeColor(
+  props: { light?: string; dark?: string },
+  colorName: keyof typeof Colors.light & keyof typeof Colors.dark
+) {
+  const theme = useColorScheme() ?? 'light';
+  const colorFromProps = props[theme];
 
-export default function useThemeColors(): ThemeColors {
-  const scheme = useColorScheme() as Theme | null;    //om systemet inte har något färgschema definierat så returnerar det null.
-  return Colors[scheme ?? 'light'];     //light kommer användas som standardvrde om scheme är null.
+  if (colorFromProps) {
+    return colorFromProps;
+  } else {
+    return Colors[theme][colorName];
+  }
 }

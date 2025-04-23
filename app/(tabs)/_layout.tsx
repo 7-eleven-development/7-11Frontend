@@ -9,7 +9,7 @@ const colors = useColorScheme();
 
   return (
     <Tabs screenOptions={{
-      tabBarActiveTintColor: Colors(colors ?? 'light').tint
+      tabBarActiveTintColor: Colors[colors ?? 'light'].tint
     }}>
       <Tabs.Screen
         name="index"
