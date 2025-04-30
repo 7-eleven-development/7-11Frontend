@@ -3,7 +3,7 @@ const tintColorDark = "#00ADB5";
 
 export const Colors = {
   light: {
-    textColorDark: " #11181C",
+    text: " #11181C",
     textColorLigh: " #EEEEEE",
     background: " #D9D9D9",
     tabBarBackground: "#D9D9D9",
@@ -19,7 +19,7 @@ export const Colors = {
   },
 
   dark: {
-    textColorDark: " #11181C",
+    text: " #11181C",
     textColorLigh: " #EEEEEE",
     background: " #222831",
     tabBarBackground: "#393E46",
