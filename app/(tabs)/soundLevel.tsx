@@ -1,9 +1,10 @@
-import { View, Text } from "react-native";
+import { ThemedView } from "@/components/ThemedView";
+import { Text } from "react-native";
 const soundLevel = () => {
   return (
-    <View>
+    <ThemedView>
         <Text> Sound Level </Text>
-    </View>
+    </ThemedView>
   );
 };
 export default soundLevel;

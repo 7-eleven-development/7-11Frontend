@@ -1,9 +1,10 @@
-import { View, Text } from "react-native";
+import { ThemedView } from "@/components/ThemedView";
+import { Text } from "react-native";
 const Gas = () => {
   return (
-    <View>
+    <ThemedView>
         <Text> Gas </Text>
-    </View>
+    </ThemedView>
   );
 };
-export default Gas;
+export default Gas

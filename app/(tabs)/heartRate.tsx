@@ -1,9 +1,10 @@
-import { View, Text } from "react-native";
+import { ThemedView } from "@/components/ThemedView";
+import { Text } from "react-native";
 const heartRate = () => {
   return (
-    <View>
+    <ThemedView>
         <Text>Heart Rate </Text>
-    </View>
+    </ThemedView>
   );
 };
 export default heartRate;
