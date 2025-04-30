@@ -1,5 +1,7 @@
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
+import { ThemedText } from "@/components/ThemedText";
+
 type Props = {
   title: string;
   dataType: "soundLevel" | "gas" | "heartRate";
@@ -24,10 +26,10 @@ const Card = ({ title, dataType, data, iconType }: Props) => {
 
   return (
     <View style={styles.card}>
-      <Text>{title}</Text>
-      <Text>{data}</Text>
-      <Text>{unit}</Text>
-      <Text>{icon}</Text>
+      <ThemedText>{title}</ThemedText>
+      <ThemedText>{data}</ThemedText>
+      <ThemedText>{unit}</ThemedText>
+      <ThemedText>{icon}</ThemedText>
     </View>
   );
 };
