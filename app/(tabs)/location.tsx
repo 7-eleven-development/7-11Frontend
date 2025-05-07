@@ -1,9 +1,10 @@
-import { View, Text } from "react-native";
+import { ThemedView } from "@/components/ThemedView";
+import { Text } from "react-native";
 const Location = () => {
   return (
-    <View>
+    <ThemedView>
         <Text>Location </Text>
-    </View>
+    </ThemedView>
   );
 };
 export default Location;

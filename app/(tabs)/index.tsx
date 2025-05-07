@@ -1,8 +1,10 @@
 import Card from "@/components/Card";
-import { View, Text } from "react-native";
+import { ThemedView } from "@/components/ThemedView";
+import { Text } from "react-native";
+
 const Index = () => {
   return (
-    <View>
+    <ThemedView >
       <Text>Index</Text>
       <Card title="Gas" dataType="gas" data={107} iconType="meh" />
       <Card
@@ -17,7 +19,7 @@ const Index = () => {
         data={80}
         iconType="frown"
       />
-    </View>
+    </ThemedView>
   );
 };
 export default Index;
