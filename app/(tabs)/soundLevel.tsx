@@ -1,4 +1,5 @@
 import { ThemedView } from "@/components/ThemedView";
+import { ThemedText } from "@/components/ThemedText";
 import { AntDesign } from "@expo/vector-icons";
 import { Text, StyleSheet } from "react-native";
 import { useThemeColor } from "@/theme/useThemeColors";
@@ -31,13 +32,14 @@ const SoundLevel = () => {
   return (
     
     <ThemedView style={[styles.container, {backgroundColor}]}>
-      
-        <Text style={[styles.heading, { color: textColor}]}> Sound Level </Text>
+        
+        <ThemedText style={[styles.heading, { color: textColor}]}> Sound Level </ThemedText>
 
         <AntDesign name={icon} size={64} style={styles.icon} />
 
-        <Text style={[styles.value, {color: textColor}]}> {soundValue} dB </Text>
-        <Text style={[styles.status, {color: textColor}]}> {label} </Text>
+        <ThemedText style={[styles.value, {color: textColor}]}> {soundValue} dB </ThemedText>
+        <ThemedText style={[styles.status, {color: textColor}]}> {label} </ThemedText>
+   
     </ThemedView>
   );
 };
