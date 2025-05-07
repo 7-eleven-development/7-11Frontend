@@ -3,9 +3,10 @@ import { ThemedText } from "@/components/ThemedText";
 import { AntDesign } from "@expo/vector-icons";
 import { Text, StyleSheet } from "react-native";
 import { useThemeColor } from "@/theme/useThemeColors";
+import { createContext } from "react";
 
-type IconName = "smileo" | "meh" | "frowno"; 
-
+type IconName = "smileo" | "meh" | "frowno";
+const test = createContext({});
 const SoundLevel = () => {
   const soundValue = 65;
 
@@ -20,34 +21,30 @@ const SoundLevel = () => {
     return { icon: "frowno", label: "Loud" };
   };
 
-
   //Här använder jag den funktionen för att få fram rätt ikon samt label.
-  const { icon, label} = getStatus();
+  const { icon, label } = getStatus();
 
   //Blev något konstigt med färgtemat så jag lägger in det här så att det går igenom.
   const backgroundColor = useThemeColor({}, "background");
-  const textColor = useThemeColor({}, "text"); 
-
+  const textColor = useThemeColor({}, "text");
 
   return (
-    
-    <ThemedView style={[styles.container, {backgroundColor}]}>
-        
-        <ThemedText style={[styles.heading, { color: textColor}]}> Sound Level </ThemedText>
-
-        <AntDesign name={icon} size={64} style={styles.icon} />
-
-        <ThemedText style={[styles.value, {color: textColor}]}> {soundValue} dB </ThemedText>
-        <ThemedText style={[styles.status, {color: textColor}]}> {label} </ThemedText>
-   
+    <ThemedView style={[styles.container, { backgroundColor }]}>
+      <ThemedText style={[styles.heading, { color: textColor }]}>
+        Sound Level
+      </ThemedText>
+      <AntDesign name={icon} size={64} style={styles.icon} />
+      <ThemedText style={[styles.value, { color: textColor }]}>
+        {soundValue} dB
+      </ThemedText>
+      <ThemedText style={[styles.status, { color: textColor }]}>
+        {label}
+      </ThemedText>
     </ThemedView>
   );
 };
 
-
-
 const styles = StyleSheet.create({
-
   container: {
     flex: 1,
     padding: 20,
@@ -79,9 +76,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginTop: 10,
   },
-
-
-
 });
 
 export default SoundLevel;
