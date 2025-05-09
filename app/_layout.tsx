@@ -1,24 +1,45 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from "@react-navigation/native";
+import {
+  DarkTheme,
+  DefaultTheme,
+  ThemeProvider,
+} from "@react-navigation/native";
 import { Stack } from "expo-router";
 import { StyleSheet, Platform, StatusBar, SafeAreaView } from "react-native";
-import { useColorScheme } from '@/hooks/useColorScheme';
+import { useColorScheme } from "@/hooks/useColorScheme";
+import { Colors } from "@/theme/Colors";
+import SoundLevelProvider from "@/context/SoundLevel/SoundLevelProvider";
+import ThemedView from "@/components/ThemedView";
 
 const RootLayout = () => {
   const colorScheme = useColorScheme();
-  return (
+  const backgroundColor =
+    colorScheme === "dark" ? Colors.dark.background : Colors.light.background;
 
-    <ThemeProvider value={ colorScheme === 'dark' ? DarkTheme : DefaultTheme }> 
-    <SafeAreaView style={styles.safeArea}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-    </SafeAreaView>
- </ThemeProvider> 
- );
+  return (
+    <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+      <SoundLevelProvider>
+        <ThemedView style={styles.container}>
+          <StatusBar
+            backgroundColor={backgroundColor}
+            barStyle={colorScheme === "dark" ? "light-content" : "dark-content"}
+            translucent={true}
+          />
+          <SafeAreaView style={[styles.safeArea, { backgroundColor }]}>
+            <Stack>
+              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+              <Stack.Screen name="+not-found" />
+            </Stack>
+          </SafeAreaView>
+        </ThemedView>
+      </SoundLevelProvider>
+    </ThemeProvider>
+  );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   safeArea: {
     flex: 1,
     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
