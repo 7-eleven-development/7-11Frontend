@@ -1,5 +1,4 @@
 import { Text, type TextProps, StyleSheet } from "react-native";
-
 import { useThemeColor } from "@/theme/useThemeColors";
 
 export type ThemedTextProps = TextProps & {
@@ -8,13 +7,13 @@ export type ThemedTextProps = TextProps & {
   type?: "default" | "title" | "defaultSemiBold" | "subtitle";
 };
 
-export function ThemedText({
+const ThemedText = ({
   style,
   lightColor,
   darkColor,
   type = "default",
   ...rest
-}: ThemedTextProps) {
+}: ThemedTextProps) => {
   const color = useThemeColor({ light: lightColor, dark: darkColor }, "text");
 
   return (
@@ -30,7 +29,7 @@ export function ThemedText({
       {...rest}
     />
   );
-}
+};
 
 const styles = StyleSheet.create({
   default: {
@@ -53,3 +52,5 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
 });
+
+export default ThemedText;
