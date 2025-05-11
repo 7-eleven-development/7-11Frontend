@@ -35,4 +35,13 @@ yarn-error.*
 # typescript
 *.tsbuildinfo
 
+# Android and React Native system files
+.androidx.*
+.com.facebook.*
+.react.*
+*.hprof
+.android/
+android/.gradle/
+android/app/build/
+
 app-example
