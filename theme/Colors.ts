@@ -1,3 +1,6 @@
+export type ColorScheme = 'light' | 'dark';
+export type ColorSchemeName = ColorScheme | null | undefined;
+
 const tintColorLight = "#0a7ea4";
 const tintColorDark = "#00ADB5";
 
