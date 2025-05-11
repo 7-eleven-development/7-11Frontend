@@ -1,26 +1,37 @@
-import { StyleSheet, RefreshControl, ScrollView } from "react-native";
+import { RefreshControl, ScrollView, ScrollViewProps } from "react-native";
+import { useRef } from "react";
 
-interface Props {
+interface RefreshViewProps extends ScrollViewProps {
   refreshing: boolean;
   onRefresh: () => void;
-  children?: React.ReactNode;
+  showRefreshSpinner?: boolean;
+  children: React.ReactNode;
 }
 
-const RefreshView = ({ refreshing, onRefresh, children }: Props) => {
+const RefreshView = ({
+  refreshing,
+  onRefresh,
+  children,
+  ...props
+}: RefreshViewProps) => {
   return (
     <ScrollView
-      contentContainerStyle={styles.scrollContainer}
+      contentContainerStyle={{ flexGrow: 1 }}
       refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        <RefreshControl
+          refreshing={refreshing}
+          onRefresh={onRefresh}
+          // colors={["transparent"]}
+          // tintColor="transparent"
+          // style={{ backgroundColor: "transparent" }}
+          // progressBackgroundColor="transparent"
+        />
       }
+      {...props}
     >
       {children}
     </ScrollView>
   );
 };
-const styles = StyleSheet.create({
-  scrollContainer: {
-    flexGrow: 1,
-  },
-});
+
 export default RefreshView;
