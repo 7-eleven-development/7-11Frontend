@@ -5,7 +5,8 @@ import {
 } from "@react-navigation/native";
 import { Stack } from "expo-router";
 import { StyleSheet, Platform, StatusBar, SafeAreaView } from "react-native";
-import { useColorScheme } from "@/hooks/useColorScheme";
+import { useColorScheme } from '@/hooks/useColorScheme';
+import  Login  from '@/app/Login';
 import { Colors } from "@/theme/Colors";
 import SoundLevelProvider from "@/context/SoundLevel/SoundLevelProvider";
 import ThemedView from "@/components/ThemedView";
@@ -26,6 +27,7 @@ const RootLayout = () => {
           />
           <SafeAreaView style={[styles.safeArea, { backgroundColor }]}>
             <Stack>
+            {/* <Login/> */}
               <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
               <Stack.Screen name="+not-found" />
             </Stack>
