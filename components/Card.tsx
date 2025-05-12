@@ -1,6 +1,6 @@
 import { View, StyleSheet } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
-import { ThemedText } from "@/components/ThemedText";
+import  ThemedText  from "@/components/ThemedText";
 
 type Props = {
   title: string;

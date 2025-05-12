@@ -1,85 +1,76 @@
-import { ThemedView } from "@/components/ThemedView";
+import { StyleSheet } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
-import { Text, StyleSheet } from "react-native";
-import { useThemeColor } from "@/theme/useThemeColors";
-
-type IconName = "smileo" | "meh" | "frowno"; 
+import { useColorScheme } from "@/hooks/useColorScheme";
+import { Colors } from "@/theme/Colors";
+import ThemedView from "@/components/ThemedView";
+import ThemedText from "@/components/ThemedText";
+import useSoundLevelContext from "@/context/SoundLevel/useSoundLevelContext";
+import RefreshView from "@/components/RefreshView";
+import LoadingSpinner from "@/components/LoadingSpinner";
+import ErrorMessage from "@/components/ErrorMessage";
+import useRefresh from "@/hooks/useRefresh";
 
 const SoundLevel = () => {
-  const soundValue = 65;
+  const { soundLevelData, isLoading, error, refreshData } =
+    useSoundLevelContext();
+  const colorScheme = useColorScheme();
 
-  //Här skapar jag en funktion för att hämta rätt ikon samt label beroende på vilken ljudnivå det är.
-  const getStatus = (): { icon: IconName; label: string } => {
-    if (soundValue < 60) {
-      return { icon: "smileo", label: "Quiet" };
-    }
-    if (soundValue < 80) {
-      return { icon: "meh", label: "Moderate" };
-    }
-    return { icon: "frowno", label: "Loud" };
-  };
+  const { icon, value, label } = soundLevelData;
+  const textColor =
+    colorScheme === "dark" ? Colors.dark.textColorLight : Colors.light.text;
 
-
-  //Här använder jag den funktionen för att få fram rätt ikon samt label.
-  const { icon, label} = getStatus();
-
-  //Blev något konstigt med färgtemat så jag lägger in det här så att det går igenom.
-  const backgroundColor = useThemeColor({}, "background");
-  const textColor = useThemeColor({}, "text"); 
-
+  const { refreshing, handleRefresh } = useRefresh(refreshData);
 
   return (
-    
-    <ThemedView style={[styles.container, {backgroundColor}]}>
-      
-        <Text style={[styles.heading, { color: textColor}]}> Sound Level </Text>
-
-        <AntDesign name={icon} size={64} style={styles.icon} />
-
-        <Text style={[styles.value, {color: textColor}]}> {soundValue} dB </Text>
-        <Text style={[styles.status, {color: textColor}]}> {label} </Text>
-    </ThemedView>
+    <RefreshView refreshing={refreshing} onRefresh={handleRefresh}>
+      <ThemedView style={styles.container}>
+        {isLoading && !refreshing ? (
+          <LoadingSpinner color={textColor} />
+        ) : error ? (
+          <ErrorMessage colorScheme={colorScheme} />
+        ) : (
+          <>
+            <ThemedText
+              type="title"
+              lightColor={textColor}
+              darkColor={textColor}
+            >
+              Sound Level
+            </ThemedText>
+            <AntDesign
+              name={icon}
+              size={64}
+              style={styles.icon}
+              color={textColor}
+            />
+            <ThemedText
+              type="subtitle"
+              lightColor={textColor}
+              darkColor={textColor}
+            >
+              {value} dB
+            </ThemedText>
+            <ThemedText lightColor={textColor} darkColor={textColor}>
+              {label}
+            </ThemedText>
+          </>
+        )}
+      </ThemedView>
+    </RefreshView>
   );
 };
 
-
-
 const styles = StyleSheet.create({
-
   container: {
     flex: 1,
     padding: 20,
     justifyContent: "center",
     alignItems: "center",
   },
-
-  heading: {
-    fontSize: 28,
-    fontWeight: "bold",
-    marginBottom: 16,
-  },
-
-  value: {
-    fontSize: 32,
-    fontWeight: "bold",
-  },
-
   icon: {
     marginBottom: 16,
+    marginTop: 16,
   },
-
-  level: {
-    fontSize: 40,
-    fontWeight: "bold",
-  },
-
-  status: {
-    fontSize: 16,
-    marginTop: 10,
-  },
-
-
-
 });
 
 export default SoundLevel;

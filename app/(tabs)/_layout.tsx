@@ -23,7 +23,6 @@ const colorScheme = useColorScheme();
         options={{
           title: "Home",
           tabBarIcon: ({ color, focused }) => (
-            console.log(color),
             <Ionicons
               name={focused ? "home" : "home-outline"}
               size={24}
