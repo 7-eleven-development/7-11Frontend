@@ -1,9 +1,9 @@
-import { ThemedView } from "@/components/ThemedView";
+import ThemedView from "@/components/ThemedView";
 import { Text } from "react-native";
 const Location = () => {
   return (
     <ThemedView>
-        <Text>Location </Text>
+      <Text>Location </Text>
     </ThemedView>
   );
 };

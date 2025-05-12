@@ -1,17 +1,19 @@
+export type ColorScheme = 'light' | 'dark';
+export type ColorSchemeName = ColorScheme | null | undefined;
+
 const tintColorLight = "#0a7ea4";
 const tintColorDark = "#00ADB5";
 
 export const Colors = {
   light: {
     text: "#11181C",
-    textColorLight: " #EEEEEE",
-    background: " #D9D9D9",
+    textColorLight: "#EEEEEE",
+    background: "#D9D9D9",
     tabBarBackground: "#D9D9D9",
     tint: tintColorLight,
     tabIconDefault: "rgb(87, 96, 103)",
     tabIconSelected: tintColorLight,
     button: "#0a7ea4", 
-
 
     secondary: "#5AC8FA",
     accent: "#FF9500",
@@ -35,6 +37,5 @@ export const Colors = {
     neutral: "#567D7F",
     error: "#FF453A",
     success: "#32D74B",
-
   },
 };

@@ -1,25 +1,50 @@
+import { useState } from "react";
+import { StyleSheet } from "react-native";
 import Card from "@/components/Card";
-import { ThemedView } from "@/components/ThemedView";
-import { Text } from "react-native";
+import RefreshView from "@/components/RefreshView";
+import ThemedView from "@/components/ThemedView";
 
 const Index = () => {
+  const [refreshing, setRefreshing] = useState(false);
+
+  // Mock refresh function
+  const onRefresh = () => {
+    setRefreshing(true);
+
+    // Simulate API delay with timeout
+    setTimeout(() => {
+      // No actual data refresh happens here - just UI state
+      console.log("Mock refresh completed");
+      setRefreshing(false);
+    }, 1500);
+  };
+
   return (
-    <ThemedView >
-      <Text>Index</Text>
-      <Card title="Gas" dataType="gas" data={107} iconType="meh" />
-      <Card
-        title="Sound Level"
-        dataType="soundLevel"
-        data={65}
-        iconType="smile"
-      />
-      <Card
-        title="Heart Rate"
-        dataType="heartRate"
-        data={80}
-        iconType="frown"
-      />
-    </ThemedView>
+    <RefreshView refreshing={refreshing} onRefresh={onRefresh}>
+      <ThemedView style={styles.container}>
+        <Card title="Gas" dataType="gas" data={107} iconType="meh" />
+        <Card
+          title="Sound Level"
+          dataType="soundLevel"
+          data={65}
+          iconType="smile"
+        />
+        <Card
+          title="Heart Rate"
+          dataType="heartRate"
+          data={80}
+          iconType="frown"
+        />
+      </ThemedView>
+    </RefreshView>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 20,
+    justifyContent: "center",
+  },
+});
 export default Index;
