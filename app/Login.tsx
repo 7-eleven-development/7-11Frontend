@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Text, TextInput, Pressable, StyleSheet,  } from 'react-native';
-import { ThemedView } from '@/components/ThemedView';
+import ThemedView from '@/components/ThemedView';
 import { useThemeColor } from '@/theme/useThemeColors';
 
 
