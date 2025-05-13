@@ -72,9 +72,9 @@ const colorScheme = useColorScheme();
         }}
       ></Tabs.Screen>
       <Tabs.Screen
-        name="Pule"
+        name="Pulse"
         options={{
-          title: "Pule",
+          title: "Pulse",
           tabBarIcon: ({ color, focused }) => (
             <AntDesign
               name={focused ? "heart" : "hearto"}
