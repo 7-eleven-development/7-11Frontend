@@ -3,6 +3,7 @@ import { StyleSheet } from "react-native";
 import Card from "@/components/Card";
 import RefreshView from "@/components/RefreshView";
 import ThemedView from "@/components/ThemedView";
+import Header from "@/components/Header";
 
 const Index = () => {
   const [refreshing, setRefreshing] = useState(false);
@@ -21,6 +22,7 @@ const Index = () => {
 
   return (
     <RefreshView refreshing={refreshing} onRefresh={onRefresh}>
+      <Header />
       <ThemedView style={styles.container}>
         <Card title="Gas" dataType="gas" data={107} iconType="meh" />
         <Card
@@ -29,12 +31,7 @@ const Index = () => {
           data={65}
           iconType="smile"
         />
-        <Card
-          title="Pulse"
-          dataType="pulse"
-          data={80}
-          iconType="frown"
-        />
+        <Card title="Pulse" dataType="pulse" data={80} iconType="frown" />
       </ThemedView>
     </RefreshView>
   );
