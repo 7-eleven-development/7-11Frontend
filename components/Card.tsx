@@ -4,7 +4,7 @@ import  ThemedText  from "@/components/ThemedText";
 
 type Props = {
   title: string;
-  dataType: "soundLevel" | "gas" | "heartRate";
+  dataType: "soundLevel" | "gas" | "pulse";
   data: number;
   iconType?: "meh" | "smile" | "frown";
 };

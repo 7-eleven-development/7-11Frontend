@@ -5,11 +5,12 @@ import {
 } from "@react-navigation/native";
 import { Stack } from "expo-router";
 import { StyleSheet, Platform, StatusBar, SafeAreaView } from "react-native";
-import { useColorScheme } from '@/hooks/useColorScheme';
-import  Login  from '@/app/Login';
+import { useColorScheme } from "@/hooks/useColorScheme";
+import Login from "@/app/Login";
 import { Colors } from "@/theme/Colors";
 import SoundLevelProvider from "@/context/SoundLevel/SoundLevelProvider";
 import ThemedView from "@/components/ThemedView";
+import PulseProvider from "@/context/Pulse/PulseProvider";
 
 const RootLayout = () => {
   const colorScheme = useColorScheme();
@@ -19,20 +20,24 @@ const RootLayout = () => {
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
       <SoundLevelProvider>
-        <ThemedView style={styles.container}>
-          <StatusBar
-            backgroundColor={backgroundColor}
-            barStyle={colorScheme === "dark" ? "light-content" : "dark-content"}
-            translucent={true}
-          />
-          <SafeAreaView style={[styles.safeArea, { backgroundColor }]}>
-            <Stack>
-            {/* <Login/> */}
-              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-              <Stack.Screen name="+not-found" />
-            </Stack>
-          </SafeAreaView>
-        </ThemedView>
+        <PulseProvider>
+          <ThemedView style={styles.container}>
+            <StatusBar
+              backgroundColor={backgroundColor}
+              barStyle={
+                colorScheme === "dark" ? "light-content" : "dark-content"
+              }
+              translucent={true}
+            />
+            <SafeAreaView style={[styles.safeArea, { backgroundColor }]}>
+              <Stack>
+                {/* <Login/> */}
+                <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+                <Stack.Screen name="+not-found" />
+              </Stack>
+            </SafeAreaView>
+          </ThemedView>
+        </PulseProvider>
       </SoundLevelProvider>
     </ThemeProvider>
   );
