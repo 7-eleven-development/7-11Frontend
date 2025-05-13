@@ -30,8 +30,8 @@ const Index = () => {
           iconType="smile"
         />
         <Card
-          title="Heart Rate"
-          dataType="heartRate"
+          title="Pulse"
+          dataType="pulse"
           data={80}
           iconType="frown"
         />
