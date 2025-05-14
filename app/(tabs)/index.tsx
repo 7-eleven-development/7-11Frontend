@@ -4,9 +4,11 @@ import Card from "@/components/Card";
 import RefreshView from "@/components/RefreshView";
 import ThemedView from "@/components/ThemedView";
 import Header from "@/components/Header";
+import { useRouter} from "expo-router";
 
 const Index = () => {
   const [refreshing, setRefreshing] = useState(false);
+  const router = useRouter();
 
   // Mock refresh function
   const onRefresh = () => {
