@@ -5,6 +5,7 @@ import { useColorScheme } from "@/hooks/useColorScheme";
 import { Colors } from "@/theme/Colors";
 import { AntDesign } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
+
 const Header = () => {
   const colorScheme = useColorScheme();
   const router = useRouter();
@@ -45,7 +46,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     padding: 16,
-    height: 60,
   },
 });
 export default Header;

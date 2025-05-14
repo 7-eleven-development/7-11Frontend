@@ -20,18 +20,30 @@ const Index = () => {
     }, 1500);
   };
 
+  const soundLevelData = {
+    type: "soundLevel" as const,
+    data: { soundLevel: 10 },
+    status: "good" as const,
+  };
+
+  const pulseData = {
+    type: "pulse" as const,
+    data: { pulse: 70 },
+    status: "normal" as const,
+  };
+  const airQualityData = {
+    type: "airQuality" as const,
+    data: { pm1: 5, pm2: 10, pm10: 15, tvoc: 20 },
+    status: "bad" as const,
+  };
+
   return (
     <RefreshView refreshing={refreshing} onRefresh={onRefresh}>
       <Header />
       <ThemedView style={styles.container}>
-        <Card title="Gas" dataType="gas" data={107} iconType="meh" />
-        <Card
-          title="Sound Level"
-          dataType="soundLevel"
-          data={65}
-          iconType="smile"
-        />
-        <Card title="Pulse" dataType="pulse" data={80} iconType="frown" />
+        <Card cardData={soundLevelData} />
+        <Card cardData={pulseData} />
+        <Card cardData={airQualityData} />
       </ThemedView>
     </RefreshView>
   );

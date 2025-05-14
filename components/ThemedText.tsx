@@ -41,15 +41,19 @@ const styles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 24,
     fontWeight: "600",
+    fontFamily: "Roboto",
   },
   title: {
     fontSize: 32,
     fontWeight: "bold",
-    lineHeight: 32,
+    lineHeight: 42,
+    fontFamily: "Roboto",
   },
   subtitle: {
     fontSize: 20,
+    lineHeight: 28,
     fontWeight: "bold",
+    fontFamily: "Roboto",
   },
 });
 
