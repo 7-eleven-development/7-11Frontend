@@ -1,23 +1,24 @@
 import { Tabs } from "expo-router";
 import { AntDesign, Ionicons, Entypo } from "@expo/vector-icons";
-import { useColorScheme} from '@/hooks/useColorScheme'
-import { Colors } from "@/theme/Colors"
+import { useColorScheme } from "@/hooks/useColorScheme";
+import { Colors } from "@/theme/Colors";
 
 const TabLayout = () => {
-
-const colorScheme = useColorScheme();
+  const colorScheme = useColorScheme();
 
   return (
-    <Tabs screenOptions={{
-      tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-      headerShown: false,
-      tabBarStyle: {
-        backgroundColor: Colors[colorScheme ?? 'light'].tabBarBackground,
-        position: "absolute",
-        borderTopWidth: 0,
-        elevation: 0,
-      },
-    }}>
+    <Tabs
+      screenOptions={{
+        tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
+        headerShown: false,
+        tabBarStyle: {
+          backgroundColor: Colors[colorScheme ?? "light"].tabBarBackground,
+          position: "absolute",
+          borderTopWidth: 0,
+          elevation: 0,
+        },
+      }}
+    >
       <Tabs.Screen
         name="index"
         options={{
@@ -45,22 +46,22 @@ const colorScheme = useColorScheme();
         }}
       ></Tabs.Screen>
       <Tabs.Screen
-        name="soundLevel"
+        name="sound-level"
         options={{
           title: "Sound Level",
           tabBarIcon: ({ color, focused }) => (
             <Ionicons
               name={focused ? "headset" : "headset-outline"}
               size={24}
-            color={color}
+              color={color}
             />
           ),
         }}
       ></Tabs.Screen>
       <Tabs.Screen
-        name="gas"
+        name="air-quality"
         options={{
-          title: "Gas",
+          title: "Air Quality",
           tabBarIcon: ({ color, focused }) => (
             <Entypo
               //   name={focused ? "home" : "home-outline"}
@@ -72,7 +73,7 @@ const colorScheme = useColorScheme();
         }}
       ></Tabs.Screen>
       <Tabs.Screen
-        name="Pulse"
+        name="pulse"
         options={{
           title: "Pulse",
           tabBarIcon: ({ color, focused }) => (
