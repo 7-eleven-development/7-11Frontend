@@ -35,7 +35,7 @@ export const Colors = {
     secondary: "#64D2FF",
     accent: "#FFD60A",
     neutral: "#567D7F",
-    error: "#FF453A",
-    success: "#32D74B",
+    error: "#EB8B8B",
+    success: "#6AD36A",
   },
 };
