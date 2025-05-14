@@ -3,7 +3,7 @@ import { Text } from "react-native";
 const Gas = () => {
   return (
     <ThemedView>
-      <Text> Gas </Text>
+      <Text> Air Quality </Text>
     </ThemedView>
   );
 };
