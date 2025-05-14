@@ -1,8 +1,6 @@
 import { useContext } from "react";
-import {
-  SoundLevelContext,
-  SoundLevelContextType,
-} from "@/context/SoundLevel/SoundLevelContext";
+import { SoundLevelContext } from "@/context/SoundLevel/SoundLevelContext";
+import { SoundLevelContextType } from "@/types/soundLevel";
 
 const useSoundLevelContext = (): SoundLevelContextType => {
   const context = useContext(SoundLevelContext);

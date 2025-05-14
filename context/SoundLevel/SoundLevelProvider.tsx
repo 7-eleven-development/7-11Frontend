@@ -1,18 +1,10 @@
 import { ReactNode, useEffect, useState, useCallback } from "react";
-import {
-  SoundLevelContext,
-  SoundLevelData,
-} from "@/context/SoundLevel/SoundLevelContext";
-import { IconName } from "@/types/icons";
-import fetchSoundLevel from "@/context/SoundLevel/fetchSoundLevel";
+import { SoundLevelContext } from "@/context/SoundLevel/SoundLevelContext";
+import fetchSoundLevel from "@/services/fetchSoundLevel";
+import { SoundLevelData, SoundLevelStatus } from "@/types/soundLevel";
 
 type Props = {
   children: ReactNode;
-};
-
-type SoundLevelStatus = {
-  icon: IconName;
-  label: string;
 };
 
 const getSoundLevelStatus = (soundValue: number): SoundLevelStatus => {

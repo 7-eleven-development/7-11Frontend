@@ -1,18 +1,5 @@
 import { createContext } from "react";
-import { IconName } from "@/types/icons";
-
-export interface PulseData {
-  icon: IconName;
-  label: string;
-  value: number;
-}
-
-export interface PulseContextType {
-  pulseData: PulseData;
-  isLoading: boolean;
-  error: Error | null;
-  refreshData: () => Promise<void>;
-}
+import { PulseContextType } from "@/types/pulse";
 
 export const PulseContext = createContext<PulseContextType>({
   pulseData: {

@@ -1,15 +1,10 @@
 import { ReactNode, useEffect, useState, useCallback } from "react";
-import { PulseContext, PulseData } from "@/context/Pulse/PulseContext";
-import { IconName } from "@/types/icons";
-import fetchPulse from "@/context/Pulse/fetchPulse";
+import { PulseContext } from "@/context/Pulse/PulseContext";
+import { PulseData, PulseStatus } from "@/types/pulse";
+import fetchPulse from "@/services/fetchPulse";
 
 type Props = {
   children: ReactNode;
-};
-
-type PulseStatus = {
-  icon: IconName;
-  label: string;
 };
 
 const getPulseStatus = (pulseValue: number): PulseStatus => {
