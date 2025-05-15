@@ -3,7 +3,7 @@ import { PulseContextType } from "@/types/pulse";
 
 export const PulseContext = createContext<PulseContextType>({
   pulseData: {
-    icon: "smileo",
+    icon: "slightly-smile",
     label: "",
     value: 0,
   },

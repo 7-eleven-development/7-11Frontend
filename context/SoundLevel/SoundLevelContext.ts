@@ -3,7 +3,7 @@ import { SoundLevelContextType } from "@/types/soundLevel";
 
 export const SoundLevelContext = createContext<SoundLevelContextType>({
   soundLevelData: {
-    icon: "smileo",
+    icon: "slightly-smile",
     label: "",
     value: 0,
   },

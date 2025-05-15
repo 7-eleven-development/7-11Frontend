@@ -2,33 +2,15 @@ import { ReactNode, useEffect, useState, useCallback } from "react";
 import { PulseContext } from "@/context/Pulse/PulseContext";
 import { PulseData, PulseStatus } from "@/types/pulse";
 import fetchPulse from "@/services/fetchPulse";
+import { getPulseStatus } from "@/utils/pulseUtils";
 
 type Props = {
   children: ReactNode;
 };
 
-const getPulseStatus = (pulseValue: number): PulseStatus => {
-  if (pulseValue >= 100) {
-    return {
-      icon: "frowno",
-      label: "High",
-    };
-  }
-  if (pulseValue >= 80) {
-    return {
-      icon: "meh",
-      label: "Moderate",
-    };
-  }
-  return {
-    icon: "smileo",
-    label: "Low",
-  };
-};
-
 const PulseProvider = ({ children }: Props) => {
   const [pulseData, setPulseData] = useState<PulseData>({
-    icon: "smileo",
+    icon: "slightly-smile",
     label: "",
     value: 0,
   });
