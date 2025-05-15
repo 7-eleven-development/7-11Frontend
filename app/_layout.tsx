@@ -11,6 +11,7 @@ import { Colors } from "@/theme/Colors";
 import SoundLevelProvider from "@/context/SoundLevel/SoundLevelProvider";
 import ThemedView from "@/components/ThemedView";
 import PulseProvider from "@/context/Pulse/PulseProvider";
+import HomeProvider from "@/context/home/HomeProvider";
 
 const RootLayout = () => {
   const colorScheme = useColorScheme();
@@ -19,26 +20,31 @@ const RootLayout = () => {
 
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      <SoundLevelProvider>
-        <PulseProvider>
-          <ThemedView style={styles.container}>
-            <StatusBar
-              backgroundColor={backgroundColor}
-              barStyle={
-                colorScheme === "dark" ? "light-content" : "dark-content"
-              }
-              translucent={true}
-            />
-            <SafeAreaView style={[styles.safeArea, { backgroundColor }]}>
-              <Stack>
-                {/* <Login/> */}
-                <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-                <Stack.Screen name="+not-found" />
-              </Stack>
-            </SafeAreaView>
-          </ThemedView>
-        </PulseProvider>
-      </SoundLevelProvider>
+      <HomeProvider>
+        <SoundLevelProvider>
+          <PulseProvider>
+            <ThemedView style={styles.container}>
+              <StatusBar
+                backgroundColor={backgroundColor}
+                barStyle={
+                  colorScheme === "dark" ? "light-content" : "dark-content"
+                }
+                translucent={true}
+              />
+              <SafeAreaView style={[styles.safeArea, { backgroundColor }]}>
+                <Stack>
+                  {/* <Login/> */}
+                  <Stack.Screen
+                    name="(tabs)"
+                    options={{ headerShown: false }}
+                  />
+                  <Stack.Screen name="+not-found" />
+                </Stack>
+              </SafeAreaView>
+            </ThemedView>
+          </PulseProvider>
+        </SoundLevelProvider>
+      </HomeProvider>
     </ThemeProvider>
   );
 };
