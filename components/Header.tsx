@@ -34,8 +34,8 @@ const Header = () => {
           16°C
         </ThemedText>
       </View>
-      <Pressable>
-        <AntDesign name="setting" size={24} color={iconColor} />
+      <Pressable onPress={() => router.push("/user")}>
+        <AntDesign name="user" size={24} color={iconColor} />
       </Pressable>
     </ThemedView>
   );

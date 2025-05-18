@@ -11,21 +11,24 @@ import { Colors } from "@/theme/Colors";
 import SoundLevelProvider from "@/context/SoundLevel/SoundLevelProvider";
 import ThemedView from "@/components/ThemedView";
 import PulseProvider from "@/context/Pulse/PulseProvider";
+import { UserContextProvider } from "@/context/userContext";
+import { useContext } from "react";
+import { UserContext } from "@/context/userContext";
 
 const RootLayout = () => {
-  const colorScheme = useColorScheme();
+  const { theme } = useContext(UserContext); // 👈 HÄR använder du temat från context
   const backgroundColor =
-    colorScheme === "dark" ? Colors.dark.background : Colors.light.background;
-
+    theme === "dark" ? Colors.dark.background : Colors.light.background;
   return (
-    <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+    <UserContextProvider> 
+    <ThemeProvider value={theme === "dark" ? DarkTheme : DefaultTheme}>
       <SoundLevelProvider>
         <PulseProvider>
           <ThemedView style={styles.container}>
             <StatusBar
               backgroundColor={backgroundColor}
               barStyle={
-                colorScheme === "dark" ? "light-content" : "dark-content"
+                theme === "dark" ? "light-content" : "dark-content"
               }
               translucent={true}
             />
@@ -34,12 +37,17 @@ const RootLayout = () => {
                 {/* <Login/> */}
                 <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
                 <Stack.Screen name="+not-found" />
+                <Stack.Screen
+                  name="User"
+                  options={{ headerShown: true }}
+                />
               </Stack>
             </SafeAreaView>
           </ThemedView>
         </PulseProvider>
       </SoundLevelProvider>
     </ThemeProvider>
+  </UserContextProvider>
   );
 };
 
