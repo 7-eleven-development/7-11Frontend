@@ -13,43 +13,54 @@ import ThemedView from "@/components/ThemedView";
 import PulseProvider from "@/context/Pulse/PulseProvider";
 import { UserContextProvider } from "@/context/userContext";
 import HomeProvider from "@/context/home/HomeProvider";
+import AuthProvider from "@/context/auth/AuthProvider";
+import { useAuthContext } from "@/context/auth/useAuthContext";
 
-const RootLayout = () => {
- const colorScheme = useColorScheme();
+const AppContent = () => {
+  const { isAuthenticated } = useAuthContext();
+  const colorScheme = useColorScheme();
   const backgroundColor =
     colorScheme === "dark" ? Colors.dark.background : Colors.light.background;
 
   return (
-  <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-    <UserContextProvider> 
-      <HomeProvider>
-        <SoundLevelProvider>
-          <PulseProvider>
-            <ThemedView style={styles.container}>
-              <StatusBar
-                backgroundColor={backgroundColor}
-                barStyle={
-                  colorScheme === "dark" ? "light-content" : "dark-content"
-                }
-                translucent={true}
-              />
-              <SafeAreaView style={[styles.safeArea, { backgroundColor }]}>
-                <Stack>
-                  {/* <Login/> */}
-                  <Stack.Screen
-                    name="(tabs)"
-                    options={{ headerShown: false }}
-                  />
-                  <Stack.Screen name="+not-found" />
-                </Stack>
-              </SafeAreaView>
-            </ThemedView>
-          </PulseProvider>
-        </SoundLevelProvider>
-      </HomeProvider>
-    </UserContextProvider> 
-  </ThemeProvider>
- 
+    <ThemedView style={styles.container}>
+      <StatusBar
+        backgroundColor={backgroundColor}
+        barStyle={colorScheme === "dark" ? "light-content" : "dark-content"}
+        translucent={true}
+      />
+      <SafeAreaView style={[styles.safeArea, { backgroundColor }]}>
+        {isAuthenticated ? (
+          <Stack>
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            <Stack.Screen name="user" options={{ headerShown: false }} />
+            <Stack.Screen name="+not-found" />
+          </Stack>
+        ) : (
+          <Login />
+        )}
+      </SafeAreaView>
+    </ThemedView>
+  );
+};
+
+const RootLayout = () => {
+  const colorScheme = useColorScheme();
+
+  return (
+    <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+      <AuthProvider>
+        <UserContextProvider>
+          <HomeProvider>
+            <SoundLevelProvider>
+              <PulseProvider>
+                <AppContent />
+              </PulseProvider>
+            </SoundLevelProvider>
+          </HomeProvider>
+        </UserContextProvider>
+      </AuthProvider>
+    </ThemeProvider>
   );
 };
 
