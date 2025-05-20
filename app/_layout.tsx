@@ -31,14 +31,14 @@ const RootLayout = () => {
                 }
                 translucent={true}
               />
+              <Login />
               <SafeAreaView style={[styles.safeArea, { backgroundColor }]}>
                 <Stack>
-                  {/* <Login/> */}
-                  <Stack.Screen
+                  {/* <Stack.Screen
                     name="(tabs)"
                     options={{ headerShown: false }}
                   />
-                  <Stack.Screen name="+not-found" />
+                  <Stack.Screen name="+not-found" /> */}
                 </Stack>
               </SafeAreaView>
             </ThemedView>

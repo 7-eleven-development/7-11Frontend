@@ -3,6 +3,12 @@ import { SoundLevelContext } from "@/context/SoundLevel/SoundLevelContext";
 import fetchSoundLevel from "@/services/fetchSoundLevel";
 import { SoundLevelData } from "@/types/soundLevel";
 import { getSoundLevelStatus } from "@/utils/soundLevelUtils";
+import {
+  generateHourlySoundLevelData,
+  generateWeeklySoundLevelData,
+  generateMonthlySoundLevelData,
+  HistoricalDataPoint,
+} from "@/services/genereateSoundLevelData";
 
 type Props = {
   children: ReactNode;
@@ -14,6 +20,9 @@ const SoundLevelProvider = ({ children }: Props) => {
     label: "",
     value: 0,
   });
+  const [hourlyData, setHourlyData] = useState<HistoricalDataPoint[]>([]);
+  const [weeklyData, setWeeklyData] = useState<HistoricalDataPoint[]>([]);
+  const [monthlyData, setMonthlyData] = useState<HistoricalDataPoint[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<Error | null>(null);
 
@@ -22,6 +31,7 @@ const SoundLevelProvider = ({ children }: Props) => {
       setIsLoading(true);
       setError(null);
 
+      // Fetch current sound level
       const data = await fetchSoundLevel();
       const soundLevel = data.value[0].soundLevel;
       const { icon, label } = getSoundLevelStatus(soundLevel);
@@ -31,6 +41,15 @@ const SoundLevelProvider = ({ children }: Props) => {
         label,
         value: soundLevel,
       });
+
+      // Fetch historical data
+      const houerlyData = generateHourlySoundLevelData();
+      const weeklyData = generateWeeklySoundLevelData();
+      const monthlyData = generateMonthlySoundLevelData();
+
+      setHourlyData(houerlyData);
+      setWeeklyData(weeklyData);
+      setMonthlyData(monthlyData);
     } catch (err) {
       setError(
         err instanceof Error ? err : new Error("Unknown error occurred")
@@ -53,6 +72,9 @@ const SoundLevelProvider = ({ children }: Props) => {
     <SoundLevelContext.Provider
       value={{
         soundLevelData,
+        hourlyData,
+        weeklyData,
+        monthlyData,
         isLoading,
         error,
         refreshData,

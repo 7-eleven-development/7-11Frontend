@@ -1,4 +1,5 @@
 import { IconName } from "@/types/icons";
+import { HistoricalDataPoint } from "@/services/genereateSoundLevelData";
 
 export interface SoundLevelData {
   icon: IconName;
@@ -10,6 +11,9 @@ export interface SoundLevelContextType {
   soundLevelData: SoundLevelData;
   isLoading: boolean;
   error: Error | null;
+  hourlyData: HistoricalDataPoint[];
+  weeklyData: HistoricalDataPoint[];
+  monthlyData: HistoricalDataPoint[];
   refreshData: () => Promise<void>;
 }
 

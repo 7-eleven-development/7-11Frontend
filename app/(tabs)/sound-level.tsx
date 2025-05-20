@@ -9,10 +9,18 @@ import RefreshView from "@/components/RefreshView";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import ErrorMessage from "@/components/ErrorMessage";
 import useRefresh from "@/hooks/useRefresh";
+import LineChart from "@/components/ThemedLineChart";
 
 const SoundLevel = () => {
-  const { soundLevelData, isLoading, error, refreshData } =
-    useSoundLevelContext();
+  const {
+    soundLevelData,
+    hourlyData,
+    weeklyData,
+    monthlyData,
+    isLoading,
+    error,
+    refreshData,
+  } = useSoundLevelContext();
   const colorScheme = useColorScheme();
 
   const { icon, value, label } = soundLevelData;
@@ -53,6 +61,17 @@ const SoundLevel = () => {
             <ThemedText lightColor={textColor} darkColor={textColor}>
               {label}
             </ThemedText>
+
+            {/* Chart Section */}
+            <LineChart
+              hourlyData={hourlyData}
+              weeklyData={weeklyData}
+              monthlyData={monthlyData}
+              title="Sound Levels"
+              unit="dB"
+              colorScheme={colorScheme}
+              primaryColor={colorScheme === "dark" ? "#5CE1E6" : "#2E86C1"}
+            />
           </>
         )}
       </ThemedView>
