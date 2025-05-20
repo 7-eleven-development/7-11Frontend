@@ -1,42 +1,16 @@
 import { ReactNode, useEffect, useState, useCallback } from "react";
-import {
-  SoundLevelContext,
-  SoundLevelData,
-} from "@/context/SoundLevel/SoundLevelContext";
-import { IconName } from "@/types/icons";
-import fetchSoundLevel from "@/context/SoundLevel/fetchSoundLevel";
+import { SoundLevelContext } from "@/context/SoundLevel/SoundLevelContext";
+import fetchSoundLevel from "@/services/fetchSoundLevel";
+import { SoundLevelData } from "@/types/soundLevel";
+import { getSoundLevelStatus } from "@/utils/soundLevelUtils";
 
 type Props = {
   children: ReactNode;
 };
 
-type SoundLevelStatus = {
-  icon: IconName;
-  label: string;
-};
-
-const getSoundLevelStatus = (soundValue: number): SoundLevelStatus => {
-  if (soundValue >= 85) {
-    return {
-      icon: "frowno",
-      label: "Loud",
-    };
-  }
-  if (soundValue >= 60) {
-    return {
-      icon: "meh",
-      label: "Moderate",
-    };
-  }
-  return {
-    icon: "smileo",
-    label: "Quiet",
-  };
-};
-
 const SoundLevelProvider = ({ children }: Props) => {
   const [soundLevelData, setSoundLevelData] = useState<SoundLevelData>({
-    icon: "smileo",
+    icon: "slightly-smile",
     label: "",
     value: 0,
   });

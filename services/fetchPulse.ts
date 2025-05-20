@@ -1,4 +1,4 @@
-import generatePulseData from "./generatePulseData";
+import generatePulseData from "@/services/generatePulseData";
 
 export interface PulselApiResponse {
   message: string;

@@ -1,6 +1,5 @@
-import { useState } from "react";
 import { StyleSheet } from "react-native";
-import Card from "@/components/Card";
+import Card, { CardStatus } from "@/components/Card";
 import RefreshView from "@/components/RefreshView";
 import ThemedView from "@/components/ThemedView";
 import Header from "@/components/Header";
@@ -10,28 +9,34 @@ const Index = () => {
   const [refreshing, setRefreshing] = useState(false);
   const router = useRouter();
 
-  // Mock refresh function
-  const onRefresh = () => {
-    setRefreshing(true);
+  const { temperature, location, pulse, soundLevel } = homeData;
+  const { label: pulseLabel, value: pulseValue } = pulse;
+  const { label: soundLabel, value: soundLevelValue } = soundLevel;
 
-    // Simulate API delay with timeout
-    setTimeout(() => {
-      // No actual data refresh happens here - just UI state
-      console.log("Mock refresh completed");
-      setRefreshing(false);
-    }, 1500);
-  };
+  const pulseStatus =
+    pulseLabel === "High"
+      ? "bad"
+      : pulseLabel === "Moderate"
+      ? "normal"
+      : "good";
+
+  const soundStatus =
+    soundLabel === "Loud"
+      ? "bad"
+      : soundLabel === "Moderate"
+      ? "normal"
+      : "good";
 
   const soundLevelData = {
     type: "soundLevel" as const,
-    data: { soundLevel: 10 },
-    status: "good" as const,
+    data: { soundLevel: soundLevelValue },
+    status: soundStatus as CardStatus,
   };
 
   const pulseData = {
     type: "pulse" as const,
-    data: { pulse: 70 },
-    status: "normal" as const,
+    data: { pulse: pulseValue },
+    status: pulseStatus as CardStatus,
   };
   const airQualityData = {
     type: "airQuality" as const,
@@ -40,8 +45,8 @@ const Index = () => {
   };
 
   return (
-    <RefreshView refreshing={refreshing} onRefresh={onRefresh}>
-      <Header />
+    <RefreshView refreshing={refreshing} onRefresh={handleRefresh}>
+      <Header locationName={location.name} temperature={temperature} />
       <ThemedView style={styles.container}>
         <Card cardData={soundLevelData} />
         <Card cardData={pulseData} />

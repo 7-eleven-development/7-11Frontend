@@ -11,41 +11,39 @@ import { Colors } from "@/theme/Colors";
 import SoundLevelProvider from "@/context/SoundLevel/SoundLevelProvider";
 import ThemedView from "@/components/ThemedView";
 import PulseProvider from "@/context/Pulse/PulseProvider";
-import { UserContextProvider } from "@/context/userContext";
-import { useContext } from "react";
-import { UserContext } from "@/context/userContext";
+import HomeProvider from "@/context/home/HomeProvider";
 
 const RootLayout = () => {
   const { theme } = useContext(UserContext); // 👈 HÄR använder du temat från context
   const backgroundColor =
     theme === "dark" ? Colors.dark.background : Colors.light.background;
   return (
-    <UserContextProvider> 
-    <ThemeProvider value={theme === "dark" ? DarkTheme : DefaultTheme}>
-      <SoundLevelProvider>
-        <PulseProvider>
-          <ThemedView style={styles.container}>
-            <StatusBar
-              backgroundColor={backgroundColor}
-              barStyle={
-                theme === "dark" ? "light-content" : "dark-content"
-              }
-              translucent={true}
-            />
-            <SafeAreaView style={[styles.safeArea, { backgroundColor }]}>
-              <Stack>
-                {/* <Login/> */}
-                <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-                <Stack.Screen name="+not-found" />
-                <Stack.Screen
-                  name="User"
-                  options={{ headerShown: true }}
-                />
-              </Stack>
-            </SafeAreaView>
-          </ThemedView>
-        </PulseProvider>
-      </SoundLevelProvider>
+    <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+      <HomeProvider>
+        <SoundLevelProvider>
+          <PulseProvider>
+            <ThemedView style={styles.container}>
+              <StatusBar
+                backgroundColor={backgroundColor}
+                barStyle={
+                  colorScheme === "dark" ? "light-content" : "dark-content"
+                }
+                translucent={true}
+              />
+              <SafeAreaView style={[styles.safeArea, { backgroundColor }]}>
+                <Stack>
+                  {/* <Login/> */}
+                  <Stack.Screen
+                    name="(tabs)"
+                    options={{ headerShown: false }}
+                  />
+                  <Stack.Screen name="+not-found" />
+                </Stack>
+              </SafeAreaView>
+            </ThemedView>
+          </PulseProvider>
+        </SoundLevelProvider>
+      </HomeProvider>
     </ThemeProvider>
   </UserContextProvider>
   );
