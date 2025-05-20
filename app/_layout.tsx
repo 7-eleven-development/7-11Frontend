@@ -11,14 +11,17 @@ import { Colors } from "@/theme/Colors";
 import SoundLevelProvider from "@/context/SoundLevel/SoundLevelProvider";
 import ThemedView from "@/components/ThemedView";
 import PulseProvider from "@/context/Pulse/PulseProvider";
+import { UserContextProvider } from "@/context/userContext";
 import HomeProvider from "@/context/home/HomeProvider";
 
 const RootLayout = () => {
-  const { theme } = useContext(UserContext); // 👈 HÄR använder du temat från context
+ const colorScheme = useColorScheme();
   const backgroundColor =
-    theme === "dark" ? Colors.dark.background : Colors.light.background;
+    colorScheme === "dark" ? Colors.dark.background : Colors.light.background;
+
   return (
-    <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+  <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+    <UserContextProvider> 
       <HomeProvider>
         <SoundLevelProvider>
           <PulseProvider>
@@ -44,8 +47,9 @@ const RootLayout = () => {
           </PulseProvider>
         </SoundLevelProvider>
       </HomeProvider>
-    </ThemeProvider>
-  </UserContextProvider>
+    </UserContextProvider> 
+  </ThemeProvider>
+ 
   );
 };
 

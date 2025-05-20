@@ -4,11 +4,15 @@ import RefreshView from "@/components/RefreshView";
 import ThemedView from "@/components/ThemedView";
 import Header from "@/components/Header";
 import { useRouter} from "expo-router";
+import useHomeContext from "@/context/home/useHomeConext";
+import useRefresh from "@/hooks/useRefresh";
+
 
 const Index = () => {
-  const [refreshing, setRefreshing] = useState(false);
-  const router = useRouter();
+  const { homeData, isLoading, error, refreshData } = useHomeContext();
+  const { refreshing, handleRefresh } = useRefresh(refreshData);
 
+  const router = useRouter();
   const { temperature, location, pulse, soundLevel } = homeData;
   const { label: pulseLabel, value: pulseValue } = pulse;
   const { label: soundLabel, value: soundLevelValue } = soundLevel;
