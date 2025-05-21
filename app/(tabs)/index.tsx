@@ -16,14 +16,14 @@ const Index = () => {
   const { label: soundLabel, value: soundLevelValue } = soundLevel;
 
   const pulseStatus =
-    pulseLabel === "High"
+    pulseLabel === "Högt"
       ? "bad"
       : pulseLabel === "Moderate"
         ? "normal"
         : "good";
 
   const soundStatus =
-    soundLabel === "Loud"
+    soundLabel === "Högt"
       ? "bad"
       : soundLabel === "Moderate"
         ? "normal"
