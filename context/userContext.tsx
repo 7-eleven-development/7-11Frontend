@@ -1,6 +1,8 @@
 import { User } from "@/types/user";
 import { createContext, useState, ReactNode } from "react";
 import { View } from "react-native";
+import { useAuthContext } from "@/context/auth/useAuthContext";
+import { userService } from "@/services/user";
 
 // Vi skapar en typ för våran användare
 
@@ -31,6 +33,16 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
   const [theme, setTheme] = useState<Theme>("light"); //håller reda på temat
   const [user, setUser] = useState<User | null>(null); //håller reda på användaren
 
+  const { isAuthenticated, token } = useAuthContext();
+  const getUser = async () => {
+    if (isAuthenticated) {
+      if (token) {
+        const userInfo = await userService.fetchUserInformation(token);
+        console.log(userInfo);
+      }
+    }
+  };
+  getUser();
   const toggleTheme = () =>
     setTheme((prev) => (prev === "light" ? "dark" : "light"));
 
