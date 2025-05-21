@@ -18,18 +18,18 @@ const Index = () => {
   const { label: soundLabel, value: soundLevelValue } = soundLevel;
 
   const pulseStatus =
-    pulseLabel === "High"
+    pulseLabel === "Högt"
       ? "bad"
-      : pulseLabel === "Moderate"
+      : pulseLabel === "Måttligt"
       ? "normal"
-      : "good";
+      : "bra";
 
   const soundStatus =
-    soundLabel === "Loud"
+    soundLabel === "Högt"
       ? "bad"
-      : soundLabel === "Moderate"
+      : soundLabel === "Måttligt"
       ? "normal"
-      : "good";
+      : "bra";
 
   const soundLevelData = {
     type: "soundLevel" as const,
