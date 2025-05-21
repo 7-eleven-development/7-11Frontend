@@ -76,10 +76,9 @@ export const getStatusText = (type: string, data: any) => {
           justifyContent: "flex-start",
         }}
       >
-        <ThemedText type="subtitle">PM1: {data.pm1}</ThemedText>
-        <ThemedText type="subtitle">PM2: {data.pm2}</ThemedText>
-        <ThemedText type="subtitle">PM10: {data.pm10}</ThemedText>
-        <ThemedText type="subtitle">TVOC: {data.tvoc}</ThemedText>
+        <ThemedText type="subtitle">Rök: {data.smoke}</ThemedText>
+        <ThemedText type="subtitle">Koldioxid: {data.co2}</ThemedText>
+        <ThemedText type="subtitle">Popan: {data.propane}</ThemedText>
       </View>
     ) : type === "soundLevel" ? (
       <ThemedText type="subtitle">{data.soundLevel} dB</ThemedText>
