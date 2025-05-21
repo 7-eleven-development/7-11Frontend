@@ -12,42 +12,55 @@ import SoundLevelProvider from "@/context/SoundLevel/SoundLevelProvider";
 import ThemedView from "@/components/ThemedView";
 import PulseProvider from "@/context/Pulse/PulseProvider";
 import { UserContextProvider } from "@/context/userContext";
-import { useContext } from "react";
-import { UserContext } from "@/context/userContext";
+import HomeProvider from "@/context/home/HomeProvider";
+import AuthProvider from "@/context/auth/AuthProvider";
+import { useAuthContext } from "@/context/auth/useAuthContext";
+
+const AppContent = () => {
+  const { isAuthenticated } = useAuthContext();
+  const colorScheme = useColorScheme();
+  const backgroundColor =
+    colorScheme === "dark" ? Colors.dark.background : Colors.light.background;
+
+  return (
+    <ThemedView style={styles.container}>
+      <StatusBar
+        backgroundColor={backgroundColor}
+        barStyle={colorScheme === "dark" ? "light-content" : "dark-content"}
+        translucent={true}
+      />
+      <SafeAreaView style={[styles.safeArea, { backgroundColor }]}>
+        {isAuthenticated ? (
+          <Stack>
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            <Stack.Screen name="user" options={{ headerShown: false }} />
+            <Stack.Screen name="+not-found" />
+          </Stack>
+        ) : (
+          <Login />
+        )}
+      </SafeAreaView>
+    </ThemedView>
+  );
+};
 
 const RootLayout = () => {
-  const { theme } = useContext(UserContext); 
-  const backgroundColor =
-    theme === "dark" ? Colors.dark.background : Colors.light.background;
+  const colorScheme = useColorScheme();
+
   return (
-    <UserContextProvider> 
-    <ThemeProvider value={theme === "dark" ? DarkTheme : DefaultTheme}>
-      <SoundLevelProvider>
-        <PulseProvider>
-          <ThemedView style={styles.container}>
-            <StatusBar
-              backgroundColor={backgroundColor}
-              barStyle={
-                theme === "dark" ? "light-content" : "dark-content"
-              }
-              translucent={true}
-            />
-            <SafeAreaView style={[styles.safeArea, { backgroundColor }]}>
-              <Stack>
-                {/* <Login/> */}
-                <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-                <Stack.Screen name="+not-found" />
-                <Stack.Screen
-                  name="User"
-                  options={{ headerShown: true }}
-                />
-              </Stack>
-            </SafeAreaView>
-          </ThemedView>
-        </PulseProvider>
-      </SoundLevelProvider>
+    <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+      <AuthProvider>
+        <UserContextProvider>
+          <HomeProvider>
+            <SoundLevelProvider>
+              <PulseProvider>
+                <AppContent />
+              </PulseProvider>
+            </SoundLevelProvider>
+          </HomeProvider>
+        </UserContextProvider>
+      </AuthProvider>
     </ThemeProvider>
-  </UserContextProvider>
   );
 };
 

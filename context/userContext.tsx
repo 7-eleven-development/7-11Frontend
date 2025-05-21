@@ -1,13 +1,8 @@
-import { createContext, useState, ReactNode} from "react";
+import { User } from "@/types/user";
+import { createContext, useState, ReactNode } from "react";
 import { View } from "react-native";
 
 // Vi skapar en typ för våran användare
-interface User {
-  firstName: string;
-  surname: string;
-  email: string;
-  phone: string;
-}
 
 type Theme = "light" | "dark";
 
@@ -24,7 +19,7 @@ export const UserContext = createContext<UserContextType>({
   theme: "light",
   toggleTheme: () => {},
   user: null,
-  setUser: () => {}, 
+  setUser: () => {},
 });
 
 interface UserContextProviderProps {
@@ -34,13 +29,16 @@ interface UserContextProviderProps {
 // UserContextProvider som hanterar både våran tema och användare
 export function UserContextProvider({ children }: UserContextProviderProps) {
   const [theme, setTheme] = useState<Theme>("light"); //håller reda på temat
-  const [user, setUser] = useState<User | null>(null);  //håller reda på användaren
+  const [user, setUser] = useState<User | null>(null); //håller reda på användaren
 
-  const toggleTheme = () => setTheme((prev) => (prev === "light" ? "dark" : "light"));
+  const toggleTheme = () =>
+    setTheme((prev) => (prev === "light" ? "dark" : "light"));
 
   return (
     <UserContext.Provider value={{ theme, toggleTheme, user, setUser }}>
-      <View style={{ flex: 1, backgroundColor: theme === 'dark' ? '#222' : '#fff' }}>
+      <View
+        style={{ flex: 1, backgroundColor: theme === "dark" ? "#222" : "#fff" }}
+      >
         {children}
       </View>
     </UserContext.Provider>

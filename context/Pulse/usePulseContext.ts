@@ -1,5 +1,6 @@
 import { useContext } from "react";
-import { PulseContext, PulseContextType } from "@/context/Pulse/PulseContext";
+import { PulseContext } from "@/context/Pulse/PulseContext";
+import { PulseContextType } from "@/types/pulse";
 
 const usePulseContext = (): PulseContextType => {
   const context = useContext(PulseContext);

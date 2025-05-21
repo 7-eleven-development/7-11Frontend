@@ -7,10 +7,17 @@ import { Ionicons } from "@expo/vector-icons";
 import { Colors } from "@/theme/Colors";
 import { useThemeColor } from "@/theme/useThemeColors";
 import { useRouter } from "expo-router";
+import { useAuthContext } from "@/context/auth/useAuthContext";
 
 const User = () => {
   const { theme, toggleTheme, user } = useContext(UserContext);
   const router = useRouter();
+
+  const { logout } = useAuthContext();
+  const handleLogout = async () => {
+    logout();
+    router.push("/Login");
+  };
 
   const goBackToIndex = () => {
     router.push("/(tabs)");
@@ -37,6 +44,9 @@ const User = () => {
 
       <Pressable onPress={goBackToIndex} style={styles.backButton}>
         <Ionicons name="arrow-back" size={24} color={textColor} />
+      </Pressable>
+      <Pressable onPress={handleLogout}>
+        <ThemedText> Logga ut </ThemedText>
       </Pressable>
 
       {user ? (

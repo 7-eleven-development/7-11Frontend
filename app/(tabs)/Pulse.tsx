@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { AntDesign } from "@expo/vector-icons";
+import {Fontisto } from "@expo/vector-icons";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { Colors } from "@/theme/Colors";
 import ThemedView from "@/components/ThemedView";
@@ -36,7 +36,7 @@ const Pulse = () => {
             >
               Puls
             </ThemedText>
-            <AntDesign
+            <Fontisto
               name={icon}
               size={64}
               style={styles.icon}

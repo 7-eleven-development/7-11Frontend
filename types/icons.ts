@@ -1,1 +1,1 @@
-export type IconName = "smileo" | "meh" | "frowno";
+export type IconName = "smiley" | "slightly-smile" | "frowning";

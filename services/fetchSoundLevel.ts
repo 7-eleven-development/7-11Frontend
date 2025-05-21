@@ -1,4 +1,4 @@
-import generateMockSoundLevelData from "./genereateMockData";
+import generateMockSoundLevelData from "@/services/genereateSoundLevelData";
 
 export interface SoundLevelApiResponse {
   message: string;

@@ -6,7 +6,12 @@ import { Colors } from "@/theme/Colors";
 import { AntDesign } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 
-const Header = () => {
+type HeaderProps = {
+  locationName: string;
+  temperature: number;
+};
+
+const Header = ({ locationName, temperature }: HeaderProps) => {
   const colorScheme = useColorScheme();
   const router = useRouter();
   const textColor =
@@ -27,11 +32,11 @@ const Header = () => {
       <View style={{ flexDirection: "row", alignItems: "center", gap: 16 }}>
         <Pressable onPress={() => router.push("/location")}>
           <ThemedText type="title" lightColor={textColor} darkColor={textColor}>
-            Malmö
+            {locationName}
           </ThemedText>
         </Pressable>
         <ThemedText lightColor={textColor} darkColor={textColor}>
-          16°C
+          {temperature}°C
         </ThemedText>
       </View>
       <Pressable onPress={() => router.push("/user")}>
