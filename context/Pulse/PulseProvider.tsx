@@ -8,6 +8,30 @@ type Props = {
   children: ReactNode;
 };
 
+type PulseStatus = {
+  icon: IconName;
+  label: string;
+};
+
+const getPulseStatus = (pulseValue: number): PulseStatus => {
+  if (pulseValue >= 100) {
+    return {
+      icon: "frowno",
+      label: "Högt",
+    };
+  }
+  if (pulseValue >= 80) {
+    return {
+      icon: "meh",
+      label: "Måttligt",
+    };
+  }
+  return {
+    icon: "smileo",
+    label: "Lågt",
+  };
+};
+
 const PulseProvider = ({ children }: Props) => {
   const [pulseData, setPulseData] = useState<PulseData>({
     icon: "slightly-smile",

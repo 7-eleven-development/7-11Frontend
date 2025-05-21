@@ -62,7 +62,7 @@ const Card = ({ cardData }: Props) => {
     } else if (type === "soundLevel") {
       router.push("/(tabs)/sound-level");
     } else if (type === "pulse") {
-      router.push("/(tabs)/pulse");
+      router.push("/(tabs)/Pulse");
     }
   };
 

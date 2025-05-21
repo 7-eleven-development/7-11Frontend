@@ -22,7 +22,7 @@ const TabLayout = () => {
       <Tabs.Screen
         name="index"
         options={{
-          title: "Home",
+          title: "Hem",
           tabBarIcon: ({ color, focused }) => (
             <Ionicons
               name={focused ? "home" : "home-outline"}
@@ -32,10 +32,10 @@ const TabLayout = () => {
           ),
         }}
       ></Tabs.Screen>
-      <Tabs.Screen
+    <Tabs.Screen
         name="location"
         options={{
-          title: "Location",
+          title: "Plats",
           tabBarIcon: ({ color, focused }) => (
             <AntDesign
               name={focused ? "enviroment" : "enviromento"}
@@ -48,7 +48,7 @@ const TabLayout = () => {
       <Tabs.Screen
         name="sound-level"
         options={{
-          title: "Sound Level",
+          title: "Ljudnivå",
           tabBarIcon: ({ color, focused }) => (
             <Ionicons
               name={focused ? "headset" : "headset-outline"}
@@ -58,24 +58,19 @@ const TabLayout = () => {
           ),
         }}
       ></Tabs.Screen>
-      <Tabs.Screen
+     <Tabs.Screen
         name="air-quality"
         options={{
-          title: "Air Quality",
-          tabBarIcon: ({ color, focused }) => (
-            <Entypo
-              //   name={focused ? "home" : "home-outline"}
-              name={"air"}
-              size={24}
-              color={color}
-            />
+          title: "Luftkvalitet",
+          tabBarIcon: ({ color }) => (
+            <Entypo name="air" size={24} color={color} />
           ),
         }}
       ></Tabs.Screen>
       <Tabs.Screen
-        name="pulse"
+        name="Pulse"
         options={{
-          title: "Pulse",
+          title: "Puls",
           tabBarIcon: ({ color, focused }) => (
             <AntDesign
               name={focused ? "heart" : "hearto"}

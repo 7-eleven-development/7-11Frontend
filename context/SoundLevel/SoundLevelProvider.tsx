@@ -8,6 +8,30 @@ type Props = {
   children: ReactNode;
 };
 
+type SoundLevelStatus = {
+  icon: IconName;
+  label: string;
+};
+
+const getSoundLevelStatus = (soundValue: number): SoundLevelStatus => {
+  if (soundValue >= 85) {
+    return {
+      icon: "frowno",
+      label: "Högt",
+    };
+  }
+  if (soundValue >= 60) {
+    return {
+      icon: "meh",
+      label: "Måttligt",
+    };
+  }
+  return {
+    icon: "smileo",
+    label: "Tyst",
+  };
+};
+
 const SoundLevelProvider = ({ children }: Props) => {
   const [soundLevelData, setSoundLevelData] = useState<SoundLevelData>({
     icon: "slightly-smile",
