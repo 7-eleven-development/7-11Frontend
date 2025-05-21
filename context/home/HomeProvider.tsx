@@ -5,6 +5,8 @@ import fetchPulse from "@/services/fetchPulse";
 import fetchSoundLevel from "@/services/fetchSoundLevel";
 import { getPulseStatus } from "@/utils/pulseUtils";
 import { getSoundLevelStatus } from "@/utils/soundLevelUtils";
+import { homeService } from "@/services/homeService";
+import { useAuthContext } from "@/context/auth/useAuthContext";
 
 type Props = {
   children: ReactNode;
@@ -27,8 +29,15 @@ const HomeProvider = ({ children }: Props) => {
       icon: "slightly-smile",
       label: "",
     },
-    airQuality: 0,
+    airQuality: {
+      smoke: 0,
+      propane: 0,
+      co2: 0,
+    },
   });
+
+  const { token, deviceId } = useAuthContext();
+
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -36,34 +45,56 @@ const HomeProvider = ({ children }: Props) => {
     try {
       setIsLoading(true);
       setError(null);
+      if (!token || !deviceId) {
+        throw new Error("Token or Device ID is missing");
+      }
 
-      const pulseData = await fetchPulse();
-      const soundLevelData = await fetchSoundLevel();
+      const data = await homeService.fetchCurrentData(deviceId, token);
 
-      const pulse = pulseData.value[0].pulse;
-      const soundLevel = soundLevelData.value[0].soundLevel;
+      const latestSoundLevel = data.trend.soundlevel[0].sound;
+      const latestPulse = data.trend.pulse[0].pulse;
+      const latestTemperature = parseFloat(
+        data.trend.temperature[0].temperature
+      );
 
-      const { icon: pulseIcon, label: pulseLabel } = getPulseStatus(pulse);
+      const latestAirQuality = {
+        smoke: parseFloat(data.trend.airquality[0].smoke),
+        propane: parseFloat(data.trend.airquality[0].propane),
+        co2: parseFloat(data.trend.airquality[0].co2),
+      };
+
+      const latestPosition = {
+        latitude: data.trend.position[0].latitude,
+        longitude: data.trend.position[0].longitude,
+      };
+
+      const { icon: pulseIcon, label: pulseLabel } =
+        getPulseStatus(latestPulse);
       const { icon: soundIcon, label: soundLabel } =
-        getSoundLevelStatus(soundLevel);
+        getSoundLevelStatus(latestSoundLevel);
+
       setHomeData({
         location: {
-          name: "Malmö",
-          lat: 0,
-          lon: 0,
+          name: "Stockholm",
+          lat: latestPosition.latitude,
+          lon: latestPosition.longitude,
         },
-        temperature: 17,
+        temperature: latestTemperature,
         pulse: {
-          value: pulse,
+          value: latestPulse,
           icon: pulseIcon,
           label: pulseLabel,
         },
         soundLevel: {
-          value: soundLevel,
+          value: latestSoundLevel,
           icon: soundIcon,
           label: soundLabel,
         },
-        airQuality: 0,
+        airQuality: {
+          smoke: latestAirQuality.smoke,
+          propane: latestAirQuality.propane,
+          co2: latestAirQuality.co2,
+        },
       });
     } catch (err) {
       setError(err instanceof Error ? err.message : "Unknown error occurred");
@@ -71,7 +102,7 @@ const HomeProvider = ({ children }: Props) => {
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [token, deviceId]);
 
   useEffect(() => {
     fetchData();

@@ -3,6 +3,7 @@ import Card, { CardStatus } from "@/components/Card";
 import RefreshView from "@/components/RefreshView";
 import ThemedView from "@/components/ThemedView";
 import Header from "@/components/Header";
+import { useRouter } from "expo-router";
 import useHomeContext from "@/context/home/useHomeConext";
 import useRefresh from "@/hooks/useRefresh";
 
@@ -10,23 +11,23 @@ const Index = () => {
   const { homeData, isLoading, error, refreshData } = useHomeContext();
   const { refreshing, handleRefresh } = useRefresh(refreshData);
 
-  const { temperature, location, pulse, soundLevel } = homeData;
+  const { temperature, location, pulse, soundLevel, airQuality } = homeData;
   const { label: pulseLabel, value: pulseValue } = pulse;
   const { label: soundLabel, value: soundLevelValue } = soundLevel;
 
   const pulseStatus =
-    pulseLabel === "High"
+    pulseLabel === "Högt"
       ? "bad"
       : pulseLabel === "Moderate"
-      ? "normal"
-      : "good";
+        ? "normal"
+        : "good";
 
   const soundStatus =
-    soundLabel === "Loud"
+    soundLabel === "Högt"
       ? "bad"
       : soundLabel === "Moderate"
-      ? "normal"
-      : "good";
+        ? "normal"
+        : "good";
 
   const soundLevelData = {
     type: "soundLevel" as const,
@@ -41,7 +42,11 @@ const Index = () => {
   };
   const airQualityData = {
     type: "airQuality" as const,
-    data: { pm1: 5, pm2: 10, pm10: 15, tvoc: 20 },
+    data: {
+      propane: airQuality.propane,
+      smoke: airQuality.smoke,
+      co2: airQuality.co2,
+    },
     status: "bad" as const,
   };
 

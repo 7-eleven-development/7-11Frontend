@@ -11,40 +11,55 @@ import { Colors } from "@/theme/Colors";
 import SoundLevelProvider from "@/context/SoundLevel/SoundLevelProvider";
 import ThemedView from "@/components/ThemedView";
 import PulseProvider from "@/context/Pulse/PulseProvider";
+import { UserContextProvider } from "@/context/userContext";
 import HomeProvider from "@/context/home/HomeProvider";
+import AuthProvider from "@/context/auth/AuthProvider";
+import { useAuthContext } from "@/context/auth/useAuthContext";
 
-const RootLayout = () => {
+const AppContent = () => {
+  const { isAuthenticated } = useAuthContext();
   const colorScheme = useColorScheme();
   const backgroundColor =
     colorScheme === "dark" ? Colors.dark.background : Colors.light.background;
 
   return (
+    <ThemedView style={styles.container}>
+      <StatusBar
+        backgroundColor={backgroundColor}
+        barStyle={colorScheme === "dark" ? "light-content" : "dark-content"}
+        translucent={true}
+      />
+      <SafeAreaView style={[styles.safeArea, { backgroundColor }]}>
+        {isAuthenticated ? (
+          <Stack>
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            <Stack.Screen name="user" options={{ headerShown: false }} />
+            <Stack.Screen name="+not-found" />
+          </Stack>
+        ) : (
+          <Login />
+        )}
+      </SafeAreaView>
+    </ThemedView>
+  );
+};
+
+const RootLayout = () => {
+  const colorScheme = useColorScheme();
+
+  return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      <HomeProvider>
-        <SoundLevelProvider>
-          <PulseProvider>
-            <ThemedView style={styles.container}>
-              <StatusBar
-                backgroundColor={backgroundColor}
-                barStyle={
-                  colorScheme === "dark" ? "light-content" : "dark-content"
-                }
-                translucent={true}
-              />
-              <Login />
-              <SafeAreaView style={[styles.safeArea, { backgroundColor }]}>
-                <Stack>
-                  {/* <Stack.Screen
-                    name="(tabs)"
-                    options={{ headerShown: false }}
-                  />
-                  <Stack.Screen name="+not-found" /> */}
-                </Stack>
-              </SafeAreaView>
-            </ThemedView>
-          </PulseProvider>
-        </SoundLevelProvider>
-      </HomeProvider>
+      <AuthProvider>
+        <UserContextProvider>
+          <HomeProvider>
+            <SoundLevelProvider>
+              <PulseProvider>
+                <AppContent />
+              </PulseProvider>
+            </SoundLevelProvider>
+          </HomeProvider>
+        </UserContextProvider>
+      </AuthProvider>
     </ThemeProvider>
   );
 };

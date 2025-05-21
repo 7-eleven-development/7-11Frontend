@@ -43,7 +43,7 @@ const SoundLevel = () => {
               lightColor={textColor}
               darkColor={textColor}
             >
-              Sound Level
+              Ljudnivå
             </ThemedText>
             <Fontisto
               name={icon}

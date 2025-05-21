@@ -34,7 +34,7 @@ const Pulse = () => {
               lightColor={textColor}
               darkColor={textColor}
             >
-              Pulse
+              Puls
             </ThemedText>
             <Fontisto
               name={icon}

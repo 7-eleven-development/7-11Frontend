@@ -10,7 +10,11 @@ export interface HomeData {
   temperature: number;
   pulse: PulseData;
   soundLevel: SoundLevelData;
-  airQuality: number;
+  airQuality: {
+    smoke: number;
+    propane: number;
+    co2: number;
+  };
 }
 
 export interface HomeContextType {
