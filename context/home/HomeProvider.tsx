@@ -51,21 +51,20 @@ const HomeProvider = ({ children }: Props) => {
 
       const data = await homeService.fetchCurrentData(deviceId, token);
 
-      const latestSoundLevel = data.trend.soundlevel[0].sound;
-      const latestPulse = data.trend.pulse[0].pulse;
-      const latestTemperature = parseFloat(
-        data.trend.temperature[0].temperature
-      );
+      // Map from new API structure
+      const latestSoundLevel = data.latest_sound;
+      const latestPulse = data.latest_pulse;
+      const latestTemperature = parseFloat(data.latest_temperature);
 
       const latestAirQuality = {
-        smoke: parseFloat(data.trend.airquality[0].smoke),
-        propane: parseFloat(data.trend.airquality[0].propane),
-        co2: parseFloat(data.trend.airquality[0].co2),
+        smoke: parseFloat(data.latest_smoke),
+        propane: parseFloat(data.latest_propane),
+        co2: parseFloat(data.latest_co2),
       };
 
       const latestPosition = {
-        latitude: data.trend.position[0].latitude,
-        longitude: data.trend.position[0].longitude,
+        latitude: parseFloat(data.latest_latitude),
+        longitude: parseFloat(data.latest_longitude),
       };
 
       const { icon: pulseIcon, label: pulseLabel } =
