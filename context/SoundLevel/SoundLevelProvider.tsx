@@ -19,18 +19,18 @@ const getSoundLevelStatus = (soundValue: number): SoundLevelStatus => {
   if (soundValue >= 85) {
     return {
       icon: "frowno",
-      label: "Loud",
+      label: "Högt",
     };
   }
   if (soundValue >= 60) {
     return {
       icon: "meh",
-      label: "Moderate",
+      label: "Måttligt",
     };
   }
   return {
     icon: "smileo",
-    label: "Quiet",
+    label: "Tyst",
   };
 };
 

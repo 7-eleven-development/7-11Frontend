@@ -82,7 +82,7 @@ const Card = ({ cardData }: Props) => {
     ) : type === "pulse" ? (
       <ThemedText type="subtitle">BPM: {data.pulse} </ThemedText>
     ) : (
-      <ThemedText>Unknown Data</ThemedText>
+      <ThemedText>Okänd data</ThemedText>
     );
 
   const handleRoutePress = () => {
@@ -91,7 +91,7 @@ const Card = ({ cardData }: Props) => {
     } else if (type === "soundLevel") {
       router.push("/(tabs)/sound-level");
     } else if (type === "pulse") {
-      router.push("/(tabs)/pulse");
+      router.push("/(tabs)/Pulse");
     }
   };
 
@@ -107,12 +107,17 @@ const Card = ({ cardData }: Props) => {
           {icon}
           <ThemedText type="title">{Title}</ThemedText>
         </View>
-        {statusIcon}
-        <View
-          style={{ flex: 1, flexDirection: "column", alignItems: "flex-end" }}
-        >
-          {statusText}
+        <View style={{ alignItems: "flex-end" }}>
+          {statusIcon}
+         <ThemedText type="default">
+          {status === "good"
+            ? "Bra"
+            : status === "bad"
+            ? "Dålig"
+            : "Normal"}
+        </ThemedText>
         </View>
+        {statusText}
       </ThemedView>
     </Pressable>
   );

@@ -16,18 +16,18 @@ const getPulseStatus = (pulseValue: number): PulseStatus => {
   if (pulseValue >= 100) {
     return {
       icon: "frowno",
-      label: "High",
+      label: "Högt",
     };
   }
   if (pulseValue >= 80) {
     return {
       icon: "meh",
-      label: "Moderate",
+      label: "Måttligt",
     };
   }
   return {
     icon: "smileo",
-    label: "Low",
+    label: "Lågt",
   };
 };
 

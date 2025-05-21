@@ -16,7 +16,7 @@ import { useContext } from "react";
 import { UserContext } from "@/context/userContext";
 
 const RootLayout = () => {
-  const { theme } = useContext(UserContext); // 👈 HÄR använder du temat från context
+  const { theme } = useContext(UserContext); 
   const backgroundColor =
     theme === "dark" ? Colors.dark.background : Colors.light.background;
   return (

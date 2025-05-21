@@ -35,7 +35,7 @@ const SoundLevel = () => {
               lightColor={textColor}
               darkColor={textColor}
             >
-              Sound Level
+              Ljudnivå
             </ThemedText>
             <AntDesign
               name={icon}
