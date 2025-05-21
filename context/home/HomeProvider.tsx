@@ -1,8 +1,6 @@
 import { HomeData } from "@/types/home";
 import { HomeContext } from "./HomeContext";
 import { ReactNode, useCallback, useState, useEffect } from "react";
-import fetchPulse from "@/services/fetchPulse";
-import fetchSoundLevel from "@/services/fetchSoundLevel";
 import { getPulseStatus } from "@/utils/pulseUtils";
 import { getSoundLevelStatus } from "@/utils/soundLevelUtils";
 import { homeService } from "@/services/homeService";

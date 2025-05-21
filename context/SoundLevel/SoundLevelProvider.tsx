@@ -1,6 +1,6 @@
 import { ReactNode, useEffect, useState, useCallback } from "react";
 import { SoundLevelContext } from "@/context/SoundLevel/SoundLevelContext";
-import fetchSoundLevel from "@/services/fetchSoundLevel";
+import { soundLevelService } from "@/services/fetchSoundLevel";
 import { SoundLevelData } from "@/types/soundLevel";
 import { getSoundLevelStatus } from "@/utils/soundLevelUtils";
 import {
@@ -9,12 +9,14 @@ import {
   generateMonthlySoundLevelData,
   HistoricalDataPoint,
 } from "@/services/genereateSoundLevelData";
+import { useAuthContext } from "@/context/auth/useAuthContext";
 
 type Props = {
   children: ReactNode;
 };
 
 const SoundLevelProvider = ({ children }: Props) => {
+  const { token, deviceId } = useAuthContext();
   const [soundLevelData, setSoundLevelData] = useState<SoundLevelData>({
     icon: "slightly-smile",
     label: "",
@@ -32,24 +34,27 @@ const SoundLevelProvider = ({ children }: Props) => {
       setError(null);
 
       // Fetch current sound level
-      const data = await fetchSoundLevel();
+      if (!token || !deviceId) {
+        throw new Error("Token or Device ID is missing");
+      }
+      const data = await soundLevelService.fetchSoundLevel(token);
       const soundLevel = data.value[0].soundLevel;
       const { icon, label } = getSoundLevelStatus(soundLevel);
 
-      setSoundLevelData({
-        icon,
-        label,
-        value: soundLevel,
-      });
+      // setSoundLevelData({
+      //   icon,
+      //   label,
+      //   value: soundLevel,
+      // });
 
-      // Fetch historical data
-      const houerlyData = generateHourlySoundLevelData();
-      const weeklyData = generateWeeklySoundLevelData();
-      const monthlyData = generateMonthlySoundLevelData();
+      // // Fetch historical data
+      // const houerlyData = generateHourlySoundLevelData();
+      // const weeklyData = generateWeeklySoundLevelData();
+      // const monthlyData = generateMonthlySoundLevelData();
 
-      setHourlyData(houerlyData);
-      setWeeklyData(weeklyData);
-      setMonthlyData(monthlyData);
+      // setHourlyData(houerlyData);
+      // setWeeklyData(weeklyData);
+      // setMonthlyData(monthlyData);
     } catch (err) {
       setError(
         err instanceof Error ? err : new Error("Unknown error occurred")

@@ -1,5 +1,3 @@
-import generateMockSoundLevelData from "@/services/genereateSoundLevelData";
-
 export interface SoundLevelApiResponse {
   message: string;
   value: {
@@ -8,13 +6,28 @@ export interface SoundLevelApiResponse {
   }[];
 }
 
-const fetchSoundLevel = async (): Promise<SoundLevelApiResponse> => {
-  try {
-    return generateMockSoundLevelData();
-  } catch (error) {
-    console.error("Error fetching sound level data:", error);
-    throw error;
-  }
-};
+export const soundLevelService = {
+  async fetchSoundLevel(token: string): Promise<any> {
+    try {
+      const response = await fetch(
+        "https://chas-challenge.vercel.app/api/sound/device2/trend",
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
 
-export default fetchSoundLevel;
+      const data: SoundLevelApiResponse = await response.json();
+      console.log("Sound level data:", data);
+    } catch (error) {
+      console.error("Error fetching sound level data:", error);
+      throw error;
+    }
+  },
+};
