@@ -1,9 +1,9 @@
 import { ReactNode, useEffect, useState, useCallback } from "react";
 import { PulseContext } from "@/context/Pulse/PulseContext";
 import { PulseData, PulseStatus } from "@/types/pulse";
-import fetchPulse from "@/services/fetchPulse";
 import { getPulseStatus } from "@/utils/pulseUtils";
-
+import { pulseServices } from "@/services/pulseServices";
+import { useAuthContext } from "@/context/auth/useAuthContext";
 type Props = {
   children: ReactNode;
 };
@@ -17,13 +17,18 @@ const PulseProvider = ({ children }: Props) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<Error | null>(null);
 
+  const { token, deviceId } = useAuthContext();
+
   const fetchData = useCallback(async () => {
     try {
       setIsLoading(true);
       setError(null);
 
-      const data = await fetchPulse();
-      const pulse = data.value[0].pulse;
+      if (!token || !deviceId) {
+        throw new Error("Token or Device ID is missing");
+      }
+      const data = await pulseServices.fetchLatestPulse(token, deviceId);
+      const pulse = data.latest_pulse;
       const { icon, label } = getPulseStatus(pulse);
 
       setPulseData({
