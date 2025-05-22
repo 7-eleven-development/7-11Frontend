@@ -31,6 +31,7 @@ const PulseProvider = ({ children }: Props) => {
       const pulse = data.latest_pulse;
       const { icon, label } = getPulseStatus(pulse);
 
+      console.log("Pulse Response:", data);
       setPulseData({
         icon,
         label,
@@ -44,7 +45,7 @@ const PulseProvider = ({ children }: Props) => {
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [token, deviceId]);
 
   useEffect(() => {
     fetchData();

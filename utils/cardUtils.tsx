@@ -6,10 +6,12 @@ import {
   Fontisto,
 } from "@expo/vector-icons";
 import ThemedText from "@/components/ThemedText";
-import ThemedView from "@/components/ThemedView";
 import { Colors, ColorSchemeName } from "@/theme/Colors";
-import { View, StyleSheet } from "react-native";
+import { View } from "react-native";
 import { CardStatus } from "@/components/Card";
+import { getSoundLevelStatus } from "./soundLevelUtils";
+import { getCO2Status, getPropaneStatus, getSmokeStatus } from "./airQualityUtils";
+import { getPulseStatus } from "./pulseUtils";
 
 export const getTitle = (type: string) => {
   switch (type) {
@@ -20,7 +22,7 @@ export const getTitle = (type: string) => {
     case "pulse":
       return "Puls";
     default:
-      return "N[got gick fel";
+      return "Något gick fel";
   }
 };
 
@@ -32,24 +34,47 @@ export const getTitleIcon = (type: string) => {
   } else if (type === "pulse") {
     return <AntDesign name="hearto" size={32} color="black" />;
   } else {
-    return (
-      <MaterialIcons
-        name="error-outline"
-        size={32}
-        color="black"
-      ></MaterialIcons>
-    );
+    return <MaterialIcons name="error-outline" size={32} color="black" />;
   }
 };
 
-export const getStatusIcon = (status: CardStatus) => {
-  if (status === "good") {
-    return <Fontisto name="smiley" size={64} />;
-  } else if (status === "bad") {
-    return <Fontisto name="frowning" size={64} />;
-  } else {
-    return <Fontisto name="slightly-smile" size={64} />;
+export const getStatusIcon = (iconName: string, size: number = 64) => {
+  switch (iconName) {
+    case "smiley":
+      return <Fontisto name="smiley" size={size} />;
+    case "frowning":
+      return <Fontisto name="frowning" size={size} />;
+    case "slightly-smile":
+    default:
+      return <Fontisto name="slightly-smile" size={size} />;
   }
+};
+
+export const getCardStatus = (type: string, data: any): CardStatus => {
+  if (type === "airQuality") {
+    const smokeStatus = getSmokeStatus(data.smoke);
+    const co2Status = getCO2Status(data.co2);
+    const propaneStatus = getPropaneStatus(data.propane);
+    
+    // If any value is in "bad" range, the entire air quality is bad
+    if (smokeStatus.icon === "frowning" || co2Status.icon === "frowning" || propaneStatus.icon === "frowning") {
+      return "bad";
+    }
+    // If all values are in "good" range, the air quality is good
+    if (smokeStatus.icon === "smiley" && co2Status.icon === "smiley" && propaneStatus.icon === "smiley") {
+      return "good";
+    }
+    // Otherwise neutral
+    return "normal";
+  } else if (type === "soundLevel") {
+    const status = getSoundLevelStatus(data.soundLevel);
+    return status.icon === "frowning" ? "bad" : status.icon === "smiley" ? "good" : "normal";
+  } else if (type === "pulse") {
+    const status = getPulseStatus(data.pulse);
+    return status.icon === "frowning" ? "bad" : status.icon === "smiley" ? "good" : "normal";
+  }
+  
+  return "normal";
 };
 
 export const getBackgroundColor = (
@@ -62,6 +87,18 @@ export const getBackgroundColor = (
     return colorScheme === "dark" ? Colors.dark.error : Colors.light.error;
   } else {
     return colorScheme === "dark" ? Colors.dark.neutral : Colors.light.neutral;
+  }
+};
+
+export const getIconNameFromStatus = (status: CardStatus): string => {
+  switch (status) {
+    case "good":
+      return "smiley";
+    case "bad":
+      return "frowning";
+    case "normal":
+    default:
+      return "slightly-smile";
   }
 };
 
@@ -78,12 +115,12 @@ export const getStatusText = (type: string, data: any) => {
       >
         <ThemedText type="subtitle">Rök: {data.smoke}</ThemedText>
         <ThemedText type="subtitle">Koldioxid: {data.co2}</ThemedText>
-        <ThemedText type="subtitle">Popan: {data.propane}</ThemedText>
+        <ThemedText type="subtitle">Propan: {data.propane}</ThemedText>
       </View>
     ) : type === "soundLevel" ? (
       <ThemedText type="subtitle">{data.soundLevel} dB</ThemedText>
     ) : type === "pulse" ? (
-      <ThemedText type="subtitle">BPM: {data.pulse} </ThemedText>
+      <ThemedText type="subtitle">BPM: {data.pulse}</ThemedText>
     ) : (
       <ThemedText>Unknown Data</ThemedText>
     );
@@ -91,7 +128,25 @@ export const getStatusText = (type: string, data: any) => {
   return statusText;
 };
 
-// const styles = StyleSheet.create({
-//   card: {
-
-// }};
+export const getStatusLabel = (type: string, data: any) => {
+  if (type === "airQuality") {
+    // For air quality, we check all values and prioritize the worst status
+    const smokeStatus = getSmokeStatus(data.smoke);
+    const co2Status = getCO2Status(data.co2);
+    const propaneStatus = getPropaneStatus(data.propane);
+    
+    if (smokeStatus.icon === "frowning" || co2Status.icon === "frowning" || propaneStatus.icon === "frowning") {
+      return "Dålig luftkvalitet";
+    }
+    if (smokeStatus.icon === "smiley" && co2Status.icon === "smiley" && propaneStatus.icon === "smiley") {
+      return "Bra luftkvalitet";
+    }
+    return "Normal luftkvalitet";
+  } else if (type === "soundLevel") {
+    return getSoundLevelStatus(data.soundLevel).label;
+  } else if (type === "pulse") {
+    return getPulseStatus(data.pulse).label;
+  }
+  
+  return "Okänd status";
+};

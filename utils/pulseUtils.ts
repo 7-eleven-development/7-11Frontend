@@ -7,7 +7,7 @@ export const getPulseStatus = (pulseValue: number): PulseStatus => {
       label: "Hög puls",
     };
   }
-  if (pulseValue >= 80) {
+  if (pulseValue >= 60) {
     return {
       icon: "slightly-smile",
       label: "Normal puls",

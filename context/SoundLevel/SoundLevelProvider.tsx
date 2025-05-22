@@ -33,6 +33,7 @@ const SoundLevelProvider = ({ children }: Props) => {
       const latestSoundLevel = soundLevelResponse.latest_sound;
       const { icon, label } = getSoundLevelStatus(latestSoundLevel);
 
+      console.log("Sound Level Response:", soundLevelResponse);
       setSoundLevelData({
         icon,
         label,
@@ -46,7 +47,7 @@ const SoundLevelProvider = ({ children }: Props) => {
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [token, deviceId]);
 
   useEffect(() => {
     fetchData();
