@@ -1,6 +1,6 @@
 import { ReactNode, useEffect, useState, useCallback } from "react";
 import { PulseContext } from "@/context/Pulse/PulseContext";
-import { PulseData, PulseStatus } from "@/types/pulse";
+import { PulseData } from "@/types/pulse";
 import fetchPulse from "@/services/fetchPulse";
 import { getPulseStatus } from "@/utils/pulseUtils";
 
@@ -8,33 +8,9 @@ type Props = {
   children: ReactNode;
 };
 
-type PulseStatus = {
-  icon: IconName;
-  label: string;
-};
-
-const getPulseStatus = (pulseValue: number): PulseStatus => {
-  if (pulseValue >= 100) {
-    return {
-      icon: "frowno",
-      label: "Högt",
-    };
-  }
-  if (pulseValue >= 80) {
-    return {
-      icon: "meh",
-      label: "Måttligt",
-    };
-  }
-  return {
-    icon: "smileo",
-    label: "Lågt",
-  };
-};
-
 const PulseProvider = ({ children }: Props) => {
   const [pulseData, setPulseData] = useState<PulseData>({
-    icon: "slightly-smile",
+    icon: "slightly-smile",  
     label: "",
     value: 0,
   });
@@ -59,7 +35,7 @@ const PulseProvider = ({ children }: Props) => {
       setError(
         err instanceof Error ? err : new Error("Unknown error occurred")
       );
-      console.error("Error fetching sound level:", err);
+      console.error("Error fetching pulse:", err);
     } finally {
       setIsLoading(false);
     }
@@ -88,3 +64,4 @@ const PulseProvider = ({ children }: Props) => {
 };
 
 export default PulseProvider;
+
