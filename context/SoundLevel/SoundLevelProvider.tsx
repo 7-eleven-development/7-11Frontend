@@ -1,8 +1,9 @@
 import { ReactNode, useEffect, useState, useCallback } from "react";
 import { SoundLevelContext } from "@/context/SoundLevel/SoundLevelContext";
-import fetchSoundLevel from "@/services/fetchSoundLevel";
 import { SoundLevelData } from "@/types/soundLevel";
 import { getSoundLevelStatus } from "@/utils/soundLevelUtils";
+import { soundLevelServices } from "@/services/soundLevelServices";
+import { useAuthContext } from "@/context/auth/useAuthContext";
 
 type Props = {
   children: ReactNode;
@@ -16,20 +17,27 @@ const SoundLevelProvider = ({ children }: Props) => {
   });
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<Error | null>(null);
-
+  const { token, deviceId } = useAuthContext();
   const fetchData = useCallback(async () => {
     try {
       setIsLoading(true);
       setError(null);
 
-      const data = await fetchSoundLevel();
-      const soundLevel = data.value[0].soundLevel;
-      const { icon, label } = getSoundLevelStatus(soundLevel);
+      if (!token || !deviceId) {
+        throw new Error("Token or Device ID is missing");
+      }
+      const soundLevelResponse = await soundLevelServices.fetchLatestSoundLevel(
+        token,
+        deviceId
+      );
+      const latestSoundLevel = soundLevelResponse.latest_sound;
+      const { icon, label } = getSoundLevelStatus(latestSoundLevel);
 
+      console.log("Sound Level Response:", soundLevelResponse);
       setSoundLevelData({
         icon,
         label,
-        value: soundLevel,
+        value: latestSoundLevel,
       });
     } catch (err) {
       setError(
@@ -39,7 +47,7 @@ const SoundLevelProvider = ({ children }: Props) => {
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [token, deviceId]);
 
   useEffect(() => {
     fetchData();

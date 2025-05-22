@@ -4,17 +4,17 @@ export const getSoundLevelStatus = (soundValue: number): SoundLevelStatus => {
   if (soundValue >= 85) {
     return {
       icon: "frowning",
-      label: "Loud",
+      label: "hög ljudnivå",
     };
   }
   if (soundValue >= 60) {
     return {
       icon: "slightly-smile",
-      label: "Moderate",
+      label: "normal ljudnivå",
     };
   }
   return {
     icon: "smiley",
-    label: "Quiet",
+    label: "låg ljudnivå",
   };
 };
