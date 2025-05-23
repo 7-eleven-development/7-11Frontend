@@ -1,14 +1,9 @@
 import { ReactNode, useEffect, useState, useCallback } from "react";
 import { SoundLevelContext } from "@/context/SoundLevel/SoundLevelContext";
-import { soundLevelService } from "@/services/fetchSoundLevel";
+
 import { SoundLevelData } from "@/types/soundLevel";
 import { getSoundLevelStatus } from "@/utils/soundLevelUtils";
-import {
-  generateHourlySoundLevelData,
-  generateWeeklySoundLevelData,
-  generateMonthlySoundLevelData,
-  HistoricalDataPoint,
-} from "@/services/genereateSoundLevelData";
+import { soundLevelServices } from "@/services/soundLevelServices";
 import { useAuthContext } from "@/context/auth/useAuthContext";
 
 type Props = {
@@ -16,45 +11,37 @@ type Props = {
 };
 
 const SoundLevelProvider = ({ children }: Props) => {
-  const { token, deviceId } = useAuthContext();
   const [soundLevelData, setSoundLevelData] = useState<SoundLevelData>({
     icon: "slightly-smile",
     label: "",
     value: 0,
   });
-  const [hourlyData, setHourlyData] = useState<HistoricalDataPoint[]>([]);
   const [weeklyData, setWeeklyData] = useState<HistoricalDataPoint[]>([]);
   const [monthlyData, setMonthlyData] = useState<HistoricalDataPoint[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<Error | null>(null);
-
+  const { token, deviceId } = useAuthContext();
   const fetchData = useCallback(async () => {
     try {
       setIsLoading(true);
       setError(null);
 
-      // Fetch current sound level
       if (!token || !deviceId) {
         throw new Error("Token or Device ID is missing");
       }
-      const data = await soundLevelService.fetchSoundLevel(token);
-      const soundLevel = data.value[0].soundLevel;
-      const { icon, label } = getSoundLevelStatus(soundLevel);
+      const soundLevelResponse = await soundLevelServices.fetchLatestSoundLevel(
+        token,
+        deviceId
+      );
+      const latestSoundLevel = soundLevelResponse.latest_sound;
+      const { icon, label } = getSoundLevelStatus(latestSoundLevel);
 
-      // setSoundLevelData({
-      //   icon,
-      //   label,
-      //   value: soundLevel,
-      // });
-
-      // // Fetch historical data
-      // const houerlyData = generateHourlySoundLevelData();
-      // const weeklyData = generateWeeklySoundLevelData();
-      // const monthlyData = generateMonthlySoundLevelData();
-
-      // setHourlyData(houerlyData);
-      // setWeeklyData(weeklyData);
-      // setMonthlyData(monthlyData);
+      console.log("Sound Level Response:", soundLevelResponse);
+      setSoundLevelData({
+        icon,
+        label,
+        value: latestSoundLevel,
+      });
     } catch (err) {
       setError(
         err instanceof Error ? err : new Error("Unknown error occurred")
@@ -63,7 +50,7 @@ const SoundLevelProvider = ({ children }: Props) => {
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [token, deviceId]);
 
   useEffect(() => {
     fetchData();
@@ -77,7 +64,6 @@ const SoundLevelProvider = ({ children }: Props) => {
     <SoundLevelContext.Provider
       value={{
         soundLevelData,
-        hourlyData,
         weeklyData,
         monthlyData,
         isLoading,

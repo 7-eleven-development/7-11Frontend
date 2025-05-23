@@ -3,7 +3,7 @@ import { API_URL } from "@/services/api";
 export const homeService = {
   async fetchCurrentData(device: string, token: string): Promise<any> {
     try {
-      const response = await fetch(`${API_URL}/device/${device}/trend`, {
+      const response = await fetch(`${API_URL}/device/${device}/latest-data`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
