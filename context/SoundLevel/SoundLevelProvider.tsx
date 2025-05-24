@@ -2,6 +2,7 @@ import { ReactNode, useEffect, useState, useCallback } from "react";
 import { SoundLevelContext } from "@/context/SoundLevel/SoundLevelContext";
 
 import { SoundLevelData } from "@/types/soundLevel";
+import { HistoricalDataPoint } from "@/types/historicalData";
 import { getSoundLevelStatus } from "@/utils/soundLevelUtils";
 import { soundLevelServices } from "@/services/soundLevelServices";
 import { useAuthContext } from "@/context/auth/useAuthContext";
@@ -21,6 +22,7 @@ const SoundLevelProvider = ({ children }: Props) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<Error | null>(null);
   const { token, deviceId } = useAuthContext();
+
   const fetchData = useCallback(async () => {
     try {
       setIsLoading(true);
@@ -29,6 +31,8 @@ const SoundLevelProvider = ({ children }: Props) => {
       if (!token || !deviceId) {
         throw new Error("Token or Device ID is missing");
       }
+
+      // Fetch current sound level
       const soundLevelResponse = await soundLevelServices.fetchLatestSoundLevel(
         token,
         deviceId
@@ -42,11 +46,22 @@ const SoundLevelProvider = ({ children }: Props) => {
         label,
         value: latestSoundLevel,
       });
+
+      // Fetch weekly and monthly data
+      const weeklyDataResponse =
+        await soundLevelServices.fetchWeeklySoundLevelData();
+      setWeeklyData(weeklyDataResponse);
+      console.log("Weekly Data Response:", weeklyDataResponse);
+
+      const monthlyDataResponse =
+        await soundLevelServices.fetchMonthlySoundLevelData();
+      setMonthlyData(monthlyDataResponse);
+      console.log("Monthly Data Response:", monthlyDataResponse);
     } catch (err) {
       setError(
         err instanceof Error ? err : new Error("Unknown error occurred")
       );
-      console.error("Error fetching sound level:", err);
+      console.error("Error fetching sound level data:", err);
     } finally {
       setIsLoading(false);
     }
