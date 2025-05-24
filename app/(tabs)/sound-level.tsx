@@ -1,20 +1,19 @@
-import { StyleSheet } from "react-native";
-import { Fontisto } from "@expo/vector-icons";
+import { StyleSheet, View } from "react-native";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { Colors } from "@/theme/Colors";
 import ThemedView from "@/components/ThemedView";
-import ThemedText from "@/components/ThemedText";
 import useSoundLevelContext from "@/context/SoundLevel/useSoundLevelContext";
 import RefreshView from "@/components/RefreshView";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import ErrorMessage from "@/components/ErrorMessage";
 import useRefresh from "@/hooks/useRefresh";
-import LineChart from "@/components/ThemedLineChart";
+import ThemedLineChart from "@/components/Charts/ThemedLineChart";
+import SensorIndicator from "@/components/SensosrIndicator";
+import { getCardStatus } from "@/utils/cardUtils";
 
 const SoundLevel = () => {
   const {
     soundLevelData,
-    hourlyData,
     weeklyData,
     monthlyData,
     isLoading,
@@ -28,6 +27,9 @@ const SoundLevel = () => {
     colorScheme === "dark" ? Colors.dark.textColorLight : Colors.light.text;
 
   const { refreshing, handleRefresh } = useRefresh(refreshData);
+  const status = getCardStatus("soundLevel", {
+    soundLevel: soundLevelData.value,
+  });
 
   return (
     <RefreshView refreshing={refreshing} onRefresh={handleRefresh}>
@@ -38,39 +40,23 @@ const SoundLevel = () => {
           <ErrorMessage colorScheme={colorScheme} />
         ) : (
           <>
-            <ThemedText
-              type="title"
-              lightColor={textColor}
-              darkColor={textColor}
-            >
-              Ljudnivå
-            </ThemedText>
-            <Fontisto
-              name={icon}
-              size={64}
-              style={styles.icon}
-              color={textColor}
+            <SensorIndicator
+              icon={icon}
+              value={value}
+              label={label}
+              type="ljudnivå"
+              valueLabel="dB"
+              status={status}
             />
-            <ThemedText
-              type="subtitle"
-              lightColor={textColor}
-              darkColor={textColor}
-            >
-              {value} dB
-            </ThemedText>
-            <ThemedText lightColor={textColor} darkColor={textColor}>
-              {label}
-            </ThemedText>
-
-            {/* Chart Section */}
-            <LineChart
-              hourlyData={hourlyData}
+            <ThemedLineChart
               weeklyData={weeklyData}
               monthlyData={monthlyData}
-              title="Sound Levels"
+              title="Ljudnivå"
               unit="dB"
               colorScheme={colorScheme}
-              primaryColor={colorScheme === "dark" ? "#5CE1E6" : "#2E86C1"}
+              valueKey="sound"
+              dangerThreshold={100}
+              maxValue={120}
             />
           </>
         )}
@@ -83,12 +69,20 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    justifyContent: "center",
+    paddingTop: 40,
     alignItems: "center",
   },
   icon: {
     marginBottom: 16,
     marginTop: 16,
+  },
+  sensorSection: {
+    alignItems: "center",
+    marginBottom: 24,
+    padding: 16,
+    borderRadius: 10,
+    width: "100%",
+    backgroundColor: "rgba(200, 200, 200, 0.1)",
   },
 });
 
