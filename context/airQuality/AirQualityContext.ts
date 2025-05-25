@@ -8,10 +8,21 @@ const defaultSensorStatus: SensorStatus = {
 };
 
 export const AirQualityContext = createContext<AirQualityContextType>({
+  currentValues: {
+    co2: 0,
+    propane: 0,
+    smoke: 0,
+  },
   CO2Status: defaultSensorStatus,
   PropaneStatus: defaultSensorStatus,
   SmokeStatus: defaultSensorStatus,
   isLoading: false,
   error: null,
+  co2WeeklyData: [],
+  co2MonthlyData: [],
+  propaneWeeklyData: [],
+  propaneMonthlyData: [],
+  smokeWeeklyData: [],
+  smokeMonthlyData: [],
   refreshData: async () => {},
 });
