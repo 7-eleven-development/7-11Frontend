@@ -4,6 +4,7 @@ import { PulseData, PulseStatus } from "@/types/pulse";
 import { getPulseStatus } from "@/utils/pulseUtils";
 import { pulseServices } from "@/services/pulseServices";
 import { useAuthContext } from "@/context/auth/useAuthContext";
+import { HistoricalDataPoint } from "@/types/historicalData";
 type Props = {
   children: ReactNode;
 };
@@ -14,6 +15,8 @@ const PulseProvider = ({ children }: Props) => {
     label: "",
     value: 0,
   });
+  const [weeklyData, setWeeklyData] = useState<HistoricalDataPoint[]>([]);
+  const [monthlyData, setMonthlyData] = useState<HistoricalDataPoint[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<Error | null>(null);
 
@@ -31,12 +34,18 @@ const PulseProvider = ({ children }: Props) => {
       const pulse = data.latest_pulse;
       const { icon, label } = getPulseStatus(pulse);
 
-      console.log("Pulse Response:", data);
       setPulseData({
         icon,
         label,
         value: pulse,
       });
+
+      const weeklyDataResponse =
+        await pulseServices.fetchWeeklySoundLevelData();
+      setWeeklyData(weeklyDataResponse);
+      const monthlyDataResponse =
+        await pulseServices.fetchMonthlySoundLevelData();
+      setMonthlyData(monthlyDataResponse);
     } catch (err) {
       setError(
         err instanceof Error ? err : new Error("Unknown error occurred")
@@ -59,6 +68,8 @@ const PulseProvider = ({ children }: Props) => {
     <PulseContext.Provider
       value={{
         pulseData,
+        weeklyData,
+        monthlyData,
         isLoading,
         error,
         refreshData,

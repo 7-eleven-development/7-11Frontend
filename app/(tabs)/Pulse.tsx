@@ -1,17 +1,19 @@
 import { StyleSheet } from "react-native";
-import {Fontisto } from "@expo/vector-icons";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { Colors } from "@/theme/Colors";
 import ThemedView from "@/components/ThemedView";
-import ThemedText from "@/components/ThemedText";
 import RefreshView from "@/components/RefreshView";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import ErrorMessage from "@/components/ErrorMessage";
 import useRefresh from "@/hooks/useRefresh";
 import usePulseContext from "@/context/Pulse/usePulseContext";
+import SensorIndicator from "@/components/SensosrIndicator";
+import { getCardStatus } from "@/utils/cardUtils";
+import ThemedLineChart from "@/components/Charts/ThemedLineChart";
 
 const Pulse = () => {
-  const { pulseData, isLoading, error, refreshData } = usePulseContext();
+  const { pulseData, isLoading, error, weeklyData, monthlyData, refreshData } =
+    usePulseContext();
   const colorScheme = useColorScheme();
 
   const { icon, value, label } = pulseData;
@@ -19,7 +21,7 @@ const Pulse = () => {
     colorScheme === "dark" ? Colors.dark.textColorLight : Colors.light.text;
 
   const { refreshing, handleRefresh } = useRefresh(refreshData);
-
+  const status = getCardStatus("pulse", { pulse: pulseData.value });
   return (
     <RefreshView refreshing={refreshing} onRefresh={handleRefresh}>
       <ThemedView style={styles.container}>
@@ -29,29 +31,24 @@ const Pulse = () => {
           <ErrorMessage colorScheme={colorScheme} />
         ) : (
           <>
-            <ThemedText
-              type="title"
-              lightColor={textColor}
-              darkColor={textColor}
-            >
-              Puls
-            </ThemedText>
-            <Fontisto
-              name={icon}
-              size={64}
-              style={styles.icon}
-              color={textColor}
+            <SensorIndicator
+              icon={icon}
+              value={value}
+              label={label}
+              type="puls"
+              valueLabel="BPM"
+              status={status}
             />
-            <ThemedText
-              type="subtitle"
-              lightColor={textColor}
-              darkColor={textColor}
-            >
-              {value} BPM
-            </ThemedText>
-            <ThemedText lightColor={textColor} darkColor={textColor}>
-              {label}
-            </ThemedText>
+            <ThemedLineChart
+              weeklyData={weeklyData}
+              monthlyData={monthlyData}
+              title="Puls"
+              unit="BPM"
+              colorScheme={colorScheme}
+              valueKey="pulse"
+              dangerThreshold={100}
+              maxValue={200}
+            />
           </>
         )}
       </ThemedView>
@@ -63,7 +60,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    justifyContent: "center",
+    paddingTop: 40,
     alignItems: "center",
   },
   icon: {
@@ -71,4 +68,5 @@ const styles = StyleSheet.create({
     marginTop: 16,
   },
 });
+
 export default Pulse;

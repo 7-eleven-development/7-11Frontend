@@ -7,6 +7,8 @@ export const PulseContext = createContext<PulseContextType>({
     label: "",
     value: 0,
   },
+  weeklyData: [],
+  monthlyData: [],
   isLoading: false,
   error: null,
   refreshData: async () => {},
