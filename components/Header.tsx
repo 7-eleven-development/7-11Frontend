@@ -19,7 +19,7 @@ const Header = ({ locationName, temperature }: HeaderProps) => {
   const backgroundColor =
     colorScheme === "dark"
       ? Colors.dark.tabBarBackground
-      : Colors.light.background;
+      : Colors.light.tabBarBackground;
   const iconColor =
     colorScheme === "dark" ? Colors.dark.tint : Colors.light.tint;
 

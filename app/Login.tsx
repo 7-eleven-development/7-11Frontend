@@ -6,16 +6,16 @@ import {
   ActivityIndicator,
 } from "react-native";
 import ThemedView from "@/components/ThemedView";
-import { useThemeColor } from "@/theme/useThemeColors";
 import { useAuthContext } from "@/context/auth/useAuthContext";
 import ThemedText from "@/components/ThemedText";
+import { useColorScheme } from "@/hooks/useColorScheme";
+import { Colors } from "@/theme/Colors";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-
-  const buttonColor = useThemeColor({}, "button");
+  const colorScheme = useColorScheme();
   const { login, isLoading } = useAuthContext();
 
   const handleSubmit = async () => {
@@ -34,14 +34,35 @@ export default function Login() {
     }
   };
 
+  const textColor =
+    colorScheme === "dark" ? Colors.dark.textColorLight : Colors.light.text;
+  const buttonColor =
+    colorScheme === "dark" ? Colors.dark.button : Colors.light.button;
+  const backgroundColor =
+    colorScheme === "dark"
+      ? Colors.dark.tabBarBackground
+      : Colors.light.tabBarBackground;
+  const inputBorderColor =
+    colorScheme === "dark" ? Colors.dark.textColorLight : Colors.light.text;
+  const inputTextColor =
+    colorScheme === "dark" ? Colors.dark.textColorLight : Colors.light.text;
+
   return (
     <ThemedView style={styles.overlay}>
       <ThemedView
+        lightColor={backgroundColor}
+        darkColor={backgroundColor}
         style={styles.container}
         accessible
         accessibilityLabel="Inloggningsformular"
       >
-        <ThemedText style={styles.label} accessibilityLabel="header">
+        <ThemedText
+          type="title"
+          darkColor={textColor}
+          lightColor={textColor}
+          style={styles.label}
+          accessibilityLabel="header"
+        >
           Logga in
         </ThemedText>
 
@@ -51,11 +72,14 @@ export default function Login() {
             setEmail(text);
             setError("");
           }}
-          style={styles.input}
-          placeholder="Skriv in ditt användarnamn"
-          placeholderTextColor="#888"
-          accessibilityLabel="Användarnamn"
-          accessibilityHint="Fält där du kan skriva in ditt användarnamn"
+          style={[
+            styles.input,
+            { borderColor: inputBorderColor, color: inputTextColor },
+          ]}
+          placeholder="Skriv in din e-post"
+          placeholderTextColor={textColor}
+          accessibilityLabel="E-post"
+          accessibilityHint="Fält där du kan skriva in din e-post"
           keyboardType="email-address"
           returnKeyType="next"
           autoCapitalize="none"
@@ -67,13 +91,17 @@ export default function Login() {
             setPassword(text);
             setError("");
           }}
-          style={styles.input}
+          style={[
+            styles.input,
+            { borderColor: inputBorderColor, color: inputTextColor },
+          ]}
           placeholder="Skriv in ditt lösenord"
-          placeholderTextColor="#888"
+          placeholderTextColor={textColor}
           accessibilityLabel="Lösenord"
           accessibilityHint="Fält där du kan skriva in ditt lösenord"
           secureTextEntry={true}
           returnKeyType="done"
+          autoCapitalize="none"
         />
 
         {error ? (
@@ -93,7 +121,7 @@ export default function Login() {
           disabled={isLoading}
         >
           {isLoading ? (
-            <ActivityIndicator size="small" color="#fff" />
+            <ActivityIndicator size="small" color={textColor} />
           ) : (
             <ThemedText>Logga in</ThemedText>
           )}
@@ -118,7 +146,6 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   label: {
-    fontSize: 24,
     marginBottom: 20,
     textAlign: "center",
   },

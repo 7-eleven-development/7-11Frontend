@@ -36,7 +36,7 @@ const SensorIndicator = ({
   const backgroundColor = getBackgroundColor(status, colorScheme);
 
   const borderColor =
-    colorScheme === "dark" ? Colors.dark.tint : Colors.light.tint;
+    colorScheme === "dark" ? Colors.dark.tint : Colors.light.secondary;
 
   const selectedSize = size;
   const iconSize = selectedSize === "sm" ? 42 : 64;
@@ -49,8 +49,12 @@ const SensorIndicator = ({
     selectedSize === "sm" ? styles.iconContainerSm : styles.iconContainer;
   const titleStyle = selectedSize === "sm" ? true : false;
   const wrapperStyle = isSelected
-    ? [styles.selectedWrapper, { borderColor: borderColor }]
-    : styles.defaultWrapper;
+    ? selectedSize === "lg"
+      ? [styles.selectedWrapperLg, { borderColor: borderColor }]
+      : [styles.selectedWrapper, { borderColor: borderColor }]
+    : selectedSize === "lg"
+      ? styles.defaultWrapperLg
+      : styles.defaultWrapper;
 
   return (
     <View style={wrapperStyle}>
@@ -104,9 +108,21 @@ const styles = StyleSheet.create({
     padding: 2,
     marginBottom: 22,
   },
+  selectedWrapperLg: {
+    borderWidth: 2,
+    borderRadius: 12,
+    padding: 2,
+    marginBottom: 22,
+    width: "100%",
+  },
   defaultWrapper: {
     padding: 2,
     marginBottom: 24,
+  },
+  defaultWrapperLg: {
+    padding: 2,
+    marginBottom: 24,
+    width: "100%",
   },
   container: {
     marginBottom: 24,

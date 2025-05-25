@@ -21,7 +21,9 @@ const AppContent = () => {
   const { isAuthenticated } = useAuthContext();
   const colorScheme = useColorScheme();
   const backgroundColor =
-    colorScheme === "dark" ? Colors.dark.background : Colors.light.background;
+    colorScheme === "dark"
+      ? Colors.dark.tabBarBackground
+      : Colors.light.tabBarBackground;
 
   return (
     <ThemedView style={styles.container}>
