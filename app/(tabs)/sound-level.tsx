@@ -76,14 +76,6 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     marginTop: 16,
   },
-  sensorSection: {
-    alignItems: "center",
-    marginBottom: 24,
-    padding: 16,
-    borderRadius: 10,
-    width: "100%",
-    backgroundColor: "rgba(200, 200, 200, 0.1)",
-  },
 });
 
 export default SoundLevel;
