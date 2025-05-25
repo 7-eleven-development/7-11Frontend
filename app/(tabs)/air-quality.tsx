@@ -1,25 +1,107 @@
-import { StyleSheet, View } from "react-native";
-import { Fontisto } from "@expo/vector-icons";
+import { ScrollView, StyleSheet } from "react-native";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { Colors } from "@/theme/Colors";
 import ThemedView from "@/components/ThemedView";
-import ThemedText from "@/components/ThemedText";
 import RefreshView from "@/components/RefreshView";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import ErrorMessage from "@/components/ErrorMessage";
 import useRefresh from "@/hooks/useRefresh";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AirQualityContext } from "@/context/airQuality/AirQualityContext";
+import SensorIndicator from "@/components/SensosrIndicator";
+import { getCardStatus } from "@/utils/cardUtils";
+import ThemedLineChart from "@/components/Charts/ThemedLineChart";
+
+type SensorType = "co2" | "propane" | "smoke";
 
 const AirQuality = () => {
-  const { CO2Status, PropaneStatus, SmokeStatus, isLoading, error, refreshData } = useContext(AirQualityContext);
+  const {
+    CO2Status,
+    PropaneStatus,
+    SmokeStatus,
+    isLoading,
+    error,
+    refreshData,
+    currentValues,
+    co2WeeklyData,
+    co2MonthlyData,
+    propaneWeeklyData,
+    propaneMonthlyData,
+    smokeWeeklyData,
+    smokeMonthlyData,
+  } = useContext(AirQualityContext);
+
+  const [selectedSensor, setSelectedSensor] = useState<SensorType>("co2");
+
   const colorScheme = useColorScheme();
-  
+  const {
+    co2: currentCO2,
+    propane: currentPropane,
+    smoke: currentSmoke,
+  } = currentValues;
+
   const textColor =
     colorScheme === "dark" ? Colors.dark.textColorLight : Colors.light.text;
-  
+
   const { refreshing, handleRefresh } = useRefresh(refreshData);
-  
+  const Co2statusColor = getCardStatus("airQuality", {
+    co2: currentCO2,
+  });
+  const SmokeStatusColor = getCardStatus("airQuality", {
+    smoke: currentSmoke,
+  });
+  const PropanestatusColor = getCardStatus("airQuality", {
+    propane: currentPropane,
+  });
+
+  // Get chart data based on selected sensor
+  const getChartData = () => {
+    switch (selectedSensor) {
+      case "co2":
+        return {
+          weeklyData: co2WeeklyData,
+          monthlyData: co2MonthlyData,
+          title: "CO2 Nivåer",
+          unit: "ppm",
+          valueKey: "co2",
+          dangerThreshold: 1000,
+          maxValue: 2000,
+        };
+      case "propane":
+        return {
+          weeklyData: propaneWeeklyData,
+          monthlyData: propaneMonthlyData,
+          title: "Propan Nivåer",
+          unit: "ppm",
+          valueKey: "propane",
+          dangerThreshold: 500,
+          maxValue: 1000,
+        };
+      case "smoke":
+        return {
+          weeklyData: smokeWeeklyData,
+          monthlyData: smokeMonthlyData,
+          title: "Rök Nivåer",
+          unit: "ppm",
+          valueKey: "smoke",
+          dangerThreshold: 150,
+          maxValue: 300,
+        };
+      default:
+        return {
+          weeklyData: co2WeeklyData,
+          monthlyData: co2MonthlyData,
+          title: "CO2 Nivåer",
+          unit: "ppm",
+          valueKey: "co2",
+          dangerThreshold: 1000,
+          maxValue: 2000,
+        };
+    }
+  };
+
+  const chartData = getChartData();
+
   return (
     <RefreshView refreshing={refreshing} onRefresh={handleRefresh}>
       <ThemedView style={styles.container}>
@@ -29,74 +111,57 @@ const AirQuality = () => {
           <ErrorMessage colorScheme={colorScheme} />
         ) : (
           <>
-            <ThemedText
-              type="title"
-              lightColor={textColor}
-              darkColor={textColor}
-              style={styles.mainTitle}
+            <ScrollView
+              horizontal
+              style={styles.sensorsScrollView}
+              contentContainerStyle={styles.sensorsScrollContent}
+              showsHorizontalScrollIndicator={false}
             >
-              Luftkvalitet
-            </ThemedText>
-            
-            {/* CO2 Section */}
-            <View style={styles.sensorSection}>
-              <ThemedText
-                type="subtitle"
-                lightColor={textColor}
-                darkColor={textColor}
-              >
-                CO2
-              </ThemedText>
-              <Fontisto
-                name={CO2Status.icon}
-                size={48}
-                style={styles.icon}
-                color={textColor}
+              <SensorIndicator
+                icon={CO2Status.icon}
+                value={currentCO2}
+                label={CO2Status.label}
+                type="CO2"
+                valueLabel="ppm"
+                status={Co2statusColor}
+                size="sm"
+                isSelected={selectedSensor === "co2"}
+                onPress={() => setSelectedSensor("co2")}
               />
-              <ThemedText lightColor={textColor} darkColor={textColor}>
-                {CO2Status.label}
-              </ThemedText>
-            </View>
-            
-            {/* Propane Section */}
-            <View style={styles.sensorSection}>
-              <ThemedText
-                type="subtitle"
-                lightColor={textColor}
-                darkColor={textColor}
-              >
-                Propan
-              </ThemedText>
-              <Fontisto
-                name={PropaneStatus.icon}
-                size={48}
-                style={styles.icon}
-                color={textColor}
+              <SensorIndicator
+                icon={PropaneStatus.icon}
+                value={currentPropane}
+                label={PropaneStatus.label}
+                type="propan"
+                valueLabel="ppm"
+                status={PropanestatusColor}
+                size="sm"
+                isSelected={selectedSensor === "propane"}
+                onPress={() => setSelectedSensor("propane")}
               />
-              <ThemedText lightColor={textColor} darkColor={textColor}>
-                {PropaneStatus.label}
-              </ThemedText>
-            </View>
-            
-            {/* Smoke Section */}
-            <View style={styles.sensorSection}>
-              <ThemedText
-                type="subtitle"
-                lightColor={textColor}
-                darkColor={textColor}
-              >
-                Rök
-              </ThemedText>
-              <Fontisto
-                name={SmokeStatus.icon}
-                size={48}
-                style={styles.icon}
-                color={textColor}
+              <SensorIndicator
+                icon={SmokeStatus.icon}
+                value={currentSmoke}
+                label={SmokeStatus.label}
+                type="rök"
+                valueLabel="ppm"
+                status={SmokeStatusColor}
+                size="sm"
+                isSelected={selectedSensor === "smoke"}
+                onPress={() => setSelectedSensor("smoke")}
               />
-              <ThemedText lightColor={textColor} darkColor={textColor}>
-                {SmokeStatus.label}
-              </ThemedText>
-            </View>
+            </ScrollView>
+            <ThemedLineChart
+              key={selectedSensor}
+              weeklyData={chartData.weeklyData}
+              monthlyData={chartData.monthlyData}
+              title={chartData.title}
+              unit={chartData.unit}
+              colorScheme={colorScheme}
+              valueKey={chartData.valueKey}
+              dangerThreshold={chartData.dangerThreshold}
+              maxValue={chartData.maxValue}
+            />
           </>
         )}
       </ThemedView>
@@ -104,27 +169,20 @@ const AirQuality = () => {
   );
 };
 
+// ...existing styles...
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    justifyContent: "center",
-    alignItems: "center",
+    paddingTop: 40,
   },
-  mainTitle: {
-    marginBottom: 24,
-  },
-  sensorSection: {
-    alignItems: "center",
-    marginBottom: 24,
-    padding: 16,
-    borderRadius: 10,
+  sensorsScrollView: {
+    maxHeight: 200,
     width: "100%",
-    backgroundColor: "rgba(200, 200, 200, 0.1)",
   },
-  icon: {
-    marginVertical: 12,
+  sensorsScrollContent: {
+    flexDirection: "row",
+    gap: 20,
   },
 });
-
 export default AirQuality;

@@ -68,7 +68,7 @@ const TabLayout = () => {
         }}
       ></Tabs.Screen>
       <Tabs.Screen
-        name="pulse"
+        name="Pulse"
         options={{
           title: "Puls",
           tabBarIcon: ({ color, focused }) => (
