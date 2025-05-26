@@ -1,11 +1,11 @@
 import { API_URL } from "./api";
 
 export type UserProfile = {
-  firstName?: string;
-  surName?: string;
+  firstname?: string;
+  surname?: string;
   email: string;
-  companyName?: string;
-  phoneNumber?: string;
+  company_name?: string;
+  phonenumber?: string;
   role?: string;
 };
 
@@ -38,11 +38,19 @@ export const userService = {
       }
 
       const userData = await response.json();
-      console.log("User data:", userData);
-      return {
-        success: true,
-        data: userData,
-      };
+      console.log("Fetched user data:", userData);
+
+      if (userData && userData.length > 0) {
+        return {
+          success: true,
+          data: userData[0] as UserProfile,
+        };
+      } else {
+        return {
+          success: false,
+          error: "No user data found",
+        };
+      }
     } catch (error) {
       console.error("Error fetching user data:", error);
       return {

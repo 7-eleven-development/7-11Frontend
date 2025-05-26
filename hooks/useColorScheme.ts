@@ -1,7 +1,6 @@
-import { useContext } from "react";
-import { UserContext } from "@/context/userContext";
+import useUserContext from "@/context/user/useUserContext";
 
 export function useColorScheme(): "light" | "dark" {
-  const { actualTheme } = useContext(UserContext);
+  const { actualTheme } = useUserContext();
   return actualTheme;
 }

@@ -1,12 +1,11 @@
-import { useContext } from "react";
-import { UserContext } from "@/context/userContext";
+import useUserContext from "@/context/user/useUserContext";
 import { Colors } from "@/theme/Colors";
 
 export function useThemeColor(
   props: { light?: string; dark?: string },
   colorName: keyof typeof Colors.light & keyof typeof Colors.dark
 ) {
-  const { actualTheme } = useContext(UserContext);
+  const { actualTheme } = useUserContext();
 
   if (props[actualTheme]) return props[actualTheme]!;
 

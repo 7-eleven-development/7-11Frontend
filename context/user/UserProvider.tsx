@@ -1,45 +1,17 @@
-import { UserProfile, userService } from "@/services/user";
-import {
-  createContext,
-  useContext,
-  useState,
-  ReactNode,
-  useEffect,
-  useCallback,
-} from "react";
-import { useAuthContext } from "@/context/auth/useAuthContext";
+import { ReactNode, useState, useEffect, useCallback } from "react";
 import { Appearance } from "react-native";
 import * as SecureStore from "expo-secure-store";
+import { UserContext } from "./UserContext";
+import { useAuthContext } from "@/context/auth/useAuthContext";
+import { UserProfile, userService } from "@/services/user";
 
 type Theme = "light" | "dark" | "system";
 
-interface UserContextType {
-  theme: Theme;
-  toggleTheme: () => void;
-  actualTheme: "light" | "dark";
-  user: UserProfile | null;
-  setUser: React.Dispatch<React.SetStateAction<UserProfile | null>>;
-  isLoading: boolean;
-  error: string | null;
-  refreshUser: () => Promise<void>;
-}
-
-export const UserContext = createContext<UserContextType>({
-  theme: "system",
-  toggleTheme: () => {},
-  actualTheme: "light",
-  user: null,
-  setUser: () => {},
-  isLoading: false,
-  error: null,
-  refreshUser: async () => {},
-});
-
-interface UserContextProviderProps {
+type UserProviderProps = {
   children: ReactNode;
-}
+};
 
-export function UserContextProvider({ children }: UserContextProviderProps) {
+const UserProvider = ({ children }: UserProviderProps) => {
   const [theme, setTheme] = useState<Theme>("system");
   const [user, setUser] = useState<UserProfile | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -97,6 +69,7 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
     try {
       const result = await userService.fetchUserInformation(token);
       if (result.success && result.data) {
+        console.log("User data loaded:", result.data);
         setUser(result.data);
       } else {
         setError(result.error || "Failed to load user data");
@@ -145,12 +118,6 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
       {children}
     </UserContext.Provider>
   );
-}
+};
 
-export function useUserContext() {
-  const context = useContext(UserContext);
-  if (!context) {
-    throw new Error("useUserContext must be used within a UserContextProvider");
-  }
-  return context;
-}
+export default UserProvider;
