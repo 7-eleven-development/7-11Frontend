@@ -1,8 +1,74 @@
-# Welcome to your Expo app 👋
+# Welcome to our Sensor App 👋
 
 This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
 
-## Get started
+## Project description and features
+  This project is an Sensor app that helps you track real-time sensor data related to health and environmental conditions.
+
+
+## ✨ Features
+`
+Air Quality
+`
+`
+Pulse
+`
+`
+Location
+`
+`
+Sound Level
+`
+
+
+Users can also
+- Toggle between **light and dark theme**
+- View user profile (name, email, phone, company)
+- Log In & Log Out
+
+
+## 🛠️ Technologies Used
+``` 
+React Native 
+```
+```
+Expo
+```
+
+```
+Context API
+```
+```
+Custom themed components
+```
+```
+React Navigation (Expo Router)
+ ```
+
+
+ ## 📂 Project Strucutre
+ ```
+7-11 Frontend
+|- app/                   # Main app logic and navigation
+|- assets/                # Images, icons, and other assets
+|- components/            # Reusable components
+|- context/               # Manages global state
+|- hooks/                 # Custom hooks for data fetching, charts, etc.
+|- services/              # API calls and mock data
+|- theme/                 # Colors, light/dark mode
+|- types/                 # TypeScript interfaces and types
+|- utils/                 # Helper functions (e.g data processing)
+
+|- .gitignore/            # Files/folders ignored by Git
+|- .app.json/             # Expo project configuration
+|- .eas.json/             # EAS (Expo Application Services) build config
+|- .tsconfig.json/        # TypeScript compiler options
+|- .gitignore/            # Files/folders ignored by Git
+|- .package.json/         # Project metadata and depencies
+
+```
+
+## 🚀 Get started
 
 1. Install dependencies
 
@@ -16,35 +82,16 @@ This is an [Expo](https://expo.dev) project created with [`create-expo-app`](htt
     npx expo start
    ```
 
-In the output, you'll find options to open the app in a
+## 📱 Open the App
+After starting the project with 'npx expo start', you'll have several options to open the app:
+- [Expo Go](https://expo.dev/go) – a lightweight way to preview the app
+- [Android Emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
+- [iOS Simulator](https://docs.expo.dev/workflow/ios-simulator/)
+- [Development Build](https://docs.expo.dev/develop/development-builds/introduction/) – for full native feature testing
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+## 🧠 Start Coding
 
-## Get a fresh project
+You can begin developing inside the `app/` folder.
+This project uses [file-based routing](https://docs.expo.dev/router/introduction) via **Expo Router**.
 
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
