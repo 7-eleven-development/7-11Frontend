@@ -1,4 +1,4 @@
-export type ColorScheme = 'light' | 'dark';
+export type ColorScheme = "light" | "dark";
 export type ColorSchemeName = ColorScheme | null | undefined;
 
 const tintColorLight = "#0a7ea4";
@@ -9,17 +9,17 @@ export const Colors = {
     text: "#11181C",
     textColorLight: "#EEEEEE",
     background: "#D9D9D9",
-    tabBarBackground: "#D9D9D9",
+    tabBarBackground: "#FFFFFF",
     tint: tintColorLight,
     tabIconDefault: "rgb(87, 96, 103)",
     tabIconSelected: tintColorLight,
-    button: "#0a7ea4", 
+    button: "#0a7ea4",
 
     secondary: "#5AC8FA",
     accent: "#FF9500",
-    neutral: "#A9A9A9",
-    error: "#FF3B30",
-    success: "#34C759",
+    neutral: "#567D7F",
+    error: "#EB8B8B",
+    success: "#6AD36A",
   },
 
   dark: {

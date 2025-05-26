@@ -9,16 +9,16 @@ import {
   getStatusIcon,
   getStatusText,
   getTitleIcon,
+  getIconNameFromStatus,
 } from "@/utils/cardUtils";
 
 export type CardStatus = "good" | "bad" | "normal";
 interface AirQualityData {
   type: "airQuality";
   data: {
-    pm1: number;
-    pm2: number;
-    pm10: number;
-    tvoc: number;
+    smoke: number;
+    propane: number;
+    co2: number;
   };
   status: CardStatus;
 }
@@ -52,10 +52,13 @@ const Card = ({ cardData }: Props) => {
 
   const backgroundColor = getBackgroundColor(status, colorScheme);
   const statusText = getStatusText(type, data);
-  const statusIcon = getStatusIcon(status);
+  
+  // Fix: Convert status to icon name first
+  const iconName = getIconNameFromStatus(status);
+  const statusIcon = getStatusIcon(iconName);
+  
   const Title = getTitle(type);
   const icon = getTitleIcon(type);
-
   const handleRoutePress = () => {
     if (type === "airQuality") {
       router.push("/(tabs)/air-quality");

@@ -1,8 +1,11 @@
 import { ReactNode, useEffect, useState, useCallback } from "react";
 import { SoundLevelContext } from "@/context/SoundLevel/SoundLevelContext";
-import fetchSoundLevel from "@/services/fetchSoundLevel";
+
 import { SoundLevelData } from "@/types/soundLevel";
+import { HistoricalDataPoint } from "@/types/historicalData";
 import { getSoundLevelStatus } from "@/utils/soundLevelUtils";
+import { soundLevelServices } from "@/services/soundLevelServices";
+import { useAuthContext } from "@/context/auth/useAuthContext";
 
 type Props = {
   children: ReactNode;
@@ -14,32 +17,55 @@ const SoundLevelProvider = ({ children }: Props) => {
     label: "",
     value: 0,
   });
+  const [weeklyData, setWeeklyData] = useState<HistoricalDataPoint[]>([]);
+  const [monthlyData, setMonthlyData] = useState<HistoricalDataPoint[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<Error | null>(null);
+  const { token, deviceId } = useAuthContext();
 
   const fetchData = useCallback(async () => {
     try {
       setIsLoading(true);
       setError(null);
 
-      const data = await fetchSoundLevel();
-      const soundLevel = data.value[0].soundLevel;
-      const { icon, label } = getSoundLevelStatus(soundLevel);
+      if (!token || !deviceId) {
+        throw new Error("Token or Device ID is missing");
+      }
 
+      // Fetch current sound level
+      const soundLevelResponse = await soundLevelServices.fetchLatestSoundLevel(
+        token,
+        deviceId
+      );
+      const latestSoundLevel = soundLevelResponse.latest_sound;
+      const { icon, label } = getSoundLevelStatus(latestSoundLevel);
+
+      console.log("Sound Level Response:", soundLevelResponse);
       setSoundLevelData({
         icon,
         label,
-        value: soundLevel,
+        value: latestSoundLevel,
       });
+
+      // Fetch weekly and monthly data
+      const weeklyDataResponse =
+        await soundLevelServices.fetchWeeklySoundLevelData();
+      setWeeklyData(weeklyDataResponse);
+      console.log("Weekly Data Response:", weeklyDataResponse);
+
+      const monthlyDataResponse =
+        await soundLevelServices.fetchMonthlySoundLevelData();
+      setMonthlyData(monthlyDataResponse);
+      console.log("Monthly Data Response:", monthlyDataResponse);
     } catch (err) {
       setError(
         err instanceof Error ? err : new Error("Unknown error occurred")
       );
-      console.error("Error fetching sound level:", err);
+      console.error("Error fetching sound level data:", err);
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [token, deviceId]);
 
   useEffect(() => {
     fetchData();
@@ -53,6 +79,8 @@ const SoundLevelProvider = ({ children }: Props) => {
     <SoundLevelContext.Provider
       value={{
         soundLevelData,
+        weeklyData,
+        monthlyData,
         isLoading,
         error,
         refreshData,

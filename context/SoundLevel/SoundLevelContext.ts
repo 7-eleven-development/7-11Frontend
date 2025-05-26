@@ -7,6 +7,8 @@ export const SoundLevelContext = createContext<SoundLevelContextType>({
     label: "",
     value: 0,
   },
+  weeklyData: [],
+  monthlyData: [],
   isLoading: false,
   error: null,
   refreshData: async () => {},

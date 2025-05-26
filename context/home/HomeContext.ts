@@ -19,7 +19,11 @@ export const HomeContext = createContext<HomeContextType>({
       label: "",
       value: 0,
     },
-    airQuality: 0,
+    airQuality: {
+      smoke: 0,
+      propane: 0,
+      co2: 0,
+    },
   },
   isLoading: false,
   error: null,

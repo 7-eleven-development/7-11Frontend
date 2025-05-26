@@ -1,8 +1,15 @@
-import { UserProfile, userService } from "@/services/user";  
-import { createContext, useContext, useState, ReactNode } from "react";
+import { UserProfile, userService } from "@/services/user";
+import {
+  createContext,
+  useContext,
+  useState,
+  ReactNode,
+  useEffect,
+} from "react";
 import { View } from "react-native";
-import { useAuthContext } from "./auth/useAuthContext";
-import { useEffect } from "react";
+import { useAuthContext } from "@/context/auth/useAuthContext";
+
+// Vi skapar en typ för våran användare
 
 type Theme = "light" | "dark";
 
@@ -28,10 +35,10 @@ interface UserContextProviderProps {
 export function UserContextProvider({ children }: UserContextProviderProps) {
   const [theme, setTheme] = useState<Theme>("light");
   const [user, setUser] = useState<UserProfile | null>(null);
-   const { token } = useAuthContext()
 
+  const { isAuthenticated, token } = useAuthContext();
 
-useEffect(() => {
+  useEffect(() => {
     async function loadUser() {
       if (token) {
         const result = await userService.fetchUserInformation(token);
@@ -47,13 +54,23 @@ useEffect(() => {
     loadUser();
   }, [token]); // kör om token ändras
 
-
+  const getUser = async () => {
+    if (isAuthenticated) {
+      if (token) {
+        const userInfo = await userService.fetchUserInformation(token);
+        console.log(userInfo);
+      }
+    }
+  };
+  getUser();
   const toggleTheme = () =>
     setTheme((prev) => (prev === "light" ? "dark" : "light"));
 
   return (
     <UserContext.Provider value={{ theme, toggleTheme, user, setUser }}>
-      <View style={{ flex: 1, backgroundColor: theme === "dark" ? "#222" : "#fff" }}>
+      <View
+        style={{ flex: 1, backgroundColor: theme === "dark" ? "#222" : "#fff" }}
+      >
         {children}
       </View>
     </UserContext.Provider>
