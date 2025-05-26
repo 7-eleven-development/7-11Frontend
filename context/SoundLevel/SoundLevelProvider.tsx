@@ -13,7 +13,7 @@ type Props = {
 
 const SoundLevelProvider = ({ children }: Props) => {
   const [soundLevelData, setSoundLevelData] = useState<SoundLevelData>({
-    icon: "slightly-smile",
+    icon: "slightly-smile", 
     label: "",
     value: 0,
   });

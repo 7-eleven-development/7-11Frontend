@@ -11,7 +11,7 @@ type Props = {
 
 const PulseProvider = ({ children }: Props) => {
   const [pulseData, setPulseData] = useState<PulseData>({
-    icon: "slightly-smile",
+    icon: "slightly-smile",  
     label: "",
     value: 0,
   });
@@ -50,7 +50,7 @@ const PulseProvider = ({ children }: Props) => {
       setError(
         err instanceof Error ? err : new Error("Unknown error occurred")
       );
-      console.error("Error fetching sound level:", err);
+      console.error("Error fetching pulse:", err);
     } finally {
       setIsLoading(false);
     }
@@ -81,3 +81,4 @@ const PulseProvider = ({ children }: Props) => {
 };
 
 export default PulseProvider;
+

@@ -11,11 +11,11 @@ import { Colors } from "@/theme/Colors";
 import SoundLevelProvider from "@/context/SoundLevel/SoundLevelProvider";
 import ThemedView from "@/components/ThemedView";
 import PulseProvider from "@/context/Pulse/PulseProvider";
-import { UserContextProvider } from "@/context/userContext";
 import HomeProvider from "@/context/home/HomeProvider";
 import AuthProvider from "@/context/auth/AuthProvider";
 import { useAuthContext } from "@/context/auth/useAuthContext";
 import AirQualityProvider from "@/context/airQuality/AirQualityProvider";
+import UserProvider from "@/context/user/UserProvider";
 
 const AppContent = () => {
   const { isAuthenticated } = useAuthContext();
@@ -51,9 +51,11 @@ const RootLayout = () => {
   const colorScheme = useColorScheme();
 
   return (
-    <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      <AuthProvider>
-        <UserContextProvider>
+    <AuthProvider>
+      <UserProvider>
+        <ThemeProvider
+          value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+        >
           <HomeProvider>
             <SoundLevelProvider>
               <PulseProvider>
@@ -63,9 +65,9 @@ const RootLayout = () => {
               </PulseProvider>
             </SoundLevelProvider>
           </HomeProvider>
-        </UserContextProvider>
-      </AuthProvider>
-    </ThemeProvider>
+        </ThemeProvider>
+      </UserProvider>
+    </AuthProvider>
   );
 };
 
