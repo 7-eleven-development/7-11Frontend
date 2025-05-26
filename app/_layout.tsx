@@ -16,6 +16,7 @@ import AuthProvider from "@/context/auth/AuthProvider";
 import { useAuthContext } from "@/context/auth/useAuthContext";
 import AirQualityProvider from "@/context/airQuality/AirQualityProvider";
 import UserProvider from "@/context/user/UserProvider";
+import LocationProvider from "@/context/location/LocationProvider";
 
 const AppContent = () => {
   const { isAuthenticated } = useAuthContext();
@@ -60,7 +61,9 @@ const RootLayout = () => {
             <SoundLevelProvider>
               <PulseProvider>
                 <AirQualityProvider>
-                  <AppContent />
+                  <LocationProvider>
+                    <AppContent />
+                  </LocationProvider>
                 </AirQualityProvider>
               </PulseProvider>
             </SoundLevelProvider>
