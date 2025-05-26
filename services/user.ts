@@ -1,7 +1,7 @@
 import { API_URL } from "./api";
 
 export type UserProfile = {
-  firstMame?: string;
+  firstName?: string;
   surName?: string;
   email: string;
   companyName?: string;
