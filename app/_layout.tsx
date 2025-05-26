@@ -51,9 +51,11 @@ const RootLayout = () => {
   const colorScheme = useColorScheme();
 
   return (
-    <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      <AuthProvider>
-        <UserContextProvider>
+    <AuthProvider>
+      <UserContextProvider>
+        <ThemeProvider
+          value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+        >
           <HomeProvider>
             <SoundLevelProvider>
               <PulseProvider>
@@ -63,9 +65,9 @@ const RootLayout = () => {
               </PulseProvider>
             </SoundLevelProvider>
           </HomeProvider>
-        </UserContextProvider>
-      </AuthProvider>
-    </ThemeProvider>
+        </ThemeProvider>
+      </UserContextProvider>
+    </AuthProvider>
   );
 };
 

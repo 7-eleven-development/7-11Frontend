@@ -5,14 +5,12 @@ import ThemedText from "@/components/ThemedText";
 import { useUserContext } from "@/context/userContext";
 import { Ionicons } from "@expo/vector-icons";
 import { Colors } from "@/theme/Colors";
-import { useThemeColor } from "@/theme/useThemeColors";
-import { useColorScheme } from "@/hooks/useColorScheme";
 import { useRouter } from "expo-router";
 import { useAuthContext } from "@/context/auth/useAuthContext";
-import { UserProfile } from "@/services/user";
+import { useColorScheme } from "@/hooks/useColorScheme";
 
 const User = () => {
-  const { theme, toggleTheme, user } = useUserContext();
+  const { theme, toggleTheme, actualTheme, user } = useUserContext();
   const router = useRouter();
 
   const { logout } = useAuthContext();
@@ -25,32 +23,33 @@ const User = () => {
     router.push("/(tabs)");
   };
 
-  const backgroundColor = useThemeColor(
-    { light: Colors.light.background, dark: Colors.dark.background },
-    "background"
-  );
-  const textColor = useThemeColor(
-    { light: Colors.light.text, dark: Colors.dark.text },
-    "text"
-  );
+  const colorSheme = useColorScheme();
+  const backgroundColor =
+    colorSheme === "dark"
+      ? Colors.dark.background
+      : Colors.light.tabBarBackground;
+  const textColor =
+    colorSheme === "dark" ? Colors.dark.textColorLight : Colors.light.text;
 
-  const colorScheme = useColorScheme();
+  const getThemeIcon = () => {
+    if (theme === "system") return "phone-portrait";
+    return actualTheme === "dark" ? "sunny" : "moon";
+  };
 
-  
+  const getThemeIconColor = () => {
+    if (theme === "system") return textColor;
+    return actualTheme === "dark" ? "yellow" : textColor;
+  };
+
   return (
     <ThemedView style={[styles.container, { backgroundColor }]}>
       <Pressable onPress={toggleTheme} style={styles.header}>
-        <Ionicons
-          name={theme === "dark" ? "sunny" : "moon"}
-          size={24}
-          color={theme === "dark" ? "yellow" : "black"}
-        />
+        <Ionicons name={getThemeIcon()} size={24} color={getThemeIconColor()} />
       </Pressable>
 
       <Pressable onPress={goBackToIndex} style={styles.backButton}>
         <Ionicons name="arrow-back" size={24} color={textColor} />
       </Pressable>
-
 
       {user && (
         <>
@@ -59,40 +58,46 @@ const User = () => {
           </ThemedText>
 
           <ThemedText style={[styles.info, { color: textColor }]}>
-          👤Namn: {user?.firstName}
-          </ThemedText>
-          
-          <ThemedText style={[styles.info, { color: textColor }]}>
-          📧 E-post: {user?.email}
+            👤Namn: {user?.firstName}
           </ThemedText>
 
           <ThemedText style={[styles.info, { color: textColor }]}>
-           📞Telefon: {user?.phoneNumber}
+            📧 E-post: {user?.email}
           </ThemedText>
 
           <ThemedText style={[styles.info, { color: textColor }]}>
-          🏢Företag: {user?.companyName}
+            📞Telefon: {user?.phoneNumber}
+          </ThemedText>
+
+          <ThemedText style={[styles.info, { color: textColor }]}>
+            🏢Företag: {user?.companyName}
+          </ThemedText>
+
+          <ThemedText style={[styles.info, { color: textColor }]}>
+            🎨Tema:{" "}
+            {theme === "system"
+              ? "System"
+              : theme === "light"
+                ? "Ljust"
+                : "Mörkt"}
           </ThemedText>
         </>
       )}
 
-
-        <TouchableOpacity
+      <TouchableOpacity
         onPress={handleLogout}
         style={[
           styles.logoutButton,
-            { backgroundColor: Colors[colorScheme ?? "light"].tint },
-        ]}    
-      >   
+          { backgroundColor: Colors[actualTheme].tint },
+        ]}
+      >
         <ThemedText style={styles.logoutButtonText}> Logga ut </ThemedText>
       </TouchableOpacity>
-
     </ThemedView>
   );
 };
 
 export default User;
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -119,20 +124,18 @@ const styles = StyleSheet.create({
   },
 
   logoutButton: {
-  paddingVertical: 12,
-  paddingHorizontal: 20,
-  borderRadius: 8,
-  marginTop: 20,
-  alignItems: "center",
-},
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+    marginTop: 20,
+    alignItems: "center",
+  },
 
-logoutButtonText: {
-  fontSize: 16,
-  fontWeight: "bold",
-}
-
+  logoutButtonText: {
+    fontSize: 16,
+    fontWeight: "bold",
+  },
 });
-
 
 // import React from "react";
 // import { View, StyleSheet } from "react-native";
