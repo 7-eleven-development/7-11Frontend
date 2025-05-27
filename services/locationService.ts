@@ -50,7 +50,6 @@ export const getLocationNameOSM = async (
       {
         headers: {
           "User-Agent": "ChasChallenge/1.0 (chas-challenge-app)",
-          Referer: window.location.origin,
           Accept: "application/json",
         },
       }
