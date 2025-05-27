@@ -5,6 +5,7 @@ import { getPulseStatus } from "@/utils/pulseUtils";
 import { getSoundLevelStatus } from "@/utils/soundLevelUtils";
 import { homeService } from "@/services/homeService";
 import { useAuthContext } from "@/context/auth/useAuthContext";
+import { getLocationNameOSM } from "@/services/locationService";
 
 type Props = {
   children: ReactNode;
@@ -64,6 +65,13 @@ const HomeProvider = ({ children }: Props) => {
         latitude: parseFloat(data.latest_latitude),
         longitude: parseFloat(data.latest_longitude),
       };
+      console.log(latestPosition.latitude, latestPosition.longitude);
+
+      const locationName = await getLocationNameOSM(
+        latestPosition.latitude,
+        latestPosition.longitude
+      );
+      console.log("Location Name:", locationName);
 
       const { icon: pulseIcon, label: pulseLabel } =
         getPulseStatus(latestPulse);
@@ -72,7 +80,7 @@ const HomeProvider = ({ children }: Props) => {
 
       setHomeData({
         location: {
-          name: "Stockholm",
+          name: locationName || "Okänd plats",
           lat: latestPosition.latitude,
           lon: latestPosition.longitude,
         },
