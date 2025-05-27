@@ -45,6 +45,12 @@
         "projectId": "55405e4a-1f0d-4cec-95dd-d7bd1a651529"
       }
     },
-    "owner": "meh_test"
+    "owner": "meh_test",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/55405e4a-1f0d-4cec-95dd-d7bd1a651529"
+    }
   }
 }

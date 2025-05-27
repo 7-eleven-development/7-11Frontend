@@ -7,6 +7,7 @@ import { Colors } from "@/theme/Colors";
 import { useRouter } from "expo-router";
 import { useAuthContext } from "@/context/auth/useAuthContext";
 import { useColorScheme } from "@/hooks/useColorScheme";
+import UpdateButton from "@/components/UpdateButton";
 
 const User = () => {
   const { theme, toggleTheme, actualTheme, user } = useUserContext();
@@ -22,13 +23,20 @@ const User = () => {
     router.push("/(tabs)");
   };
 
-  const colorSheme = useColorScheme();
+  const colorScheme = useColorScheme();
   const backgroundColor =
-    colorSheme === "dark"
+    colorScheme === "dark"
       ? Colors.dark.background
       : Colors.light.tabBarBackground;
   const textColor =
-    colorSheme === "dark" ? Colors.dark.textColorLight : Colors.light.text;
+    colorScheme === "dark" ? Colors.dark.textColorLight : Colors.light.text;
+
+  const headerBackgroundColor =
+    colorScheme === "dark"
+      ? Colors.dark.tabBarBackground
+      : Colors.light.background;
+  const iconColor =
+    colorScheme === "dark" ? Colors.dark.tint : Colors.light.tint;
 
   const getThemeIcon = () => {
     if (theme === "system") return "phone-portrait";
@@ -41,58 +49,69 @@ const User = () => {
   };
 
   return (
-    <ThemedView style={[styles.container, { backgroundColor }]}>
-      <Pressable onPress={toggleTheme} style={styles.header}>
-        <Ionicons name={getThemeIcon()} size={24} color={getThemeIconColor()} />
-      </Pressable>
-
-      <Pressable onPress={goBackToIndex} style={styles.backButton}>
-        <Ionicons name="arrow-back" size={24} color={textColor} />
-      </Pressable>
-
-      {user && (
-        <>
-          <ThemedText style={[styles.info, { color: textColor }]}>
-            Användare inloggad
-          </ThemedText>
-
-          <ThemedText style={[styles.info, { color: textColor }]}>
-            👤Namn: {user.firstname} {user.surname}
-          </ThemedText>
-
-          <ThemedText style={[styles.info, { color: textColor }]}>
-            📧 E-post: {user.email}
-          </ThemedText>
-
-          <ThemedText style={[styles.info, { color: textColor }]}>
-            📞Telefon: {user.phonenumber}
-          </ThemedText>
-
-          <ThemedText style={[styles.info, { color: textColor }]}>
-            🏢Företag: {user.company_name}
-          </ThemedText>
-
-          <ThemedText style={[styles.info, { color: textColor }]}>
-            🎨Tema:{" "}
-            {theme === "system"
-              ? "System"
-              : theme === "light"
-                ? "Ljust"
-                : "Mörkt"}
-          </ThemedText>
-        </>
-      )}
-
-      <TouchableOpacity
-        onPress={handleLogout}
-        style={[
-          styles.logoutButton,
-          { backgroundColor: Colors[actualTheme].tint },
-        ]}
+    <>
+      <ThemedView
+        style={styles.headerContainer}
+        lightColor={headerBackgroundColor}
+        darkColor={headerBackgroundColor}
       >
-        <ThemedText style={styles.logoutButtonText}> Logga ut </ThemedText>
-      </TouchableOpacity>
-    </ThemedView>
+        <Pressable onPress={goBackToIndex}>
+          <Ionicons name="arrow-back" size={24} color={iconColor} />
+        </Pressable>
+        <Pressable onPress={toggleTheme}>
+          <Ionicons
+            name={getThemeIcon()}
+            size={24}
+            color={getThemeIconColor()}
+          />
+        </Pressable>
+      </ThemedView>
+      <ThemedView style={[styles.container, { backgroundColor }]}>
+        {user && (
+          <>
+            <ThemedText style={[styles.info, { color: textColor }]}>
+              Användare inloggad
+            </ThemedText>
+
+            <ThemedText style={[styles.info, { color: textColor }]}>
+              👤Namn: {user.firstname} {user.surname}
+            </ThemedText>
+
+            <ThemedText style={[styles.info, { color: textColor }]}>
+              📧 E-post: {user.email}
+            </ThemedText>
+
+            <ThemedText style={[styles.info, { color: textColor }]}>
+              📞Telefon: {user.phonenumber}
+            </ThemedText>
+
+            <ThemedText style={[styles.info, { color: textColor }]}>
+              🏢Företag: {user.company_name}
+            </ThemedText>
+
+            <ThemedText style={[styles.info, { color: textColor }]}>
+              🎨Tema:{" "}
+              {theme === "system"
+                ? "System"
+                : theme === "light"
+                  ? "Ljust"
+                  : "Mörkt"}
+            </ThemedText>
+            <UpdateButton />
+          </>
+        )}
+
+        <TouchableOpacity
+          onPress={handleLogout}
+          style={[
+            styles.logoutButton,
+            { backgroundColor: Colors[actualTheme].tint },
+          ]}
+        >
+          <ThemedText style={styles.logoutButtonText}> Logga ut </ThemedText>
+        </TouchableOpacity>
+      </ThemedView>
+    </>
   );
 };
 
@@ -104,22 +123,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  header: {
-    position: "absolute",
-    top: 40,
-    right: 20,
-  },
+
   info: {
     fontSize: 18,
     marginBottom: 10,
     lineHeight: 24,
     textAlign: "center",
-  },
-  backButton: {
-    position: "absolute",
-    top: 40,
-    left: 20,
-    padding: 10,
   },
 
   logoutButton: {
@@ -133,5 +142,11 @@ const styles = StyleSheet.create({
   logoutButtonText: {
     fontSize: 16,
     fontWeight: "bold",
+  },
+  headerContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: 16,
   },
 });
