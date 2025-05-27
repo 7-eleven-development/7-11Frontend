@@ -3,54 +3,79 @@
 This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
 
 ## Project description and features
-  This project is an Sensor app that helps you track real-time sensor data related to health and environmental conditions.
 
+This project is an Sensor app that helps you track real-time sensor data related to health and environmental conditions.
 
 ## ✨ Features
-`
-Air Quality
-`
-`
-Pulse
-`
-`
-Location
-`
-`
-Sound Level
-`
 
+- **📊 Real-time Data Monitoring**
 
-Users can also
-- Toggle between **light and dark theme**
-- View user profile (name, email, phone, company)
-- Log In & Log Out
+  - Air Quality tracking
+  - Pulse monitoring
+  - GPS Location tracking
+  - Sound Level measurement
 
+- **🎨 User Experience**
+  - Light/Dark theme toggle
+  - User profile management
+  - Secure authentication
 
-## 🛠️ Technologies Used
-``` 
-React Native 
-```
-```
-Expo
+## 🛠️ Tech Stack
+
+- **Frontend:** React Native, Expo
+- **State Management:** Context API
+- **Navigation:** Expo Router
+- **Maps:** OpenStreetMap (no API key required)
+- **Build & Deploy:** EAS (Expo Application Services)
+
+## 📱 Download & Install
+
+### Android APK
+
+**Direct Download:** [Latest Build](https://expo.dev/accounts/meh_test/projects/7-11frontend/builds/b9a718b7-c0c4-4176-9dc5-6e7e11c75925)
+
+**QR Code:**
+
+<img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://expo.dev/accounts/meh_test/projects/7-11frontend/builds/b9a718b7-c0c4-4176-9dc5-6e7e11c75925" alt="Download QR Code" width="200" height="200">
+
+_Scan with your phone's camera to download_
+
+## 🔄 Updates
+
+This app supports **over-the-air updates**:
+
+- ✅ Automatic update checking on app start
+- 🔄 Manual update button in user profile
+
+## 🚀 Development Setup
+
+### Prerequisites
+
+- Node.js 18+
+- Expo CLI
+- Android Studio (for Android development)
+- Xcode (for iOS development)
+
+### Quick Start
+
+```bash
+# Install dependencies
+npm install
+
+# Start development server
+npx expo start
+
+# Choose your platform:
+# Press 'a' for Android
+# Press 'i' for iOS
+# Press 'w' for web
 ```
 
-```
-Context API
-```
-```
-Custom themed components
-```
-```
-React Navigation (Expo Router)
- ```
+## 📂 Project Strucutre
 
-
- ## 📂 Project Strucutre
- ```
+```
 7-11 Frontend
 |- app/                   # Main app logic and navigation
-|- assets/                # Images, icons, and other assets
 |- components/            # Reusable components
 |- context/               # Manages global state
 |- hooks/                 # Custom hooks for data fetching, charts, etc.
@@ -58,40 +83,26 @@ React Navigation (Expo Router)
 |- theme/                 # Colors, light/dark mode
 |- types/                 # TypeScript interfaces and types
 |- utils/                 # Helper functions (e.g data processing)
-
-|- .gitignore/            # Files/folders ignored by Git
-|- .app.json/             # Expo project configuration
-|- .eas.json/             # EAS (Expo Application Services) build config
-|- .tsconfig.json/        # TypeScript compiler options
-|- .gitignore/            # Files/folders ignored by Git
-|- .package.json/         # Project metadata and depencies
-
 ```
 
-## 🚀 Get started
+## 👥 Contributors
 
-1. Install dependencies
-
-   ```bash
-   npm install
-   ```
-
-2. Start the app
-
-   ```bash
-    npx expo start
-   ```
-
-## 📱 Open the App
-After starting the project with 'npx expo start', you'll have several options to open the app:
-- [Expo Go](https://expo.dev/go) – a lightweight way to preview the app
-- [Android Emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS Simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Development Build](https://docs.expo.dev/develop/development-builds/introduction/) – for full native feature testing
-
-
-## 🧠 Start Coding
-
-You can begin developing inside the `app/` folder.
-This project uses [file-based routing](https://docs.expo.dev/router/introduction) via **Expo Router**.
-
+<table>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/AlexanderRaunert">
+        <img src="https://github.com/AlexanderRaunert.png" width="100px;" alt="Alexander Raunert"/>
+        <br />
+        <sub><b>Alexander Raunert</b></sub>
+      </a>
+    </td>
+    <!-- Add more contributors here -->
+    <td align="center">
+      <a href="https://github.com/Teo-02">
+        <img src="https://github.com/Teo-02.png" width="100px;" alt="Teodora Kricka"/>
+        <br />
+        <sub><b>Teodora Kricka</b></sub>
+      </a>
+    </td>
+  </tr>
+</table>
