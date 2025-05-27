@@ -19,14 +19,20 @@ const HoverDisplay: React.FC<HoverDisplayProps> = ({
   const colorScheme = useColorScheme();
   const textColor =
     colorScheme === "dark" ? Colors.dark.textColorLight : Colors.light.text;
+
+  const themedContainer =
+    colorScheme === "dark"
+      ? styles.hoverValueContainerDark
+      : styles.hoverValueContainerLight;
+
   if (hoveredValue === null)
-    return <View style={styles.hoveredValueContainer}></View>;
+    return <View style={themedContainer}></View>;
 
   const isDangerous =
     dangerThreshold !== undefined && hoveredValue >= dangerThreshold;
 
   return (
-    <View style={styles.hoveredValueContainer}>
+    <View style={themedContainer}>
       <ThemedText
         lightColor={textColor}
         darkColor={textColor}
@@ -46,7 +52,7 @@ const HoverDisplay: React.FC<HoverDisplayProps> = ({
 };
 
 export const styles = StyleSheet.create({
-  hoveredValueContainer: {
+  hoverValueContainerDark: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
@@ -54,6 +60,18 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 8,
     backgroundColor: Colors.dark.tabBarBackground,
+    borderRadius: 8,
+    minHeight: 36,
+    minWidth: 120,
+  },
+  hoverValueContainerLight: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    marginVertical: 10,
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    backgroundColor: Colors.light.tabBarBackground,
     borderRadius: 8,
     minHeight: 36,
     minWidth: 120,

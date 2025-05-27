@@ -17,6 +17,8 @@ import { useAuthContext } from "@/context/auth/useAuthContext";
 import AirQualityProvider from "@/context/airQuality/AirQualityProvider";
 import UserProvider from "@/context/user/UserProvider";
 import LocationProvider from "@/context/location/LocationProvider";
+import { useEffect } from "react";
+import * as Updates from "expo-updates";
 
 const AppContent = () => {
   const { isAuthenticated } = useAuthContext();
@@ -25,6 +27,34 @@ const AppContent = () => {
     colorScheme === "dark"
       ? Colors.dark.tabBarBackground
       : Colors.light.tabBarBackground;
+
+  useEffect(() => {
+    async function checkForUpdates() {
+      try {
+        // Only check for updates in production builds
+        if (!__DEV__) {
+          console.log("Checking for updates...");
+          const update = await Updates.checkForUpdateAsync();
+
+          if (update.isAvailable) {
+            console.log("Update available, fetching...");
+            await Updates.fetchUpdateAsync();
+            console.log("Update fetched, reloading...");
+            await Updates.reloadAsync();
+          } else {
+            console.log("No updates available");
+          }
+        } else {
+          console.log("Development mode - skipping update check");
+        }
+      } catch (error) {
+        console.error("Error checking for updates:", error);
+      }
+    }
+
+    // Check for updates when app starts
+    checkForUpdates();
+  }, []);
 
   return (
     <ThemedView style={styles.container}>
