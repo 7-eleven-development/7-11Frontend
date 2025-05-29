@@ -32,11 +32,11 @@ This project is an Sensor app that helps you track real-time sensor data related
 
 ### Android APK
 
-**Direct Download:** [Latest Build](https://expo.dev/accounts/meh_test/projects/7-11frontend/builds/b9a718b7-c0c4-4176-9dc5-6e7e11c75925)
+**Direct Download:** [Latest Build](https://expo.dev/accounts/meh_test/projects/7-11frontend/builds/06999122-931f-4c61-aaae-e62fcd74bb21)
 
 **QR Code:**
 
-<img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://expo.dev/accounts/meh_test/projects/7-11frontend/builds/b9a718b7-c0c4-4176-9dc5-6e7e11c75925" alt="Download QR Code" width="200" height="200">
+<img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://expo.dev/accounts/meh_test/projects/7-11frontend/builds/06999122-931f-4c61-aaae-e62fcd74bb21" alt="Download QR Code" width="200" height="200">
 
 _Scan with your phone's camera to download_
 
