@@ -55,7 +55,7 @@ export const TAB_CONFIG: TabConfigItem[] = [
       }),
   },
   {
-    name: "pulse",
+    name: "Pulse",
     title: "Puls",
     icon: ({ color, focused }) =>
       createElement(AntDesign, {

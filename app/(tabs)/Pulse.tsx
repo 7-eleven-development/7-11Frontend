@@ -7,63 +7,66 @@ import ErrorMessage from "@/components/ErrorMessage";
 import useRefresh from "@/hooks/useRefresh";
 import usePulseContext from "@/context/Pulse/usePulseContext";
 import SensorIndicator from "@/components/SensosrIndicator";
-import { getCardStatus } from "@/utils/cardUtils";
 import ThemedLineChart from "@/components/Charts/ThemedLineChart";
+import { PULSE_CONFIG } from "@/utils/config/sensorConfigs";
+import { getPulseIndicatorStatus } from "@/utils/pulseUtils";
 
 const Pulse = () => {
   const { pulseData, isLoading, error, weeklyData, monthlyData, refreshData } =
     usePulseContext();
   const { colorScheme, text } = useColorScheme();
-
-  const { icon, value, label } = pulseData;
-
   const { refreshing, handleRefresh } = useRefresh(refreshData);
-  const status = getCardStatus("pulse", { pulse: pulseData.value });
+
+  const status = getPulseIndicatorStatus(pulseData.value);
+
+  if (isLoading && !refreshing) {
+    return (
+      <RefreshView refreshing={refreshing} onRefresh={handleRefresh}>
+        <ThemedView style={styles.container}>
+          <LoadingSpinner color={text} />
+        </ThemedView>
+      </RefreshView>
+    );
+  }
+
+  if (error) {
+    return (
+      <RefreshView refreshing={refreshing} onRefresh={handleRefresh}>
+        <ThemedView style={styles.container}>
+          <ErrorMessage colorScheme={colorScheme} />
+        </ThemedView>
+      </RefreshView>
+    );
+  }
+
   return (
     <RefreshView refreshing={refreshing} onRefresh={handleRefresh}>
       <ThemedView style={styles.container}>
-        {isLoading && !refreshing ? (
-          <LoadingSpinner color={text} />
-        ) : error ? (
-          <ErrorMessage colorScheme={colorScheme} />
-        ) : (
-          <>
-            <SensorIndicator
-              icon={icon}
-              value={value}
-              label={label}
-              type="puls"
-              valueLabel="BPM"
-              status={status}
-            />
-            <ThemedLineChart
-              weeklyData={weeklyData}
-              monthlyData={monthlyData}
-              title="Puls"
-              unit="BPM"
-              colorScheme={colorScheme}
-              valueKey="pulse"
-              dangerThreshold={100}
-              maxValue={200}
-            />
-          </>
-        )}
+        <SensorIndicator
+          icon={pulseData.icon}
+          value={pulseData.value}
+          label={pulseData.label}
+          type={PULSE_CONFIG.type}
+          valueLabel={PULSE_CONFIG.unit}
+          status={status}
+        />
+        <ThemedLineChart
+          weeklyData={weeklyData}
+          monthlyData={monthlyData}
+          title={PULSE_CONFIG.title}
+          unit={PULSE_CONFIG.unit}
+          colorScheme={colorScheme}
+          valueKey="pulse"
+          dangerThreshold={PULSE_CONFIG.dangerThreshold}
+          maxValue={PULSE_CONFIG.maxValue}
+        />
       </ThemedView>
     </RefreshView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-    paddingTop: 40,
-    alignItems: "center",
-  },
-  icon: {
-    marginBottom: 16,
-    marginTop: 16,
-  },
+  container: { flex: 1, padding: 20, paddingTop: 40, alignItems: "center" },
 });
 
 export default Pulse;

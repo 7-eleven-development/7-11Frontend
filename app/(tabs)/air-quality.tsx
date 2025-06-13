@@ -1,17 +1,15 @@
-import { ScrollView, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
+import { useState } from "react";
 import { useColorScheme } from "@/hooks/useColorScheme";
+import useAirQualityContext from "@/context/airQuality/useAirQuality";
+import { AIR_QUALITY_SENSORS } from "@/utils/config/sensorConfigs";
+import useRefresh from "@/hooks/useRefresh";
 import ThemedView from "@/components/ThemedView";
 import RefreshView from "@/components/RefreshView";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import ErrorMessage from "@/components/ErrorMessage";
-import useRefresh from "@/hooks/useRefresh";
-import { useContext, useState } from "react";
-import { AirQualityContext } from "@/context/airQuality/AirQualityContext";
-import SensorIndicator from "@/components/SensosrIndicator";
-import { getCardStatus } from "@/utils/cardUtils";
 import ThemedLineChart from "@/components/Charts/ThemedLineChart";
-
-type SensorType = "co2" | "propane" | "smoke";
+import AirQualitySensorList from "@/components/AirQualitySensorList";
 
 const AirQuality = () => {
   const {
@@ -28,144 +26,88 @@ const AirQuality = () => {
     propaneMonthlyData,
     smokeWeeklyData,
     smokeMonthlyData,
-  } = useContext(AirQualityContext);
-
-  const [selectedSensor, setSelectedSensor] = useState<SensorType>("co2");
-
-  const { colorScheme, text } = useColorScheme();
-  const {
-    co2: currentCO2,
-    propane: currentPropane,
-    smoke: currentSmoke,
-  } = currentValues;
-
+  } = useAirQualityContext();
+  const [selectedSensor, setSelectedSensor] = useState<
+    "co2" | "propane" | "smoke"
+  >("co2");
   const { refreshing, handleRefresh } = useRefresh(refreshData);
-  const Co2statusColor = getCardStatus("airQuality", {
-    co2: currentCO2,
-  });
-  const SmokeStatusColor = getCardStatus("airQuality", {
-    smoke: currentSmoke,
-  });
-  const PropanestatusColor = getCardStatus("airQuality", {
-    propane: currentPropane,
-  });
+  const { colorScheme, text } = useColorScheme();
 
-  // Get chart data based on selected sensor
-  const getChartData = () => {
-    switch (selectedSensor) {
-      case "co2":
-        return {
-          weeklyData: co2WeeklyData,
-          monthlyData: co2MonthlyData,
-          title: "CO2 Nivåer",
-          unit: "ppm",
-          valueKey: "co2",
-          dangerThreshold: 1000,
-          maxValue: 2000,
-        };
-      case "propane":
-        return {
-          weeklyData: propaneWeeklyData,
-          monthlyData: propaneMonthlyData,
-          title: "Propan Nivåer",
-          unit: "ppm",
-          valueKey: "propane",
-          dangerThreshold: 500,
-          maxValue: 1000,
-        };
-      case "smoke":
-        return {
-          weeklyData: smokeWeeklyData,
-          monthlyData: smokeMonthlyData,
-          title: "Rök Nivåer",
-          unit: "ppm",
-          valueKey: "smoke",
-          dangerThreshold: 150,
-          maxValue: 300,
-        };
-      default:
-        return {
-          weeklyData: co2WeeklyData,
-          monthlyData: co2MonthlyData,
-          title: "CO2 Nivåer",
-          unit: "ppm",
-          valueKey: "co2",
-          dangerThreshold: 1000,
-          maxValue: 2000,
-        };
-    }
-  };
+  const sensors = [
+    {
+      key: "co2" as const,
+      value: currentValues.co2,
+      status: CO2Status,
+      weeklyData: co2WeeklyData,
+      monthlyData: co2MonthlyData,
+    },
+    {
+      key: "propane" as const,
+      value: currentValues.propane,
+      status: PropaneStatus,
+      weeklyData: propaneWeeklyData,
+      monthlyData: propaneMonthlyData,
+    },
+    {
+      key: "smoke" as const,
+      value: currentValues.smoke,
+      status: SmokeStatus,
+      weeklyData: smokeWeeklyData,
+      monthlyData: smokeMonthlyData,
+    },
+  ];
 
-  const chartData = getChartData();
+  const selected = sensors.find((s) => s.key === selectedSensor)!;
+  const config = AIR_QUALITY_SENSORS[selectedSensor];
+
+  if (isLoading && !refreshing) {
+    return (
+      <RefreshView refreshing={refreshing} onRefresh={handleRefresh}>
+        <ThemedView style={styles.container}>
+          <LoadingSpinner color={text} />
+        </ThemedView>
+      </RefreshView>
+    );
+  }
+
+  if (error) {
+    return (
+      <RefreshView refreshing={refreshing} onRefresh={handleRefresh}>
+        <ThemedView style={styles.container}>
+          <ErrorMessage colorScheme={colorScheme} />
+        </ThemedView>
+      </RefreshView>
+    );
+  }
 
   return (
     <RefreshView refreshing={refreshing} onRefresh={handleRefresh}>
       <ThemedView style={styles.container}>
-        {isLoading && !refreshing ? (
-          <LoadingSpinner color={text} />
-        ) : error ? (
-          <ErrorMessage colorScheme={colorScheme} />
-        ) : (
-          <>
-            <ScrollView
-              horizontal
-              style={styles.sensorsScrollView}
-              contentContainerStyle={styles.sensorsScrollContent}
-              showsHorizontalScrollIndicator={false}
-            >
-              <SensorIndicator
-                icon={CO2Status.icon}
-                value={currentCO2}
-                label={CO2Status.label}
-                type="CO2"
-                valueLabel="ppm"
-                status={Co2statusColor}
-                size="sm"
-                isSelected={selectedSensor === "co2"}
-                onPress={() => setSelectedSensor("co2")}
-              />
-              <SensorIndicator
-                icon={PropaneStatus.icon}
-                value={currentPropane}
-                label={PropaneStatus.label}
-                type="propan"
-                valueLabel="ppm"
-                status={PropanestatusColor}
-                size="sm"
-                isSelected={selectedSensor === "propane"}
-                onPress={() => setSelectedSensor("propane")}
-              />
-              <SensorIndicator
-                icon={SmokeStatus.icon}
-                value={currentSmoke}
-                label={SmokeStatus.label}
-                type="rök"
-                valueLabel="ppm"
-                status={SmokeStatusColor}
-                size="sm"
-                isSelected={selectedSensor === "smoke"}
-                onPress={() => setSelectedSensor("smoke")}
-              />
-            </ScrollView>
-            <ThemedLineChart
-              key={selectedSensor}
-              weeklyData={chartData.weeklyData}
-              monthlyData={chartData.monthlyData}
-              title={chartData.title}
-              unit={chartData.unit}
-              colorScheme={colorScheme}
-              valueKey={chartData.valueKey}
-              dangerThreshold={chartData.dangerThreshold}
-              maxValue={chartData.maxValue}
-            />
-          </>
-        )}
+        <AirQualitySensorList
+          sensors={sensors}
+          selectedSensor={selectedSensor}
+          onSensorSelect={(sensor) =>
+            setSelectedSensor(sensor as "co2" | "propane" | "smoke")
+          }
+          style={styles.sensorsScrollView}
+          contentStyle={styles.sensorsScrollContent}
+        />
+        <ThemedLineChart
+          key={selectedSensor}
+          weeklyData={selected.weeklyData}
+          monthlyData={selected.monthlyData}
+          title={config.title}
+          unit={config.unit}
+          colorScheme={colorScheme}
+          valueKey={config.key}
+          dangerThreshold={config.dangerThreshold}
+          maxValue={config.maxValue}
+        />
       </ThemedView>
     </RefreshView>
   );
 };
 
-// ...existing styles...
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -181,4 +123,5 @@ const styles = StyleSheet.create({
     gap: 20,
   },
 });
+
 export default AirQuality;
