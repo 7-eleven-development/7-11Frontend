@@ -2,7 +2,6 @@ import ThemedView from "./ThemedView";
 import ThemedText from "./ThemedText";
 import { View, Pressable, StyleSheet } from "react-native";
 import { useColorScheme } from "@/hooks/useColorScheme";
-import { Colors } from "@/theme/Colors";
 import { AntDesign } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 
