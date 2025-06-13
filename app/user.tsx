@@ -1,4 +1,4 @@
-import { StyleSheet, Pressable, Button, TouchableOpacity } from "react-native";
+import { StyleSheet, Pressable } from "react-native";
 import ThemedView from "@/components/ThemedView";
 import ThemedText from "@/components/ThemedText";
 import useUserContext from "@/context/user/useUserContext";
@@ -23,20 +23,16 @@ const User = () => {
     router.push("/(tabs)");
   };
 
-  const colorScheme = useColorScheme();
+  const { colorScheme, text, tint } = useColorScheme();
   const backgroundColor =
     colorScheme === "dark"
       ? Colors.dark.background
       : Colors.light.tabBarBackground;
-  const textColor =
-    colorScheme === "dark" ? Colors.dark.textColorLight : Colors.light.text;
 
   const headerBackgroundColor =
     colorScheme === "dark"
       ? Colors.dark.tabBarBackground
       : Colors.light.background;
-  const iconColor =
-    colorScheme === "dark" ? Colors.dark.tint : Colors.light.tint;
 
   const getThemeIcon = () => {
     if (theme === "system") return "phone-portrait";
@@ -44,8 +40,8 @@ const User = () => {
   };
 
   const getThemeIconColor = () => {
-    if (theme === "system") return textColor;
-    return actualTheme === "dark" ? "yellow" : textColor;
+    if (theme === "system") return text;
+    return actualTheme === "dark" ? "yellow" : text;
   };
 
   return (
@@ -56,7 +52,7 @@ const User = () => {
         darkColor={headerBackgroundColor}
       >
         <Pressable onPress={goBackToIndex}>
-          <Ionicons name="arrow-back" size={24} color={iconColor} />
+          <Ionicons name="arrow-back" size={24} color={tint} />
         </Pressable>
         <Pressable onPress={toggleTheme}>
           <Ionicons
@@ -69,27 +65,27 @@ const User = () => {
       <ThemedView style={[styles.container, { backgroundColor }]}>
         {user && (
           <>
-            <ThemedText style={[styles.info, { color: textColor }]}>
+            <ThemedText style={[styles.info, { color: text }]}>
               Användare inloggad
             </ThemedText>
 
-            <ThemedText style={[styles.info, { color: textColor }]}>
+            <ThemedText style={[styles.info, { color: text }]}>
               👤Namn: {user.firstname} {user.surname}
             </ThemedText>
 
-            <ThemedText style={[styles.info, { color: textColor }]}>
+            <ThemedText style={[styles.info, { color: text }]}>
               📧 E-post: {user.email}
             </ThemedText>
 
-            <ThemedText style={[styles.info, { color: textColor }]}>
+            <ThemedText style={[styles.info, { color: text }]}>
               📞Telefon: {user.phonenumber}
             </ThemedText>
 
-            <ThemedText style={[styles.info, { color: textColor }]}>
+            <ThemedText style={[styles.info, { color: text }]}>
               🏢Företag: {user.company_name}
             </ThemedText>
 
-            <ThemedText style={[styles.info, { color: textColor }]}>
+            <ThemedText style={[styles.info, { color: text }]}>
               🎨Tema:{" "}
               {theme === "system"
                 ? "System"
@@ -101,7 +97,7 @@ const User = () => {
           </>
         )}
 
-        <TouchableOpacity
+        <Pressable
           onPress={handleLogout}
           style={[
             styles.logoutButton,
@@ -109,13 +105,14 @@ const User = () => {
           ]}
         >
           <ThemedText style={styles.logoutButtonText}> Logga ut </ThemedText>
-        </TouchableOpacity>
+        </Pressable>
       </ThemedView>
     </>
   );
 };
 
 export default User;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,

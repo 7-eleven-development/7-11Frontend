@@ -1,5 +1,4 @@
 import { RefreshControl, ScrollView, ScrollViewProps } from "react-native";
-import { useRef } from "react";
 
 interface RefreshViewProps extends ScrollViewProps {
   refreshing: boolean;
@@ -18,14 +17,7 @@ const RefreshView = ({
     <ScrollView
       contentContainerStyle={{ flexGrow: 1 }}
       refreshControl={
-        <RefreshControl
-          refreshing={refreshing}
-          onRefresh={onRefresh}
-          // colors={["transparent"]}
-          // tintColor="transparent"
-          // style={{ backgroundColor: "transparent" }}
-          // progressBackgroundColor="transparent"
-        />
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }
       {...props}
     >

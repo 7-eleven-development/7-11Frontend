@@ -1,6 +1,5 @@
 import { StyleSheet } from "react-native";
 import { useColorScheme } from "@/hooks/useColorScheme";
-import { Colors } from "@/theme/Colors";
 import ThemedView from "@/components/ThemedView";
 import RefreshView from "@/components/RefreshView";
 import LoadingSpinner from "@/components/LoadingSpinner";
@@ -14,11 +13,9 @@ import ThemedLineChart from "@/components/Charts/ThemedLineChart";
 const Pulse = () => {
   const { pulseData, isLoading, error, weeklyData, monthlyData, refreshData } =
     usePulseContext();
-  const colorScheme = useColorScheme();
+  const { colorScheme, text } = useColorScheme();
 
   const { icon, value, label } = pulseData;
-  const textColor =
-    colorScheme === "dark" ? Colors.dark.textColorLight : Colors.light.text;
 
   const { refreshing, handleRefresh } = useRefresh(refreshData);
   const status = getCardStatus("pulse", { pulse: pulseData.value });
@@ -26,7 +23,7 @@ const Pulse = () => {
     <RefreshView refreshing={refreshing} onRefresh={handleRefresh}>
       <ThemedView style={styles.container}>
         {isLoading && !refreshing ? (
-          <LoadingSpinner color={textColor} />
+          <LoadingSpinner color={text} />
         ) : error ? (
           <ErrorMessage colorScheme={colorScheme} />
         ) : (

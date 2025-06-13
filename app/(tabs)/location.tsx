@@ -1,4 +1,4 @@
-import { StyleSheet, View, TouchableOpacity } from "react-native";
+import { StyleSheet, View, Pressable } from "react-native";
 import ThemedView from "@/components/ThemedView";
 import useLocationContext from "@/context/location/useLocationContext";
 import { Ionicons } from "@expo/vector-icons";
@@ -11,24 +11,13 @@ import OpenStreetMapView from "@/components/OpenStreetMapView";
 const Location = () => {
   const { locationData, isLoading, error, refreshLocation } =
     useLocationContext();
-  const colorScheme = useColorScheme();
-
-  const textColor =
-    colorScheme === "dark" ? Colors.dark.textColorLight : Colors.light.text;
-  const refreshButtonColor =
-    colorScheme === "dark" ? Colors.dark.tint : Colors.light.tint;
-  const refreshButtonBackgroundColor =
-    colorScheme === "dark" ? Colors.dark.background : Colors.light.background;
+  const { text, tint, background } = useColorScheme();
 
   if (isLoading) {
     return (
       <ThemedView style={styles.centerContainer}>
-        <LoadingSpinner color={textColor} />
-        <ThemedText
-          type="subtitle"
-          lightColor={textColor}
-          darkColor={textColor}
-        >
+        <LoadingSpinner color={text} />
+        <ThemedText type="subtitle" lightColor={text} darkColor={text}>
           Hämtar platsdata...
         </ThemedText>
       </ThemedView>
@@ -38,12 +27,12 @@ const Location = () => {
   if (error) {
     return (
       <ThemedView style={styles.centerContainer}>
-        <ThemedText lightColor={textColor} darkColor={textColor}>
+        <ThemedText lightColor={text} darkColor={text}>
           Fel: {error}
         </ThemedText>
-        <TouchableOpacity style={styles.retryButton} onPress={refreshLocation}>
+        <Pressable style={styles.retryButton} onPress={refreshLocation}>
           <ThemedText style={styles.retryText}>Försök igen</ThemedText>
-        </TouchableOpacity>
+        </Pressable>
       </ThemedView>
     );
   }
@@ -51,12 +40,12 @@ const Location = () => {
   if (!locationData) {
     return (
       <ThemedView style={styles.centerContainer}>
-        <ThemedText lightColor={textColor} darkColor={textColor}>
+        <ThemedText lightColor={text} darkColor={text}>
           Ingen platsdata tillgänglig
         </ThemedText>
-        <TouchableOpacity style={styles.retryButton} onPress={refreshLocation}>
+        <Pressable style={styles.retryButton} onPress={refreshLocation}>
           <ThemedText style={styles.retryText}>Försök igen</ThemedText>
-        </TouchableOpacity>
+        </Pressable>
       </ThemedView>
     );
   }
@@ -70,21 +59,17 @@ const Location = () => {
           onRefresh={refreshLocation}
         />
 
-        {/* Refresh Button Overlay */}
-        <TouchableOpacity
-          style={[
-            styles.refreshButton,
-            { backgroundColor: refreshButtonBackgroundColor },
-          ]}
+        <Pressable
+          style={[styles.refreshButton, { backgroundColor: background }]}
           onPress={refreshLocation}
           disabled={isLoading}
         >
           <Ionicons
             name="refresh"
             size={24}
-            color={isLoading ? "#ccc" : refreshButtonColor}
+            color={isLoading ? "#ccc" : tint}
           />
-        </TouchableOpacity>
+        </Pressable>
       </View>
     </ThemedView>
   );

@@ -48,15 +48,15 @@ type Props = {
 const Card = ({ cardData }: Props) => {
   const { type, data, status } = cardData;
   const router = useRouter();
-  const colorScheme = useColorScheme();
+  const { colorScheme } = useColorScheme();
 
   const backgroundColor = getBackgroundColor(status, colorScheme);
   const statusText = getStatusText(type, data);
-  
+
   // Fix: Convert status to icon name first
   const iconName = getIconNameFromStatus(status);
   const statusIcon = getStatusIcon(iconName);
-  
+
   const Title = getTitle(type);
   const icon = getTitleIcon(type);
   const handleRoutePress = () => {

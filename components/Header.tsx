@@ -12,35 +12,27 @@ type HeaderProps = {
 };
 
 const Header = ({ locationName, temperature }: HeaderProps) => {
-  const colorScheme = useColorScheme();
+  const { text, tabBarBackground, icon } = useColorScheme();
   const router = useRouter();
-  const textColor =
-    colorScheme === "dark" ? Colors.dark.textColorLight : Colors.light.text;
-  const backgroundColor =
-    colorScheme === "dark"
-      ? Colors.dark.tabBarBackground
-      : Colors.light.tabBarBackground;
-  const iconColor =
-    colorScheme === "dark" ? Colors.dark.tint : Colors.light.tint;
 
   return (
     <ThemedView
       style={styles.container}
-      lightColor={backgroundColor}
-      darkColor={backgroundColor}
+      lightColor={tabBarBackground}
+      darkColor={tabBarBackground}
     >
       <View style={{ flexDirection: "row", alignItems: "center", gap: 16 }}>
         <Pressable onPress={() => router.push("/location")}>
-          <ThemedText type="title" lightColor={textColor} darkColor={textColor}>
+          <ThemedText type="title" lightColor={text} darkColor={text}>
             {locationName}
           </ThemedText>
         </Pressable>
-        <ThemedText lightColor={textColor} darkColor={textColor}>
+        <ThemedText lightColor={text} darkColor={text}>
           {temperature}°C
         </ThemedText>
       </View>
       <Pressable onPress={() => router.push("/user")}>
-        <AntDesign name="user" size={24} color={iconColor} />
+        <AntDesign name="user" size={24} color={icon} />
       </Pressable>
     </ThemedView>
   );

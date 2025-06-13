@@ -1,7 +1,7 @@
-import { useEffect, useState, useMemo } from "react";
+import { useMemo } from "react";
 import { View, StyleSheet } from "react-native";
 import { LineChart, yAxisSides } from "react-native-gifted-charts";
-import { ColorSchemeName, Colors } from "@/theme/Colors";
+import { ColorSchemeName } from "@/theme/Colors";
 import ThemedView from "@/components/ThemedView";
 import ThemedText from "@/components/ThemedText";
 import TimeRangeToggle from "@/components/Charts/ThemedLineChart/TimeRangeToggle";

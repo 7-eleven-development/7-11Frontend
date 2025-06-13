@@ -1,6 +1,5 @@
 import { StyleSheet, View } from "react-native";
 import { useColorScheme } from "@/hooks/useColorScheme";
-import { Colors } from "@/theme/Colors";
 import ThemedView from "@/components/ThemedView";
 import useSoundLevelContext from "@/context/SoundLevel/useSoundLevelContext";
 import RefreshView from "@/components/RefreshView";
@@ -20,11 +19,9 @@ const SoundLevel = () => {
     error,
     refreshData,
   } = useSoundLevelContext();
-  const colorScheme = useColorScheme();
+  const { colorScheme, text } = useColorScheme();
 
   const { icon, value, label } = soundLevelData;
-  const textColor =
-    colorScheme === "dark" ? Colors.dark.textColorLight : Colors.light.text;
 
   const { refreshing, handleRefresh } = useRefresh(refreshData);
   const status = getCardStatus("soundLevel", {
@@ -35,7 +32,7 @@ const SoundLevel = () => {
     <RefreshView refreshing={refreshing} onRefresh={handleRefresh}>
       <ThemedView style={styles.container}>
         {isLoading && !refreshing ? (
-          <LoadingSpinner color={textColor} />
+          <LoadingSpinner color={text} />
         ) : error ? (
           <ErrorMessage colorScheme={colorScheme} />
         ) : (

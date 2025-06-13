@@ -16,9 +16,8 @@ const HoverDisplay: React.FC<HoverDisplayProps> = ({
   unit,
   dangerThreshold,
 }) => {
-  const colorScheme = useColorScheme();
-  const textColor =
-    colorScheme === "dark" ? Colors.dark.textColorLight : Colors.light.text;
+  const {colorScheme, text} = useColorScheme();
+  
 
   const themedContainer =
     colorScheme === "dark"
@@ -34,15 +33,15 @@ const HoverDisplay: React.FC<HoverDisplayProps> = ({
   return (
     <View style={themedContainer}>
       <ThemedText
-        lightColor={textColor}
-        darkColor={textColor}
+        lightColor={text}
+        darkColor={text}
         style={styles.hoveredValueLabel}
       >
         {hoveredLabel}:
       </ThemedText>
       <ThemedText
-        lightColor={textColor}
-        darkColor={textColor}
+        lightColor={text}
+        darkColor={text}
         style={[styles.hoveredValue, isDangerous ? styles.dangerousValue : {}]}
       >
         {hoveredValue} {unit}

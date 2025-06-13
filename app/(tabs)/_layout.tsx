@@ -4,7 +4,7 @@ import { useColorScheme } from "@/hooks/useColorScheme";
 import { Colors } from "@/theme/Colors";
 
 const TabLayout = () => {
-  const colorScheme = useColorScheme();
+  const { colorScheme } = useColorScheme();
 
   return (
     <Tabs
@@ -32,7 +32,7 @@ const TabLayout = () => {
           ),
         }}
       ></Tabs.Screen>
-    <Tabs.Screen
+      <Tabs.Screen
         name="location"
         options={{
           title: "Plats",
@@ -58,7 +58,7 @@ const TabLayout = () => {
           ),
         }}
       ></Tabs.Screen>
-     <Tabs.Screen
+      <Tabs.Screen
         name="air-quality"
         options={{
           title: "Luftkvalitet",

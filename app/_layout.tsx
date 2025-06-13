@@ -8,18 +8,16 @@ import AppStatusBar from "@/components/AppStatusBar";
 import AppNavigation from "@/components/AppNavigation";
 
 const AppContent = () => {
-  const colorScheme = useColorScheme();
-  const backgroundColor =
-    colorScheme === "dark"
-      ? Colors.dark.tabBarBackground
-      : Colors.light.tabBarBackground;
+  const { tabBarBackground } = useColorScheme();
 
   useAppUpdates();
 
   return (
     <ThemedView style={styles.container}>
       <AppStatusBar />
-      <SafeAreaView style={[styles.safeArea, { backgroundColor }]}>
+      <SafeAreaView
+        style={[styles.safeArea, { backgroundColor: tabBarBackground }]}
+      >
         <AppNavigation />
       </SafeAreaView>
     </ThemedView>

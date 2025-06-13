@@ -3,15 +3,11 @@ import { useColorScheme } from "@/hooks/useColorScheme";
 import { Colors } from "@/theme/Colors";
 
 const AppStatusBar = () => {
-  const colorScheme = useColorScheme();
-  const backgroundColor =
-    colorScheme === "dark"
-      ? Colors.dark.tabBarBackground
-      : Colors.light.tabBarBackground;
+  const { colorScheme, tabBarBackground } = useColorScheme();
 
   return (
     <StatusBar
-      backgroundColor={backgroundColor}
+      backgroundColor={tabBarBackground}
       barStyle={colorScheme === "dark" ? "light-content" : "dark-content"}
       translucent={true}
     />

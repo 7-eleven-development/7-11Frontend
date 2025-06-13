@@ -1,6 +1,5 @@
 import { ScrollView, StyleSheet } from "react-native";
 import { useColorScheme } from "@/hooks/useColorScheme";
-import { Colors } from "@/theme/Colors";
 import ThemedView from "@/components/ThemedView";
 import RefreshView from "@/components/RefreshView";
 import LoadingSpinner from "@/components/LoadingSpinner";
@@ -33,15 +32,12 @@ const AirQuality = () => {
 
   const [selectedSensor, setSelectedSensor] = useState<SensorType>("co2");
 
-  const colorScheme = useColorScheme();
+  const { colorScheme, text } = useColorScheme();
   const {
     co2: currentCO2,
     propane: currentPropane,
     smoke: currentSmoke,
   } = currentValues;
-
-  const textColor =
-    colorScheme === "dark" ? Colors.dark.textColorLight : Colors.light.text;
 
   const { refreshing, handleRefresh } = useRefresh(refreshData);
   const Co2statusColor = getCardStatus("airQuality", {
@@ -106,7 +102,7 @@ const AirQuality = () => {
     <RefreshView refreshing={refreshing} onRefresh={handleRefresh}>
       <ThemedView style={styles.container}>
         {isLoading && !refreshing ? (
-          <LoadingSpinner color={textColor} />
+          <LoadingSpinner color={text} />
         ) : error ? (
           <ErrorMessage colorScheme={colorScheme} />
         ) : (
