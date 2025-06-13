@@ -5,9 +5,7 @@ import { StyleSheet, TouchableOpacity, Alert } from "react-native";
 import ThemedText from "./ThemedText";
 
 const UpdateButton = () => {
-  const colorScheme = useColorScheme();
-  const buttonColor =
-    colorScheme === "dark" ? Colors.dark.tint : Colors.light.tint;
+  const { button } = useColorScheme();
 
   const handleUpdateCheck = async () => {
     try {
@@ -41,7 +39,7 @@ const UpdateButton = () => {
   return (
     <TouchableOpacity
       onPress={handleUpdateCheck}
-      style={[styles.button, { backgroundColor: buttonColor }]}
+      style={[styles.button, { backgroundColor: button }]}
     >
       <ThemedText style={styles.buttonText}>Sök efter uppdateringar</ThemedText>
     </TouchableOpacity>

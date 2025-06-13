@@ -30,24 +30,30 @@ const SensorIndicator = ({
   size = "lg",
   isSelected = false,
 }: SeensorIndicatorProps) => {
-  const colorScheme = useColorScheme();
-  const textColor =
-    colorScheme === "dark" ? Colors.dark.text : Colors.light.text;
+  const { colorScheme, text } = useColorScheme();
   const backgroundColor = getBackgroundColor(status, colorScheme);
 
   const borderColor =
     colorScheme === "dark" ? Colors.dark.tint : Colors.light.secondary;
 
   const selectedSize = size;
+
   const iconSize = selectedSize === "sm" ? 42 : 64;
+
   const containerStyle =
     selectedSize === "sm" ? styles.containerSm : styles.container;
+
   const iconStyle = selectedSize === "sm" ? styles.iconSm : styles.icon;
+
   const titleType = selectedSize === "sm" ? "default" : "title";
+
   const subtitleType = selectedSize === "sm" ? "default" : "subtitle";
+
   const iconContainerStyle =
     selectedSize === "sm" ? styles.iconContainerSm : styles.iconContainer;
+
   const titleStyle = selectedSize === "sm" ? true : false;
+  
   const wrapperStyle = isSelected
     ? selectedSize === "lg"
       ? [styles.selectedWrapperLg, { borderColor: borderColor }]
@@ -70,8 +76,8 @@ const SensorIndicator = ({
           <ThemedText
             style={titleStyle ? { fontWeight: "bold", fontSize: 18 } : {}}
             type={titleType}
-            lightColor={textColor}
-            darkColor={textColor}
+            lightColor={text}
+            darkColor={text}
           >
             Nuvarande {type}
           </ThemedText>
@@ -80,18 +86,18 @@ const SensorIndicator = ({
               name={icon}
               size={iconSize}
               style={iconStyle}
-              color={textColor}
+              color={text}
             />
             <View>
               <ThemedText
                 style={titleStyle ? { fontWeight: "bold" } : {}}
                 type={subtitleType}
-                lightColor={textColor}
-                darkColor={textColor}
+                lightColor={text}
+                darkColor={text}
               >
                 {value} {valueLabel}
               </ThemedText>
-              <ThemedText lightColor={textColor} darkColor={textColor}>
+              <ThemedText lightColor={text} darkColor={text}>
                 {label}
               </ThemedText>
             </View>

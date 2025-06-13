@@ -1,13 +1,13 @@
 import { PulseStatus } from "@/types/pulse";
 
 export const getPulseStatus = (pulseValue: number): PulseStatus => {
-  if (pulseValue >= 100) {
+  if (pulseValue >= 100 || pulseValue <= 50) {
     return {
       icon: "frowning",
-      label: "Hög puls",
+      label: pulseValue >= 100 ? "Hög puls" : "Låg puls",
     };
   }
-  if (pulseValue >= 60) {
+  if (pulseValue >= 90 || pulseValue <= 60) {
     return {
       icon: "slightly-smile",
       label: "Normal puls",
@@ -15,6 +15,15 @@ export const getPulseStatus = (pulseValue: number): PulseStatus => {
   }
   return {
     icon: "smiley",
-    label: "Låg puls",
+    label: "Optimal puls",
   };
+};
+
+// Add the general pulse status function for SensorIndicator compatibility
+export const getPulseIndicatorStatus = (
+  value: number
+): "good" | "bad" | "normal" => {
+  if (value >= 100 || value <= 50) return "bad";
+  if (value >= 90 || value <= 60) return "normal";
+  return "good";
 };

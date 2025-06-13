@@ -56,3 +56,29 @@ export const getSmokeStatus = (smokeValue: number): SmokeStatus => {
     label: "Låg röknivå",
   };
 };
+
+// Add the general air quality status function for SensorIndicator compatibility
+export const getAirQualityStatus = (
+  value: number,
+  sensorType: "co2" | "propane" | "smoke"
+): "good" | "bad" | "normal" => {
+  switch (sensorType) {
+    case "co2":
+      if (value >= 1200) return "bad";
+      if (value >= 800) return "normal";
+      return "good";
+
+    case "propane":
+      if (value >= 800) return "bad";
+      if (value >= 400) return "normal";
+      return "good";
+
+    case "smoke":
+      if (value >= 300) return "bad";
+      if (value >= 100) return "normal";
+      return "good";
+
+    default:
+      return "normal";
+  }
+};
