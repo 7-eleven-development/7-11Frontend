@@ -8,7 +8,7 @@ import {
   getStatusIcon,
   getIconNameFromStatus,
 } from "@/utils/cardUtils";
-import { CARD_CONFIG } from "@/utils/cards/cardConfig";
+import { CARD_CONFIG } from "@/utils/config/cardConfig";
 import { CardData } from "@/types/cards";
 
 interface BaseCardProps {
