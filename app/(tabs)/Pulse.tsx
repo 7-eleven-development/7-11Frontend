@@ -55,7 +55,6 @@ const Pulse = () => {
           monthlyData={monthlyData}
           title={PULSE_CONFIG.title}
           unit={PULSE_CONFIG.unit}
-          colorScheme={colorScheme}
           valueKey="pulse"
           dangerThreshold={PULSE_CONFIG.dangerThreshold}
           maxValue={PULSE_CONFIG.maxValue}

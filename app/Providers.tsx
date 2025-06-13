@@ -12,6 +12,7 @@ import SoundLevelProvider from "@/context/SoundLevel/SoundLevelProvider";
 import PulseProvider from "@/context/Pulse/PulseProvider";
 import AirQualityProvider from "@/context/airQuality/AirQualityProvider";
 import LocationProvider from "@/context/location/LocationProvider";
+import ChartProvider from "@/context/chart/ChartProvider";
 
 interface AppProvidersProps {
   children: ReactNode;
@@ -30,7 +31,9 @@ const AppProviders = ({ children }: AppProvidersProps) => {
             <SoundLevelProvider>
               <PulseProvider>
                 <AirQualityProvider>
-                  <LocationProvider>{children}</LocationProvider>
+                  <LocationProvider>
+                    <ChartProvider>{children}</ChartProvider>
+                  </LocationProvider>
                 </AirQualityProvider>
               </PulseProvider>
             </SoundLevelProvider>

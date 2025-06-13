@@ -1,7 +1,7 @@
 import { View, StyleSheet } from "react-native";
 import ThemedText from "@/components/ThemedText";
 import { Colors } from "@/theme/Colors";
-import { useColorScheme } from "@/hooks/useColorScheme";
+import useChartContext from "@/context/chart/useChartContext";
 
 interface HoverDisplayProps {
   hoveredValue: number | null;
@@ -16,16 +16,14 @@ const HoverDisplay: React.FC<HoverDisplayProps> = ({
   unit,
   dangerThreshold,
 }) => {
-  const {colorScheme, text} = useColorScheme();
-  
+  const { textColor, gridColor, colorScheme } = useChartContext();
 
   const themedContainer =
     colorScheme === "dark"
-      ? styles.hoverValueContainerDark
-      : styles.hoverValueContainerLight;
+      ? [styles.hoverValueContainer, { backgroundColor: gridColor }]
+      : [styles.hoverValueContainer, { backgroundColor: gridColor }];
 
-  if (hoveredValue === null)
-    return <View style={themedContainer}></View>;
+  if (hoveredValue === null) return <View style={themedContainer}></View>;
 
   const isDangerous =
     dangerThreshold !== undefined && hoveredValue >= dangerThreshold;
@@ -33,15 +31,15 @@ const HoverDisplay: React.FC<HoverDisplayProps> = ({
   return (
     <View style={themedContainer}>
       <ThemedText
-        lightColor={text}
-        darkColor={text}
+        lightColor={textColor}
+        darkColor={textColor}
         style={styles.hoveredValueLabel}
       >
         {hoveredLabel}:
       </ThemedText>
       <ThemedText
-        lightColor={text}
-        darkColor={text}
+        lightColor={textColor}
+        darkColor={textColor}
         style={[styles.hoveredValue, isDangerous ? styles.dangerousValue : {}]}
       >
         {hoveredValue} {unit}
@@ -50,27 +48,14 @@ const HoverDisplay: React.FC<HoverDisplayProps> = ({
   );
 };
 
-export const styles = StyleSheet.create({
-  hoverValueContainerDark: {
+const styles = StyleSheet.create({
+  hoverValueContainer: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
     marginVertical: 10,
     paddingHorizontal: 16,
     paddingVertical: 8,
-    backgroundColor: Colors.dark.tabBarBackground,
-    borderRadius: 8,
-    minHeight: 36,
-    minWidth: 120,
-  },
-  hoverValueContainerLight: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    marginVertical: 10,
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    backgroundColor: Colors.light.tabBarBackground,
     borderRadius: 8,
     minHeight: 36,
     minWidth: 120,

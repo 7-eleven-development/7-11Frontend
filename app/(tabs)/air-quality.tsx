@@ -98,7 +98,6 @@ const AirQuality = () => {
           monthlyData={selected.monthlyData}
           title={config.title}
           unit={config.unit}
-          colorScheme={colorScheme}
           valueKey={config.key}
           dangerThreshold={config.dangerThreshold}
           maxValue={config.maxValue}

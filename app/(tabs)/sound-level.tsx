@@ -61,7 +61,6 @@ const SoundLevel = () => {
           monthlyData={monthlyData}
           title={SOUND_LEVEL_CONFIG.title}
           unit={SOUND_LEVEL_CONFIG.unit}
-          colorScheme={colorScheme}
           valueKey="sound"
           dangerThreshold={SOUND_LEVEL_CONFIG.dangerThreshold}
           maxValue={SOUND_LEVEL_CONFIG.maxValue}
