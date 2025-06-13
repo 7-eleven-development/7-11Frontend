@@ -19,7 +19,7 @@ const ErrorMessage = ({ colorScheme }: { colorScheme: ColorSchemeName }) => {
         darkColor={Colors[scheme].textColorLight}
         type="subtitle"
       >
-        Error loading data
+        Ett fel uppstod. Försök igen senare.
       </ThemedText>
     </>
   );
