@@ -14,7 +14,6 @@ const Location = () => {
     useLocationContext();
   const { text, tint, background } = useColorScheme();
 
-  // Announce location updates
   useEffect(() => {
     if (locationData && !isLoading) {
       AccessibilityInfo.announceForAccessibility("Platsdata har uppdaterats");

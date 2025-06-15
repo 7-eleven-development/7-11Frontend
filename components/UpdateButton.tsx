@@ -9,7 +9,6 @@ const UpdateButton = () => {
 
   const handleUpdateCheck = async () => {
     try {
-      console.log("Manually checking for updates...");
       const update = await Updates.checkForUpdateAsync();
 
       if (update.isAvailable) {
@@ -47,7 +46,7 @@ const UpdateButton = () => {
     >
       <ThemedText
         style={styles.buttonText}
-        accessible={false} // Text handled by parent TouchableOpacity
+        accessible={false} 
       >
         Sök efter uppdateringar
       </ThemedText>

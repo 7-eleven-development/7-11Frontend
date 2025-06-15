@@ -57,7 +57,6 @@ export const getSmokeStatus = (smokeValue: number): SmokeStatus => {
   };
 };
 
-// Add the general air quality status function for SensorIndicator compatibility
 export const getAirQualityStatus = (
   value: number,
   sensorType: "co2" | "propane" | "smoke"

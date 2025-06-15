@@ -13,7 +13,6 @@ interface AirQualitySensorListProps {
   onSensorSelect: (sensor: string) => void;
   style: any;
   contentStyle: any;
-  // Add accessibility props
   accessibilityLabel?: string;
   accessibilityHint?: string;
   accessibilityRole?: AccessibilityRole;
@@ -29,7 +28,6 @@ const AirQualitySensorList = ({
   accessibilityHint,
   accessibilityRole,
 }: AirQualitySensorListProps) => {
-  // Create sensor name mapping for Swedish
   const getSensorName = (key: string) => {
     switch (key) {
       case "co2":

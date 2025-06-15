@@ -4,7 +4,6 @@ import { API_URL } from "./api";
 export const authService = {
   async login(credentials: UserCredentials): Promise<LoginResult> {
     try {
-      console.log("Logging in with credentials:", credentials);
       const response = await fetch(`${API_URL}/users/login`, {
         method: "POST",
         headers: {
@@ -12,7 +11,6 @@ export const authService = {
         },
         body: JSON.stringify(credentials),
       });
-      console.log("Response status:", response.status);
       const data: LoginResponse = await response.json();
       if (!response.ok) {
         return {

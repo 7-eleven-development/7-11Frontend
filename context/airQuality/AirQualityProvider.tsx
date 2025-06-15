@@ -36,7 +36,6 @@ const AirQualityProvider = ({ children }: Props) => {
     label: "Loading...",
   });
 
-  // Add state for historical data
   const [co2WeeklyData, setCo2WeeklyData] = useState<HistoricalDataPoint[]>([]);
   const [co2MonthlyData, setCo2MonthlyData] = useState<HistoricalDataPoint[]>(
     []
@@ -72,7 +71,6 @@ const AirQualityProvider = ({ children }: Props) => {
         deviceId
       );
 
-      // Process the air quality data
       const co2Value = parseFloat(airQualityResponse.latest_co2);
       const propaneValue = parseFloat(airQualityResponse.latest_propane);
       const smokeValue = parseFloat(airQualityResponse.latest_smoke);
@@ -83,18 +81,15 @@ const AirQualityProvider = ({ children }: Props) => {
         smoke: smokeValue,
       });
 
-      // Set the status for each measurement using utility functions
       setCO2Status(getCO2Status(co2Value));
       setPropaneStatus(getPropaneStatus(propaneValue));
       setSmokeStatus(getSmokeStatus(smokeValue));
 
-      // Fetch historical data (you'll need to add these service methods)
       const weeklyDataResponse =
         await airQualityServices.fetchWeeklyAirQualityData();
       const monthlyDataResponse =
         await airQualityServices.fetchMonthlyAirQualityData();
 
-      // Transform data into separate arrays for each sensor
       const co2Weekly = weeklyDataResponse.map((item) => ({
         created_at: item.created_at,
         co2: parseFloat(item.co2),

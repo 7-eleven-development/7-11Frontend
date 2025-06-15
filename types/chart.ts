@@ -9,7 +9,6 @@ export interface ChartContextType {
   chartConfig: any;
   pointerConfig: any;
   colorScheme: "light" | "dark";
-  // Add data transformation functions
   prepareChartData: <T extends HistoricalDataPoint>(
     weeklyData: T[],
     monthlyData: T[],

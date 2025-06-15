@@ -28,7 +28,6 @@ const BaseCard = ({ cardData, children }: BaseCardProps) => {
 
   const handlePress = () => router.push(config.route);
 
-  // Create accessibility label based on card type and data
   const getAccessibilityLabel = () => {
     switch (type) {
       case "airQuality":

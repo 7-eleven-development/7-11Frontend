@@ -19,7 +19,6 @@ export const getPulseStatus = (pulseValue: number): PulseStatus => {
   };
 };
 
-// Add the general pulse status function for SensorIndicator compatibility
 export const getPulseIndicatorStatus = (
   value: number
 ): "good" | "bad" | "normal" => {

@@ -255,7 +255,6 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     color: Colors.dark.error,
   },
-  // Modal styles
   modalOverlay: {
     flex: 1,
     backgroundColor: "rgba(0, 0, 0, 0.5)",

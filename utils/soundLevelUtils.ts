@@ -19,7 +19,6 @@ export const getSoundLevelStatus = (soundValue: number): SoundLevelStatus => {
   };
 };
 
-// Add the general sound level status function for SensorIndicator compatibility
 export const getSoundLevelIndicatorStatus = (
   value: number
 ): "good" | "bad" | "normal" => {

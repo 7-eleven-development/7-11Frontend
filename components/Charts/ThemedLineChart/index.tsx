@@ -17,7 +17,6 @@ interface DataChartProps<T extends HistoricalDataPoint> {
   valueKey: string;
   dangerThreshold?: number;
   maxValue?: number;
-  // Add accessibility props
   accessibilityLabel?: string;
   accessibilityHint?: string;
 }
@@ -56,7 +55,6 @@ function ThemedLineChart<T extends HistoricalDataPoint>({
     [weeklyData, monthlyData, timeRange, valueKey, prepareChartData]
   );
 
-  // Create comprehensive accessibility description
   const chartAccessibilityLabel =
     accessibilityLabel ||
     `${title}diagram för ${timeRange === "monthly" ? "senaste månaden" : "senaste veckan"}`;

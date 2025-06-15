@@ -10,7 +10,7 @@ const defaultPrepareChartData = <T extends HistoricalDataPoint>(
   valueKey: string
 ): ChartDataPoint[] => [];
 
-const defaultTransformChartData = () => []; // Adjust return type as needed
+const defaultTransformChartData = () => [];
 
 const ChartContext = createContext<ChartContextType>({
   textColor: "",

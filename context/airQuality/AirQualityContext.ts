@@ -1,7 +1,6 @@
 import { AirQualityContextType, SensorStatus } from "@/types/airQuality";
 import { createContext } from "react";
 
-// Default sensor status
 const defaultSensorStatus: SensorStatus = {
   icon: "slightly-smile",
   label: "Laddar...",

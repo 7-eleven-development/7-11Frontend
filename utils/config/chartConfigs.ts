@@ -20,7 +20,6 @@ export interface PointerConfig {
   autoAdjustPointerLabelPosition: boolean;
 }
 
-// Default chart configuration
 export const DEFAULT_CHART_CONFIG: ChartConfig = {
   height: 280,
   width: 300,
@@ -43,7 +42,6 @@ export const DEFAULT_POINTER_CONFIG: PointerConfig = {
   autoAdjustPointerLabelPosition: true,
 };
 
-// Chart-specific overrides (only for the sensors you actually have)
 export const CHART_TYPE_CONFIGS: Record<string, Partial<ChartConfig>> = {
   pulse: {
     maxValue: 200,

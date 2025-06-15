@@ -6,7 +6,6 @@ export interface BaseSensorConfig {
   type: string;
 }
 
-// Air Quality Sensors
 export interface AirQualitySensorConfig extends BaseSensorConfig {
   key: "co2" | "propane" | "smoke";
   warningThreshold: number;
@@ -42,7 +41,6 @@ export const AIR_QUALITY_SENSORS: Record<string, AirQualitySensorConfig> = {
   },
 };
 
-// Sound Level Config
 export const SOUND_LEVEL_CONFIG: BaseSensorConfig = {
   title: "Ljudnivå",
   unit: "dB",
@@ -51,7 +49,6 @@ export const SOUND_LEVEL_CONFIG: BaseSensorConfig = {
   type: "ljudnivå",
 };
 
-// Pulse Config
 export const PULSE_CONFIG: BaseSensorConfig = {
   title: "Puls",
   unit: "BPM",
