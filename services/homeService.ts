@@ -24,4 +24,3 @@ export const homeService = {
   },
 };
 
-// https://chas-challenge.vercel.app/api/device/device1/trend

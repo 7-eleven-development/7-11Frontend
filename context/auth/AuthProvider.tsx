@@ -5,7 +5,6 @@ import { authService } from "@/services/auth";
 import { UserCredentials } from "@/types/auth";
 import { userService } from "@/services/user";
 
-// Keys for secure storage
 const TOKEN_KEY = "auth_token";
 const DEVICE_ID_KEY = "device_id";
 
@@ -15,12 +14,11 @@ type AuthProviderProps = {
 
 const AuthProvider = ({ children }: AuthProviderProps) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isLoading, setIsLoading] = useState(true); // Start with loading to check storage
+  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [token, setToken] = useState<string | null | undefined>(null);
   const [deviceId, setDeviceId] = useState<string | null | undefined>(null);
 
-  // Load stored auth data when component mounts
   useEffect(() => {
     const loadStoredAuth = async () => {
       try {

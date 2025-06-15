@@ -28,18 +28,12 @@ export const airQualityServices = {
     }
   },
   fetchWeeklyAirQualityData: async (): Promise<HistoricalDataPoint[]> => {
-    // Simulate API delay
     await new Promise((resolve) => setTimeout(resolve, 500));
-
-    // Return weekly data from mock file
     return mockAirQualityData.weekly_trend;
   },
 
   fetchMonthlyAirQualityData: async (): Promise<HistoricalDataPoint[]> => {
-    // Simulate API delay
     await new Promise((resolve) => setTimeout(resolve, 500));
-
-    // Return monthly data from mock file
     return mockAirQualityData.monthly_trend;
   },
 };

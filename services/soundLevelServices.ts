@@ -25,20 +25,13 @@ export const soundLevelServices = {
     }
   },
 
-  // New functions to fetch weekly and monthly data from the mock file
   fetchWeeklySoundLevelData: async (): Promise<HistoricalDataPoint[]> => {
-    // Simulate API delay
     await new Promise((resolve) => setTimeout(resolve, 500));
-
-    // Return weekly data from mock file
     return mockSoundData.weekly_trend;
   },
 
   fetchMonthlySoundLevelData: async (): Promise<HistoricalDataPoint[]> => {
-    // Simulate API delay
     await new Promise((resolve) => setTimeout(resolve, 500));
-
-    // Return monthly data from mock file
     return mockSoundData.monthly_trend;
   },
 };

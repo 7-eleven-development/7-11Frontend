@@ -38,7 +38,6 @@ export const userService = {
       }
 
       const userData = await response.json();
-      console.log("Fetched user data:", userData);
 
       if (userData && userData.length > 0) {
         return {

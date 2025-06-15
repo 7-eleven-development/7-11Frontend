@@ -2,7 +2,6 @@ import ThemedView from "./ThemedView";
 import ThemedText from "./ThemedText";
 import { View, Pressable, StyleSheet } from "react-native";
 import { useColorScheme } from "@/hooks/useColorScheme";
-import { Colors } from "@/theme/Colors";
 import { AntDesign } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 
@@ -12,39 +11,68 @@ type HeaderProps = {
 };
 
 const Header = ({ locationName, temperature }: HeaderProps) => {
-  const colorScheme = useColorScheme();
+  const { text, tabBarBackground, icon } = useColorScheme();
   const router = useRouter();
-  const textColor =
-    colorScheme === "dark" ? Colors.dark.textColorLight : Colors.light.text;
-  const backgroundColor =
-    colorScheme === "dark"
-      ? Colors.dark.tabBarBackground
-      : Colors.light.tabBarBackground;
-  const iconColor =
-    colorScheme === "dark" ? Colors.dark.tint : Colors.light.tint;
 
   return (
     <ThemedView
       style={styles.container}
-      lightColor={backgroundColor}
-      darkColor={backgroundColor}
+      lightColor={tabBarBackground}
+      darkColor={tabBarBackground}
+      accessible={true}
+      accessibilityRole="header"
+      accessibilityLabel={`Platsinformation: ${locationName}, ${temperature} grader Celsius`}
     >
-      <View style={{ flexDirection: "row", alignItems: "center", gap: 16 }}>
-        <Pressable onPress={() => router.push("/location")}>
-          <ThemedText type="title" lightColor={textColor} darkColor={textColor}>
+      <View 
+        style={{ flexDirection: "row", alignItems: "center", gap: 16 }}
+        accessible={true}
+        accessibilityLabel="Plats och temperaturinformation"
+      >
+        <Pressable 
+          onPress={() => router.push("/location")}
+          accessible={true}
+          accessibilityRole="button"
+          accessibilityLabel={`Plats: ${locationName}`}
+          accessibilityHint="Tryck för att visa plats på karta"
+        >
+          <ThemedText 
+            type="title" 
+            lightColor={text} 
+            darkColor={text}
+            accessible={true}
+            accessibilityRole="text"
+          >
             {locationName}
           </ThemedText>
         </Pressable>
-        <ThemedText lightColor={textColor} darkColor={textColor}>
+        <ThemedText 
+          lightColor={text} 
+          darkColor={text}
+          accessible={true}
+          accessibilityLabel={`Temperatur: ${temperature} grader Celsius`}
+          accessibilityRole="text"
+        >
           {temperature}°C
         </ThemedText>
       </View>
-      <Pressable onPress={() => router.push("/user")}>
-        <AntDesign name="user" size={24} color={iconColor} />
+      <Pressable 
+        onPress={() => router.push("/user")}
+        accessible={true}
+        accessibilityRole="button"
+        accessibilityLabel="Användarprofil"
+        accessibilityHint="Tryck för att öppna användarinställningar"
+      >
+        <AntDesign 
+          name="user" 
+          size={24} 
+          color={icon}
+          accessibilityLabel="Användarikon"
+        />
       </Pressable>
     </ThemedView>
   );
 };
+
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
@@ -53,4 +81,5 @@ const styles = StyleSheet.create({
     padding: 16,
   },
 });
+
 export default Header;

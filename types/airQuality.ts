@@ -1,7 +1,6 @@
 import { IconName } from "@/types/icons";
 import { HistoricalDataPoint } from "./historicalData";
 
-// Common sensor status type for all measurements
 export interface SensorStatus {
   icon: IconName;
   label: string;

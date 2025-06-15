@@ -1,58 +1,50 @@
-import { TouchableOpacity, View, StyleSheet } from "react-native";
+import { View, StyleSheet, Pressable } from "react-native";
 import ThemedText from "@/components/ThemedText";
-import { ColorSchemeName, Colors } from "@/theme/Colors";
+import useChartContext from "@/context/chart/useChartContext";
 
 interface TimeRangeToggleProps {
   timeRange: "weekly" | "monthly";
   setTimeRange: (range: "weekly" | "monthly") => void;
-  colorScheme: ColorSchemeName;
 }
 
 const TimeRangeToggle: React.FC<TimeRangeToggleProps> = ({
   timeRange,
   setTimeRange,
-  colorScheme,
 }) => {
-  const textColor =
-    colorScheme === "dark" ? Colors.dark.textColorLight : Colors.light.text;
+  const { textColor, chartColor } = useChartContext();
 
   return (
     <View style={styles.toggleContainer}>
-      <TouchableOpacity
+      <Pressable
         style={[styles.toggleButton]}
         onPress={() => setTimeRange("weekly")}
       >
         <ThemedText
           style={[
             styles.toggleText,
-            timeRange === "weekly" && styles.activeToggleText,
           ]}
-          lightColor={timeRange === "weekly" ? Colors.light.text : textColor}
-          darkColor={
-            timeRange === "weekly" ? Colors.dark.textColorLight : textColor
-          }
+          lightColor={timeRange === "weekly" ? chartColor : textColor}
+          darkColor={timeRange === "weekly" ? chartColor : textColor}
         >
           Vecka
         </ThemedText>
-      </TouchableOpacity>
+      </Pressable>
 
-      <TouchableOpacity
+      <Pressable
         style={[styles.toggleButton]}
         onPress={() => setTimeRange("monthly")}
       >
         <ThemedText
           style={[
             styles.toggleText,
-            timeRange === "monthly" && styles.activeToggleText,
+           
           ]}
-          lightColor={timeRange === "monthly" ? Colors.light.text : textColor}
-          darkColor={
-            timeRange === "monthly" ? Colors.dark.textColorLight : textColor
-          }
+          lightColor={timeRange === "monthly" ? chartColor : textColor}
+          darkColor={timeRange === "monthly" ? chartColor : textColor}
         >
           Månad
         </ThemedText>
-      </TouchableOpacity>
+      </Pressable>
     </View>
   );
 };
@@ -67,13 +59,9 @@ const styles = StyleSheet.create({
     paddingVertical: 6,
     marginHorizontal: 2,
   },
-
   toggleText: {
     fontSize: 14,
     fontWeight: "500",
-  },
-  activeToggleText: {
-    color: Colors.dark.tint,
   },
 });
 

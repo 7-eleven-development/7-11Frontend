@@ -20,11 +20,9 @@ const UserProvider = ({ children }: UserProviderProps) => {
   const systemColorScheme = Appearance.getColorScheme() ?? "light";
   const { isAuthenticated, token } = useAuthContext();
 
-  // Resolve the actual theme based on user preference and system theme
   const actualTheme: "light" | "dark" =
     theme === "system" ? systemColorScheme : theme;
 
-  // Load stored theme on mount
   useEffect(() => {
     const loadStoredTheme = async () => {
       try {
@@ -43,7 +41,6 @@ const UserProvider = ({ children }: UserProviderProps) => {
     loadStoredTheme();
   }, []);
 
-  // Save theme to storage when it changes
   useEffect(() => {
     const saveTheme = async () => {
       try {
@@ -69,7 +66,6 @@ const UserProvider = ({ children }: UserProviderProps) => {
     try {
       const result = await userService.fetchUserInformation(token);
       if (result.success && result.data) {
-        console.log("User data loaded:", result.data);
         setUser(result.data);
       } else {
         setError(result.error || "Failed to load user data");

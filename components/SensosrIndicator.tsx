@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, View } from "react-native";
+import { Pressable, StyleSheet, View, AccessibilityRole } from "react-native";
 import ThemedText from "./ThemedText";
 import ThemedView from "./ThemedView";
 import { Fontisto } from "@expo/vector-icons";
@@ -17,6 +17,9 @@ type SeensorIndicatorProps = {
   size?: "sm" | "lg";
   onPress?: () => void;
   isSelected?: boolean;
+  accessibilityLabel?: string;
+  accessibilityHint?: string;
+  accessibilityRole?: AccessibilityRole;
 };
 
 const SensorIndicator = ({
@@ -29,10 +32,11 @@ const SensorIndicator = ({
   onPress,
   size = "lg",
   isSelected = false,
+  accessibilityLabel,
+  accessibilityHint,
+  accessibilityRole = "button",
 }: SeensorIndicatorProps) => {
-  const colorScheme = useColorScheme();
-  const textColor =
-    colorScheme === "dark" ? Colors.dark.text : Colors.light.text;
+  const { colorScheme, text } = useColorScheme();
   const backgroundColor = getBackgroundColor(status, colorScheme);
 
   const borderColor =
@@ -48,6 +52,7 @@ const SensorIndicator = ({
   const iconContainerStyle =
     selectedSize === "sm" ? styles.iconContainerSm : styles.iconContainer;
   const titleStyle = selectedSize === "sm" ? true : false;
+
   const wrapperStyle = isSelected
     ? selectedSize === "lg"
       ? [styles.selectedWrapperLg, { borderColor: borderColor }]
@@ -56,8 +61,28 @@ const SensorIndicator = ({
       ? styles.defaultWrapperLg
       : styles.defaultWrapper;
 
+  const getStatusDescription = (status: string) => {
+    switch (status) {
+      case "good":
+        return "bra";
+      case "bad":
+        return "dålig";
+      case "normal":
+        return "normal";
+      default:
+        return status;
+    }
+  };
+
+  const defaultAccessibilityLabel = `${type}: ${value} ${valueLabel}, status: ${getStatusDescription(status)}${isSelected ? ", vald" : ""}`;
+
   return (
-    <View style={wrapperStyle}>
+    <View
+      style={wrapperStyle}
+      accessible={true}
+      accessibilityLabel={isSelected ? `${type}sensor, vald` : `${type}sensor`}
+      accessibilityRole="none"
+    >
       <ThemedView
         style={containerStyle}
         lightColor={backgroundColor}
@@ -66,32 +91,57 @@ const SensorIndicator = ({
         <Pressable
           onPress={onPress}
           style={({ pressed }) => [styles.pressable, pressed && styles.pressed]}
+          accessible={true}
+          accessibilityRole={onPress ? accessibilityRole : "text"}
+          accessibilityLabel={accessibilityLabel || defaultAccessibilityLabel}
+          accessibilityHint={
+            accessibilityHint ||
+            (onPress ? `Tryck för att välja ${type}sensor` : undefined)
+          }
+          accessibilityState={{
+            disabled: !onPress,
+            selected: isSelected,
+          }}
         >
           <ThemedText
             style={titleStyle ? { fontWeight: "bold", fontSize: 18 } : {}}
             type={titleType}
-            lightColor={textColor}
-            darkColor={textColor}
+            lightColor={text}
+            darkColor={text}
+            accessible={true}
+            accessibilityRole="header"
+            accessibilityLabel={`Nuvarande ${type}`}
           >
             Nuvarande {type}
           </ThemedText>
-          <View style={iconContainerStyle}>
+          <View
+            style={iconContainerStyle}
+            accessible={true}
+            accessibilityLabel="Sensordata"
+            accessibilityRole="none"
+          >
             <Fontisto
               name={icon}
               size={iconSize}
               style={iconStyle}
-              color={textColor}
+              color={text}
+              accessibilityLabel={`${type}ikon`}
             />
-            <View>
+            <View
+              accessible={true}
+              accessibilityLabel={`Värde: ${value} ${valueLabel}, ${label}`}
+              accessibilityRole="text"
+            >
               <ThemedText
                 style={titleStyle ? { fontWeight: "bold" } : {}}
                 type={subtitleType}
-                lightColor={textColor}
-                darkColor={textColor}
+                lightColor={text}
+                darkColor={text}
+                accessible={false}
               >
                 {value} {valueLabel}
               </ThemedText>
-              <ThemedText lightColor={textColor} darkColor={textColor}>
+              <ThemedText lightColor={text} darkColor={text} accessible={false}>
                 {label}
               </ThemedText>
             </View>

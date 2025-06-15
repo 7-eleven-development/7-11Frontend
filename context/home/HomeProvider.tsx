@@ -50,7 +50,6 @@ const HomeProvider = ({ children }: Props) => {
 
       const data = await homeService.fetchCurrentData(deviceId, token);
 
-      // Map from new API structure
       const latestSoundLevel = data.latest_sound;
       const latestPulse = data.latest_pulse;
       const latestTemperature = parseFloat(data.latest_temperature);
@@ -65,13 +64,11 @@ const HomeProvider = ({ children }: Props) => {
         latitude: parseFloat(data.latest_latitude),
         longitude: parseFloat(data.latest_longitude),
       };
-      console.log(latestPosition.latitude, latestPosition.longitude);
 
       const locationName = await getLocationNameOSM(
         latestPosition.latitude,
         latestPosition.longitude
       );
-      console.log("Location Name:", locationName);
 
       const { icon: pulseIcon, label: pulseLabel } =
         getPulseStatus(latestPulse);

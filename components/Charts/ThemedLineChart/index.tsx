@@ -1,31 +1,24 @@
-import { useEffect, useState, useMemo } from "react";
+import { useMemo } from "react";
 import { View, StyleSheet } from "react-native";
 import { LineChart, yAxisSides } from "react-native-gifted-charts";
-import { ColorSchemeName, Colors } from "@/theme/Colors";
 import ThemedView from "@/components/ThemedView";
 import ThemedText from "@/components/ThemedText";
-import TimeRangeToggle from "@/components/Charts/ThemedLineChart/TimeRangeToggle";
+import TimeRangeToggle from "./TimeRangeToggle";
 import HoverDisplay from "./HoverDisplay";
-import { prepareChartData } from "./utils/dataTransform";
-import {
-  getChartThemeColors,
-  getLineChartConfig,
-  getPointerConfig,
-} from "./utils/chartConfig";
 import { HistoricalDataPoint } from "@/types/historicalData";
 import { useChartInteraction } from "@/hooks/useChartInteraction";
+import useChartContext from "@/context/chart/useChartContext";
 
 interface DataChartProps<T extends HistoricalDataPoint> {
   weeklyData: T[];
   monthlyData: T[];
   title: string;
   unit: string;
-  colorScheme: ColorSchemeName;
-  valueKey: string; // Property name to extract value from data points
-  dangerThreshold?: number; // Optional threshold for dangerous values
-  primaryColor?: string;
-  secondaryColor?: string;
-  maxValue?: number; // Optional max value for the chart
+  valueKey: string;
+  dangerThreshold?: number;
+  maxValue?: number;
+  accessibilityLabel?: string;
+  accessibilityHint?: string;
 }
 
 function ThemedLineChart<T extends HistoricalDataPoint>({
@@ -33,12 +26,11 @@ function ThemedLineChart<T extends HistoricalDataPoint>({
   monthlyData,
   title,
   unit,
-  colorScheme,
   valueKey,
   dangerThreshold,
-  primaryColor,
-  secondaryColor,
-  maxValue = 120,
+  maxValue,
+  accessibilityLabel,
+  accessibilityHint,
 }: DataChartProps<T>) {
   const {
     timeRange,
@@ -48,31 +40,44 @@ function ThemedLineChart<T extends HistoricalDataPoint>({
     handlePointerLabelComponent,
   } = useChartInteraction();
 
-  const { textColor, gridColor, chartColor, chartFillColor } =
-    getChartThemeColors(colorScheme, primaryColor, secondaryColor);
+  const { textColor, chartConfig, pointerConfig, prepareChartData } =
+    useChartContext();
 
-  const pointerConfig = getPointerConfig(colorScheme, chartColor);
-
-  const chartConfig = getLineChartConfig(
-    textColor,
-    gridColor,
-    chartColor,
-    chartFillColor,
-    maxValue
-  );
+  const finalChartConfig = useMemo(() => {
+    if (maxValue) {
+      return { ...chartConfig, maxValue };
+    }
+    return chartConfig;
+  }, [chartConfig, maxValue]);
 
   const displayData = useMemo(
     () => prepareChartData(weeklyData, monthlyData, timeRange, valueKey),
-    [weeklyData, monthlyData, timeRange, valueKey]
+    [weeklyData, monthlyData, timeRange, valueKey, prepareChartData]
   );
 
+  const chartAccessibilityLabel =
+    accessibilityLabel ||
+    `${title}diagram för ${timeRange === "monthly" ? "senaste månaden" : "senaste veckan"}`;
+
   return (
-    <ThemedView style={styles.chartContainer}>
-      <View style={styles.chartHeader}>
+    <ThemedView
+      style={styles.chartContainer}
+      accessible={true}
+      accessibilityLabel={chartAccessibilityLabel}
+      accessibilityRole="none"
+    >
+      <View
+        style={styles.chartHeader}
+        accessible={true}
+        accessibilityRole="header"
+        accessibilityLabel={`Diagram rubrik: ${timeRange === "monthly" ? `Senaste månadens ${title}` : `Senaste veckans ${title}`}`}
+      >
         <ThemedText
           type="subtitle"
           lightColor={textColor}
           darkColor={textColor}
+          accessible={true}
+          accessibilityRole="text"
         >
           {timeRange === "monthly"
             ? `Senaste månadens ${title}`
@@ -80,29 +85,36 @@ function ThemedLineChart<T extends HistoricalDataPoint>({
         </ThemedText>
       </View>
 
-      <View style={styles.toggleContainer}>
+      <View
+        style={styles.toggleContainer}
+        accessible={true}
+        accessibilityLabel="Diagramkontroller"
+        accessibilityRole="none"
+      >
         <HoverDisplay
           hoveredValue={hoveredValue}
           hoveredLabel={hoveredLabel}
           unit={unit}
           dangerThreshold={dangerThreshold}
         />
-        <TimeRangeToggle
-          timeRange={timeRange}
-          setTimeRange={setTimeRange}
-          colorScheme={colorScheme}
-        />
+        <TimeRangeToggle timeRange={timeRange} setTimeRange={setTimeRange} />
       </View>
 
       <LineChart
         key={timeRange}
         data={displayData}
-        {...chartConfig}
+        {...finalChartConfig}
         yAxisSide={yAxisSides.LEFT}
         pointerConfig={{
           ...pointerConfig,
           pointerLabelComponent: handlePointerLabelComponent,
         }}
+        accessible={true}
+        accessibilityRole="image"
+        accessibilityLabel={`${title}diagram med ${displayData.length} datapunkter från ${timeRange === "monthly" ? "senaste månaden" : "senaste veckan"}`}
+        accessibilityHint={
+          accessibilityHint || "Tryck och håll för att se specifika värden"
+        }
       />
     </ThemedView>
   );

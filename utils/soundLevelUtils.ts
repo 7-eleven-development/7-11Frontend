@@ -18,3 +18,11 @@ export const getSoundLevelStatus = (soundValue: number): SoundLevelStatus => {
     label: "låg ljudnivå",
   };
 };
+
+export const getSoundLevelIndicatorStatus = (
+  value: number
+): "good" | "bad" | "normal" => {
+  if (value >= 85) return "bad";
+  if (value >= 60) return "normal";
+  return "good";
+};

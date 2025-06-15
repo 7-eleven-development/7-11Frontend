@@ -1,4 +1,5 @@
-import { StyleSheet, View, TouchableOpacity } from "react-native";
+import { StyleSheet, View, Pressable, AccessibilityInfo } from "react-native";
+import { useEffect } from "react";
 import ThemedView from "@/components/ThemedView";
 import useLocationContext from "@/context/location/useLocationContext";
 import { Ionicons } from "@expo/vector-icons";
@@ -11,23 +12,29 @@ import OpenStreetMapView from "@/components/OpenStreetMapView";
 const Location = () => {
   const { locationData, isLoading, error, refreshLocation } =
     useLocationContext();
-  const colorScheme = useColorScheme();
+  const { text, tint, background } = useColorScheme();
 
-  const textColor =
-    colorScheme === "dark" ? Colors.dark.textColorLight : Colors.light.text;
-  const refreshButtonColor =
-    colorScheme === "dark" ? Colors.dark.tint : Colors.light.tint;
-  const refreshButtonBackgroundColor =
-    colorScheme === "dark" ? Colors.dark.background : Colors.light.background;
+  useEffect(() => {
+    if (locationData && !isLoading) {
+      AccessibilityInfo.announceForAccessibility("Platsdata har uppdaterats");
+    }
+  }, [locationData, isLoading]);
 
   if (isLoading) {
     return (
-      <ThemedView style={styles.centerContainer}>
-        <LoadingSpinner color={textColor} />
+      <ThemedView
+        style={styles.centerContainer}
+        accessible={true}
+        accessibilityLabel="Laddar platsdata"
+        accessibilityRole="none"
+      >
+        <LoadingSpinner color={text} />
         <ThemedText
           type="subtitle"
-          lightColor={textColor}
-          darkColor={textColor}
+          lightColor={text}
+          darkColor={text}
+          accessible={true}
+          accessibilityRole="text"
         >
           Hämtar platsdata...
         </ThemedText>
@@ -37,54 +44,105 @@ const Location = () => {
 
   if (error) {
     return (
-      <ThemedView style={styles.centerContainer}>
-        <ThemedText lightColor={textColor} darkColor={textColor}>
+      <ThemedView
+        style={styles.centerContainer}
+        accessible={true}
+        accessibilityLabel="Fel vid hämtning av platsdata"
+        accessibilityRole="alert"
+      >
+        <ThemedText
+          lightColor={text}
+          darkColor={text}
+          accessible={true}
+          accessibilityRole="text"
+          accessibilityLabel={`Felmeddelande: ${error}`}
+        >
           Fel: {error}
         </ThemedText>
-        <TouchableOpacity style={styles.retryButton} onPress={refreshLocation}>
-          <ThemedText style={styles.retryText}>Försök igen</ThemedText>
-        </TouchableOpacity>
+        <Pressable
+          style={styles.retryButton}
+          onPress={refreshLocation}
+          accessible={true}
+          accessibilityRole="button"
+          accessibilityLabel="Försök igen"
+          accessibilityHint="Tryck för att försöka hämta platsdata igen"
+        >
+          <ThemedText style={styles.retryText} accessible={false}>
+            Försök igen
+          </ThemedText>
+        </Pressable>
       </ThemedView>
     );
   }
 
   if (!locationData) {
     return (
-      <ThemedView style={styles.centerContainer}>
-        <ThemedText lightColor={textColor} darkColor={textColor}>
+      <ThemedView
+        style={styles.centerContainer}
+        accessible={true}
+        accessibilityLabel="Ingen platsdata tillgänglig"
+        accessibilityRole="alert"
+      >
+        <ThemedText
+          lightColor={text}
+          darkColor={text}
+          accessible={true}
+          accessibilityRole="text"
+        >
           Ingen platsdata tillgänglig
         </ThemedText>
-        <TouchableOpacity style={styles.retryButton} onPress={refreshLocation}>
-          <ThemedText style={styles.retryText}>Försök igen</ThemedText>
-        </TouchableOpacity>
+        <Pressable
+          style={styles.retryButton}
+          onPress={refreshLocation}
+          accessible={true}
+          accessibilityRole="button"
+          accessibilityLabel="Försök igen"
+          accessibilityHint="Tryck för att försöka hämta platsdata"
+        >
+          <ThemedText style={styles.retryText} accessible={false}>
+            Försök igen
+          </ThemedText>
+        </Pressable>
       </ThemedView>
     );
   }
 
   return (
-    <ThemedView style={styles.container}>
-      <View style={styles.mapContainer}>
+    <ThemedView
+      style={styles.container}
+      accessible={true}
+      accessibilityLabel="Platsskärm"
+      accessibilityRole="none"
+    >
+      <View
+        style={styles.mapContainer}
+        accessible={true}
+        accessibilityLabel={`Karta som visar aktuell plats: latitud ${locationData.latitude.toFixed(4)}, longitud ${locationData.longitude.toFixed(4)}`}
+        accessibilityRole="image"
+      >
         <OpenStreetMapView
           latitude={locationData.latitude}
           longitude={locationData.longitude}
           onRefresh={refreshLocation}
         />
 
-        {/* Refresh Button Overlay */}
-        <TouchableOpacity
-          style={[
-            styles.refreshButton,
-            { backgroundColor: refreshButtonBackgroundColor },
-          ]}
+        <Pressable
+          style={[styles.refreshButton, { backgroundColor: background }]}
           onPress={refreshLocation}
           disabled={isLoading}
+          accessible={true}
+          accessibilityRole="button"
+          accessibilityLabel="Uppdatera plats"
+          accessibilityHint="Tryck för att uppdatera kartdata"
+          accessibilityState={{ disabled: isLoading }}
         >
           <Ionicons
             name="refresh"
             size={24}
-            color={isLoading ? "#ccc" : refreshButtonColor}
+            color={isLoading ? "#ccc" : tint}
+            accessibilityLabel="Uppdateringsikon"
           />
-        </TouchableOpacity>
+        </Pressable>
       </View>
     </ThemedView>
   );

@@ -19,7 +19,7 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [showTestUserModal, setShowTestUserModal] = useState(false);
-  const colorScheme = useColorScheme();
+  const { text, button, tabBarBackground, background } = useColorScheme();
   const { login, isLoading } = useAuthContext();
 
   const handleSubmit = async () => {
@@ -45,39 +45,24 @@ export default function Login() {
     setError("");
   };
 
-  const textColor =
-    colorScheme === "dark" ? Colors.dark.textColorLight : Colors.light.text;
-  const buttonColor =
-    colorScheme === "dark" ? Colors.dark.button : Colors.light.button;
-  const backgroundColor =
-    colorScheme === "dark"
-      ? Colors.dark.tabBarBackground
-      : Colors.light.tabBarBackground;
-  const inputBorderColor =
-    colorScheme === "dark" ? Colors.dark.textColorLight : Colors.light.text;
-  const inputTextColor =
-    colorScheme === "dark" ? Colors.dark.textColorLight : Colors.light.text;
-  const modalBackgroundColor =
-    colorScheme === "dark" ? Colors.dark.background : Colors.light.background;
-
   return (
     <ThemedView style={styles.overlay}>
       <ThemedView
-        lightColor={backgroundColor}
-        darkColor={backgroundColor}
+        lightColor={tabBarBackground}
+        darkColor={tabBarBackground}
         style={styles.container}
         accessible
         accessibilityLabel="Inloggningsformular"
       >
         <ThemedView
           style={styles.headerContainer}
-          lightColor={backgroundColor}
-          darkColor={backgroundColor}
+          lightColor={tabBarBackground}
+          darkColor={tabBarBackground}
         >
           <ThemedText
             type="title"
-            darkColor={textColor}
-            lightColor={textColor}
+            darkColor={text}
+            lightColor={text}
             style={styles.label}
             accessibilityLabel="header"
           >
@@ -93,7 +78,7 @@ export default function Login() {
             <Ionicons
               name="information-circle-outline"
               size={24}
-              color={textColor}
+              color={text}
             />
           </TouchableOpacity>
         </ThemedView>
@@ -104,12 +89,9 @@ export default function Login() {
             setEmail(text);
             setError("");
           }}
-          style={[
-            styles.input,
-            { borderColor: inputBorderColor, color: inputTextColor },
-          ]}
+          style={[styles.input, { borderColor: text, color: text }]}
           placeholder="Skriv in din e-post"
-          placeholderTextColor={textColor}
+          placeholderTextColor={text}
           accessibilityLabel="E-post"
           accessibilityHint="Fält där du kan skriva in din e-post"
           keyboardType="email-address"
@@ -123,12 +105,9 @@ export default function Login() {
             setPassword(text);
             setError("");
           }}
-          style={[
-            styles.input,
-            { borderColor: inputBorderColor, color: inputTextColor },
-          ]}
+          style={[styles.input, { borderColor: text, color: text }]}
           placeholder="Skriv in ditt lösenord"
-          placeholderTextColor={textColor}
+          placeholderTextColor={text}
           accessibilityLabel="Lösenord"
           accessibilityHint="Fält där du kan skriva in ditt lösenord"
           secureTextEntry={true}
@@ -144,7 +123,7 @@ export default function Login() {
           onPress={handleSubmit}
           style={({ pressed }) => [
             styles.button,
-            { backgroundColor: buttonColor },
+            { backgroundColor: button },
             pressed && styles.pressed,
           ]}
           accessibilityRole="button"
@@ -153,7 +132,7 @@ export default function Login() {
           disabled={isLoading}
         >
           {isLoading ? (
-            <ActivityIndicator size="small" color={textColor} />
+            <ActivityIndicator size="small" color={text} />
           ) : (
             <ThemedText>Logga in</ThemedText>
           )}
@@ -169,15 +148,12 @@ export default function Login() {
       >
         <ThemedView style={styles.modalOverlay}>
           <ThemedView
-            style={[
-              styles.modalContent,
-              { backgroundColor: modalBackgroundColor },
-            ]}
+            style={[styles.modalContent, { backgroundColor: background }]}
           >
             <ThemedView style={styles.modalHeader}>
               <ThemedText
                 type="subtitle"
-                style={[styles.modalTitle, { color: textColor }]}
+                style={[styles.modalTitle, { color: text }]}
               >
                 🧪 Test User Inloggningsuppgifter
               </ThemedText>
@@ -186,44 +162,36 @@ export default function Login() {
                 onPress={() => setShowTestUserModal(false)}
                 style={styles.closeButton}
               >
-                <Ionicons name="close" size={24} color={textColor} />
+                <Ionicons name="close" size={24} color={text} />
               </TouchableOpacity>
             </ThemedView>
 
             <ThemedView style={styles.modalBody}>
-              <ThemedText style={[styles.modalText, { color: textColor }]}>
+              <ThemedText style={[styles.modalText, { color: text }]}>
                 Anved dessa testanvändaruppgifter för att logga in:
               </ThemedText>
 
               <ThemedView style={styles.credentialContainer}>
-                <ThemedText
-                  style={[styles.credentialLabel, { color: textColor }]}
-                >
+                <ThemedText style={[styles.credentialLabel, { color: text }]}>
                   📧 Email:
                 </ThemedText>
-                <ThemedText
-                  style={[styles.credentialValue, { color: textColor }]}
-                >
+                <ThemedText style={[styles.credentialValue, { color: text }]}>
                   test@gmail.com
                 </ThemedText>
               </ThemedView>
 
               <ThemedView style={styles.credentialContainer}>
-                <ThemedText
-                  style={[styles.credentialLabel, { color: textColor }]}
-                >
+                <ThemedText style={[styles.credentialLabel, { color: text }]}>
                   🔒 Password:
                 </ThemedText>
-                <ThemedText
-                  style={[styles.credentialValue, { color: textColor }]}
-                >
+                <ThemedText style={[styles.credentialValue, { color: text }]}>
                   test
                 </ThemedText>
               </ThemedView>
 
               <TouchableOpacity
                 onPress={fillTestUserCredentials}
-                style={[styles.fillButton, { backgroundColor: buttonColor }]}
+                style={[styles.fillButton, { backgroundColor: button }]}
               >
                 <ThemedText style={styles.fillButtonText}>
                   Autofyll Testanvändare
@@ -287,7 +255,6 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     color: Colors.dark.error,
   },
-  // Modal styles
   modalOverlay: {
     flex: 1,
     backgroundColor: "rgba(0, 0, 0, 0.5)",

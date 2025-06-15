@@ -5,13 +5,10 @@ import { StyleSheet, TouchableOpacity, Alert } from "react-native";
 import ThemedText from "./ThemedText";
 
 const UpdateButton = () => {
-  const colorScheme = useColorScheme();
-  const buttonColor =
-    colorScheme === "dark" ? Colors.dark.tint : Colors.light.tint;
+  const { button } = useColorScheme();
 
   const handleUpdateCheck = async () => {
     try {
-      console.log("Manually checking for updates...");
       const update = await Updates.checkForUpdateAsync();
 
       if (update.isAvailable) {
@@ -41,9 +38,18 @@ const UpdateButton = () => {
   return (
     <TouchableOpacity
       onPress={handleUpdateCheck}
-      style={[styles.button, { backgroundColor: buttonColor }]}
+      style={[styles.button, { backgroundColor: button }]}
+      accessible={true}
+      accessibilityRole="button"
+      accessibilityLabel="Sök efter uppdateringar"
+      accessibilityHint="Tryck för att kontrollera om det finns appuppdateringar"
     >
-      <ThemedText style={styles.buttonText}>Sök efter uppdateringar</ThemedText>
+      <ThemedText
+        style={styles.buttonText}
+        accessible={false} 
+      >
+        Sök efter uppdateringar
+      </ThemedText>
     </TouchableOpacity>
   );
 };

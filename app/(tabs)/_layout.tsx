@@ -1,10 +1,10 @@
 import { Tabs } from "expo-router";
-import { AntDesign, Ionicons, Entypo } from "@expo/vector-icons";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { Colors } from "@/theme/Colors";
+import { TAB_CONFIG } from "@/utils/config/tabConfig";
 
 const TabLayout = () => {
-  const colorScheme = useColorScheme();
+  const { colorScheme } = useColorScheme();
 
   return (
     <Tabs
@@ -17,69 +17,20 @@ const TabLayout = () => {
           borderTopWidth: 0,
           elevation: 0,
         },
+        tabBarAccessibilityLabel: "huvudnavigering",
       }}
     >
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: "Hem",
-          tabBarIcon: ({ color, focused }) => (
-            <Ionicons
-              name={focused ? "home" : "home-outline"}
-              size={24}
-              color={color}
-            />
-          ),
-        }}
-      ></Tabs.Screen>
-    <Tabs.Screen
-        name="location"
-        options={{
-          title: "Plats",
-          tabBarIcon: ({ color, focused }) => (
-            <AntDesign
-              name={focused ? "enviroment" : "enviromento"}
-              size={24}
-              color={color}
-            />
-          ),
-        }}
-      ></Tabs.Screen>
-      <Tabs.Screen
-        name="sound-level"
-        options={{
-          title: "Ljudnivå",
-          tabBarIcon: ({ color, focused }) => (
-            <Ionicons
-              name={focused ? "headset" : "headset-outline"}
-              size={24}
-              color={color}
-            />
-          ),
-        }}
-      ></Tabs.Screen>
-     <Tabs.Screen
-        name="air-quality"
-        options={{
-          title: "Luftkvalitet",
-          tabBarIcon: ({ color }) => (
-            <Entypo name="air" size={24} color={color} />
-          ),
-        }}
-      ></Tabs.Screen>
-      <Tabs.Screen
-        name="Pulse"
-        options={{
-          title: "Puls",
-          tabBarIcon: ({ color, focused }) => (
-            <AntDesign
-              name={focused ? "heart" : "hearto"}
-              size={24}
-              color={color}
-            />
-          ),
-        }}
-      ></Tabs.Screen>
+      {TAB_CONFIG.map((tab) => (
+        <Tabs.Screen
+          key={tab.name}
+          name={tab.name}
+          options={{
+            title: tab.title,
+            tabBarIcon: tab.icon,
+            tabBarAccessibilityLabel: `${tab.title} flik`,
+          }}
+        />
+      ))}
     </Tabs>
   );
 };

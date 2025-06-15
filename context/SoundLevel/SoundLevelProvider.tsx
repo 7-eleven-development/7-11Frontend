@@ -13,7 +13,7 @@ type Props = {
 
 const SoundLevelProvider = ({ children }: Props) => {
   const [soundLevelData, setSoundLevelData] = useState<SoundLevelData>({
-    icon: "slightly-smile", 
+    icon: "slightly-smile",
     label: "",
     value: 0,
   });
@@ -32,7 +32,6 @@ const SoundLevelProvider = ({ children }: Props) => {
         throw new Error("Token or Device ID is missing");
       }
 
-      // Fetch current sound level
       const soundLevelResponse = await soundLevelServices.fetchLatestSoundLevel(
         token,
         deviceId
@@ -40,23 +39,20 @@ const SoundLevelProvider = ({ children }: Props) => {
       const latestSoundLevel = soundLevelResponse.latest_sound;
       const { icon, label } = getSoundLevelStatus(latestSoundLevel);
 
-      console.log("Sound Level Response:", soundLevelResponse);
       setSoundLevelData({
         icon,
         label,
         value: latestSoundLevel,
       });
 
-      // Fetch weekly and monthly data
       const weeklyDataResponse =
         await soundLevelServices.fetchWeeklySoundLevelData();
       setWeeklyData(weeklyDataResponse);
-      console.log("Weekly Data Response:", weeklyDataResponse);
 
       const monthlyDataResponse =
         await soundLevelServices.fetchMonthlySoundLevelData();
+
       setMonthlyData(monthlyDataResponse);
-      console.log("Monthly Data Response:", monthlyDataResponse);
     } catch (err) {
       setError(
         err instanceof Error ? err : new Error("Unknown error occurred")
