@@ -17,6 +17,9 @@ interface DataChartProps<T extends HistoricalDataPoint> {
   valueKey: string;
   dangerThreshold?: number;
   maxValue?: number;
+  // Add accessibility props
+  accessibilityLabel?: string;
+  accessibilityHint?: string;
 }
 
 function ThemedLineChart<T extends HistoricalDataPoint>({
@@ -27,6 +30,8 @@ function ThemedLineChart<T extends HistoricalDataPoint>({
   valueKey,
   dangerThreshold,
   maxValue,
+  accessibilityLabel,
+  accessibilityHint,
 }: DataChartProps<T>) {
   const {
     timeRange,
@@ -51,13 +56,30 @@ function ThemedLineChart<T extends HistoricalDataPoint>({
     [weeklyData, monthlyData, timeRange, valueKey, prepareChartData]
   );
 
+  // Create comprehensive accessibility description
+  const chartAccessibilityLabel =
+    accessibilityLabel ||
+    `${title}diagram för ${timeRange === "monthly" ? "senaste månaden" : "senaste veckan"}`;
+
   return (
-    <ThemedView style={styles.chartContainer}>
-      <View style={styles.chartHeader}>
+    <ThemedView
+      style={styles.chartContainer}
+      accessible={true}
+      accessibilityLabel={chartAccessibilityLabel}
+      accessibilityRole="none"
+    >
+      <View
+        style={styles.chartHeader}
+        accessible={true}
+        accessibilityRole="header"
+        accessibilityLabel={`Diagram rubrik: ${timeRange === "monthly" ? `Senaste månadens ${title}` : `Senaste veckans ${title}`}`}
+      >
         <ThemedText
           type="subtitle"
           lightColor={textColor}
           darkColor={textColor}
+          accessible={true}
+          accessibilityRole="text"
         >
           {timeRange === "monthly"
             ? `Senaste månadens ${title}`
@@ -65,7 +87,12 @@ function ThemedLineChart<T extends HistoricalDataPoint>({
         </ThemedText>
       </View>
 
-      <View style={styles.toggleContainer}>
+      <View
+        style={styles.toggleContainer}
+        accessible={true}
+        accessibilityLabel="Diagramkontroller"
+        accessibilityRole="none"
+      >
         <HoverDisplay
           hoveredValue={hoveredValue}
           hoveredLabel={hoveredLabel}
@@ -84,6 +111,12 @@ function ThemedLineChart<T extends HistoricalDataPoint>({
           ...pointerConfig,
           pointerLabelComponent: handlePointerLabelComponent,
         }}
+        accessible={true}
+        accessibilityRole="image"
+        accessibilityLabel={`${title}diagram med ${displayData.length} datapunkter från ${timeRange === "monthly" ? "senaste månaden" : "senaste veckan"}`}
+        accessibilityHint={
+          accessibilityHint || "Tryck och håll för att se specifika värden"
+        }
       />
     </ThemedView>
   );
