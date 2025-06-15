@@ -19,23 +19,60 @@ const Header = ({ locationName, temperature }: HeaderProps) => {
       style={styles.container}
       lightColor={tabBarBackground}
       darkColor={tabBarBackground}
+      accessible={true}
+      accessibilityRole="header"
+      accessibilityLabel={`Platsinformation: ${locationName}, ${temperature} grader Celsius`}
     >
-      <View style={{ flexDirection: "row", alignItems: "center", gap: 16 }}>
-        <Pressable onPress={() => router.push("/location")}>
-          <ThemedText type="title" lightColor={text} darkColor={text}>
+      <View 
+        style={{ flexDirection: "row", alignItems: "center", gap: 16 }}
+        accessible={true}
+        accessibilityLabel="Plats och temperaturinformation"
+      >
+        <Pressable 
+          onPress={() => router.push("/location")}
+          accessible={true}
+          accessibilityRole="button"
+          accessibilityLabel={`Plats: ${locationName}`}
+          accessibilityHint="Tryck för att visa plats på karta"
+        >
+          <ThemedText 
+            type="title" 
+            lightColor={text} 
+            darkColor={text}
+            accessible={true}
+            accessibilityRole="text"
+          >
             {locationName}
           </ThemedText>
         </Pressable>
-        <ThemedText lightColor={text} darkColor={text}>
+        <ThemedText 
+          lightColor={text} 
+          darkColor={text}
+          accessible={true}
+          accessibilityLabel={`Temperatur: ${temperature} grader Celsius`}
+          accessibilityRole="text"
+        >
           {temperature}°C
         </ThemedText>
       </View>
-      <Pressable onPress={() => router.push("/user")}>
-        <AntDesign name="user" size={24} color={icon} />
+      <Pressable 
+        onPress={() => router.push("/user")}
+        accessible={true}
+        accessibilityRole="button"
+        accessibilityLabel="Användarprofil"
+        accessibilityHint="Tryck för att öppna användarinställningar"
+      >
+        <AntDesign 
+          name="user" 
+          size={24} 
+          color={icon}
+          accessibilityLabel="Användarikon"
+        />
       </Pressable>
     </ThemedView>
   );
 };
+
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
@@ -44,4 +81,5 @@ const styles = StyleSheet.create({
     padding: 16,
   },
 });
+
 export default Header;
