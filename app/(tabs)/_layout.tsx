@@ -17,6 +17,7 @@ const TabLayout = () => {
           borderTopWidth: 0,
           elevation: 0,
         },
+        tabBarAccessibilityLabel: "huvudnavigering",
       }}
     >
       {TAB_CONFIG.map((tab) => (
@@ -26,6 +27,7 @@ const TabLayout = () => {
           options={{
             title: tab.title,
             tabBarIcon: tab.icon,
+            tabBarAccessibilityLabel: `${tab.title} flik`,
           }}
         />
       ))}

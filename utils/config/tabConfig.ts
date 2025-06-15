@@ -22,6 +22,9 @@ export const TAB_CONFIG: TabConfigItem[] = [
         name: focused ? "home" : "home-outline",
         size: 24,
         color: color,
+        accessibilityLabel: focused ? "Hem, vald flik" : "Hem flik",
+        accessibilityRole: "tab",
+        accessibilityState: { selected: focused },
       }),
   },
   {
@@ -32,6 +35,9 @@ export const TAB_CONFIG: TabConfigItem[] = [
         name: focused ? "enviroment" : "enviromento",
         size: 24,
         color: color,
+        accessibilityLabel: focused ? "Plats, vald flik" : "Plats flik",
+        accessibilityRole: "tab",
+        accessibilityState: { selected: focused },
       }),
   },
   {
@@ -42,16 +48,24 @@ export const TAB_CONFIG: TabConfigItem[] = [
         name: focused ? "headset" : "headset-outline",
         size: 24,
         color: color,
+        accessibilityLabel: focused ? "Ljudnivå, vald flik" : "Ljudnivå flik",
+        accessibilityRole: "tab",
+        accessibilityState: { selected: focused },
       }),
   },
   {
     name: "air-quality",
     title: "Luftkvalitet",
-    icon: ({ color }) =>
+    icon: ({ color, focused }) =>
       createElement(Entypo, {
         name: "air",
         size: 24,
         color: color,
+        accessibilityLabel: focused
+          ? "Luftkvalitet, vald flik"
+          : "Luftkvalitet flik",
+        accessibilityRole: "tab",
+        accessibilityState: { selected: focused },
       }),
   },
   {
@@ -62,6 +76,9 @@ export const TAB_CONFIG: TabConfigItem[] = [
         name: focused ? "heart" : "hearto",
         size: 24,
         color: color,
+        accessibilityLabel: focused ? "Puls, vald flik" : "Puls flik",
+        accessibilityRole: "tab",
+        accessibilityState: { selected: focused },
       }),
   },
 ];
