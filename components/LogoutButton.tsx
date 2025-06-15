@@ -15,8 +15,17 @@ const LogoutButton = ({ onPress, actualTheme }: LogoutButtonProps) => {
         styles.logoutButton,
         { backgroundColor: Colors[actualTheme].tint },
       ]}
+      accessible={true}
+      accessibilityRole="button"
+      accessibilityLabel="Logga ut"
+      accessibilityHint="Tryck för att logga ut från appen"
     >
-      <ThemedText style={styles.logoutButtonText}>Logga ut</ThemedText>
+      <ThemedText
+        style={styles.logoutButtonText}
+        accessible={false} 
+      >
+        Logga ut
+      </ThemedText>
     </Pressable>
   );
 };

@@ -40,8 +40,17 @@ const UpdateButton = () => {
     <TouchableOpacity
       onPress={handleUpdateCheck}
       style={[styles.button, { backgroundColor: button }]}
+      accessible={true}
+      accessibilityRole="button"
+      accessibilityLabel="Sök efter uppdateringar"
+      accessibilityHint="Tryck för att kontrollera om det finns appuppdateringar"
     >
-      <ThemedText style={styles.buttonText}>Sök efter uppdateringar</ThemedText>
+      <ThemedText
+        style={styles.buttonText}
+        accessible={false} // Text handled by parent TouchableOpacity
+      >
+        Sök efter uppdateringar
+      </ThemedText>
     </TouchableOpacity>
   );
 };
