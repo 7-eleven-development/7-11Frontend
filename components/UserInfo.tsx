@@ -1,5 +1,5 @@
 import ThemedText from "./ThemedText";
-import { StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { UserProfile } from "@/services/user";
 
 interface UserInfoProps {
@@ -21,31 +21,53 @@ const UserInfo = ({ user, theme, textColor }: UserInfoProps) => {
   };
 
   return (
-    <>
-      <ThemedText style={[styles.info, { color: textColor }]}>
+    <View
+      accessible={true}
+      accessibilityRole="text"
+      accessibilityLabel={`Användarinformation: ${user.firstname} ${user.surname}, ${user.email}, ${user.phonenumber}, ${user.company_name}, tema: ${getThemeDisplayName()}`}
+    >
+      <ThemedText
+        style={[styles.info, { color: textColor }]}
+        accessible={false}
+      >
         Användare inloggad
       </ThemedText>
 
-      <ThemedText style={[styles.info, { color: textColor }]}>
+      <ThemedText
+        style={[styles.info, { color: textColor }]}
+        accessible={false}
+      >
         👤Namn: {user.firstname} {user.surname}
       </ThemedText>
 
-      <ThemedText style={[styles.info, { color: textColor }]}>
+      <ThemedText
+        style={[styles.info, { color: textColor }]}
+        accessible={false}
+      >
         📧 E-post: {user.email}
       </ThemedText>
 
-      <ThemedText style={[styles.info, { color: textColor }]}>
+      <ThemedText
+        style={[styles.info, { color: textColor }]}
+        accessible={false}
+      >
         📞Telefon: {user.phonenumber}
       </ThemedText>
 
-      <ThemedText style={[styles.info, { color: textColor }]}>
+      <ThemedText
+        style={[styles.info, { color: textColor }]}
+        accessible={false}
+      >
         🏢Företag: {user.company_name}
       </ThemedText>
 
-      <ThemedText style={[styles.info, { color: textColor }]}>
+      <ThemedText
+        style={[styles.info, { color: textColor }]}
+        accessible={false}
+      >
         🎨Tema: {getThemeDisplayName()}
       </ThemedText>
-    </>
+    </View>
   );
 };
 

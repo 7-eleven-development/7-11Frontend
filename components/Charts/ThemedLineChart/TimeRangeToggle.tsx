@@ -22,7 +22,6 @@ const TimeRangeToggle: React.FC<TimeRangeToggleProps> = ({
         <ThemedText
           style={[
             styles.toggleText,
-            timeRange === "weekly" && styles.activeToggleText,
           ]}
           lightColor={timeRange === "weekly" ? chartColor : textColor}
           darkColor={timeRange === "weekly" ? chartColor : textColor}
@@ -38,7 +37,7 @@ const TimeRangeToggle: React.FC<TimeRangeToggleProps> = ({
         <ThemedText
           style={[
             styles.toggleText,
-            timeRange === "monthly" && styles.activeToggleText,
+           
           ]}
           lightColor={timeRange === "monthly" ? chartColor : textColor}
           darkColor={timeRange === "monthly" ? chartColor : textColor}
@@ -63,9 +62,6 @@ const styles = StyleSheet.create({
   toggleText: {
     fontSize: 14,
     fontWeight: "500",
-  },
-  activeToggleText: {
-    // Remove hardcoded color - handled by lightColor/darkColor
   },
 });
 

@@ -23,17 +23,34 @@ const HoverDisplay: React.FC<HoverDisplayProps> = ({
       ? [styles.hoverValueContainer, { backgroundColor: gridColor }]
       : [styles.hoverValueContainer, { backgroundColor: gridColor }];
 
-  if (hoveredValue === null) return <View style={themedContainer}></View>;
+  if (hoveredValue === null) {
+    return (
+      <View
+        style={themedContainer}
+        accessible={true}
+        accessibilityLabel="Inget värde valt"
+        accessibilityRole="none"
+      />
+    );
+  }
 
   const isDangerous =
     dangerThreshold !== undefined && hoveredValue >= dangerThreshold;
 
   return (
-    <View style={themedContainer}>
+    <View
+      style={themedContainer}
+      accessible={true}
+      accessibilityRole="text"
+      accessibilityLabel={`Valt värde: ${hoveredLabel}: ${hoveredValue} ${unit}${
+        isDangerous ? ", farligt värde" : ""
+      }`}
+    >
       <ThemedText
         lightColor={textColor}
         darkColor={textColor}
         style={styles.hoveredValueLabel}
+        accessible={false}
       >
         {hoveredLabel}:
       </ThemedText>
@@ -41,6 +58,7 @@ const HoverDisplay: React.FC<HoverDisplayProps> = ({
         lightColor={textColor}
         darkColor={textColor}
         style={[styles.hoveredValue, isDangerous ? styles.dangerousValue : {}]}
+        accessible={false}
       >
         {hoveredValue} {unit}
       </ThemedText>

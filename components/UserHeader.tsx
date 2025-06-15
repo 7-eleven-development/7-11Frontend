@@ -24,12 +24,38 @@ const UserHeader = ({
       style={styles.headerContainer}
       lightColor={headerBackgroundColor}
       darkColor={headerBackgroundColor}
+      accessible={true}
+      accessibilityRole="header"
+      accessibilityLabel="Användarinställningar"
     >
-      <Pressable onPress={onBackPress}>
-        <Ionicons name="arrow-back" size={24} color={tint} />
+      <Pressable
+        onPress={onBackPress}
+        accessible={true}
+        accessibilityRole="button"
+        accessibilityLabel="Tillbaka"
+        accessibilityHint="Tryck för att gå tillbaka till startsidan"
+      >
+        <Ionicons
+          name="arrow-back"
+          size={24}
+          color={tint}
+          accessibilityLabel="Tillbaka ikon"
+        />
       </Pressable>
-      <Pressable onPress={onThemeToggle}>
-        <Ionicons name={themeIcon} size={24} color={themeIconColor} />
+
+      <Pressable
+        onPress={onThemeToggle}
+        accessible={true}
+        accessibilityRole="button"
+        accessibilityLabel="Växla tema"
+        accessibilityHint="Tryck för att växla mellan ljust och mörkt tema"
+      >
+        <Ionicons
+          name={themeIcon}
+          size={24}
+          color={themeIconColor}
+          accessibilityLabel="Tema ikon"
+        />
       </Pressable>
     </ThemedView>
   );

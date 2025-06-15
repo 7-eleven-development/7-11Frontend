@@ -57,6 +57,8 @@ const User = () => {
           styles.container,
           { backgroundColor: themeColors.backgroundColor },
         ]}
+        accessible={true}
+        accessibilityLabel={`Användarskärm för ${user?.firstname || "användare"}`}
       >
         {user && (
           <>
@@ -64,7 +66,6 @@ const User = () => {
             <UpdateButton />
           </>
         )}
-
         <LogoutButton onPress={handleLogout} actualTheme={actualTheme} />
       </ThemedView>
     </>

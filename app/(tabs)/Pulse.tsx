@@ -21,8 +21,18 @@ const Pulse = () => {
 
   if (isLoading && !refreshing) {
     return (
-      <RefreshView refreshing={refreshing} onRefresh={handleRefresh}>
-        <ThemedView style={styles.container}>
+      <RefreshView
+        refreshing={refreshing}
+        onRefresh={handleRefresh}
+        accessibilityLabel="Laddar pulsdata"
+        accessibilityHint="Dra nedåt för att uppdatera"
+      >
+        <ThemedView
+          style={styles.container}
+          accessible={true}
+          accessibilityLabel="Laddar pulsdata"
+          accessibilityRole="none"
+        >
           <LoadingSpinner color={text} />
         </ThemedView>
       </RefreshView>
@@ -31,17 +41,40 @@ const Pulse = () => {
 
   if (error) {
     return (
-      <RefreshView refreshing={refreshing} onRefresh={handleRefresh}>
-        <ThemedView style={styles.container}>
-          <ErrorMessage colorScheme={colorScheme} />
+      <RefreshView
+        refreshing={refreshing}
+        onRefresh={handleRefresh}
+        accessibilityLabel="Fel vid hämtning av pulsdata"
+        accessibilityHint="Dra nedåt för att försöka igen"
+      >
+        <ThemedView
+          style={styles.container}
+          accessible={true}
+          accessibilityLabel="Fel vid hämtning av pulsdata"
+          accessibilityRole="alert"
+        >
+          <ErrorMessage
+            colorScheme={colorScheme}
+            accessibilityLabel="Fel vid hämtning av pulsdata"
+          />
         </ThemedView>
       </RefreshView>
     );
   }
 
   return (
-    <RefreshView refreshing={refreshing} onRefresh={handleRefresh}>
-      <ThemedView style={styles.container}>
+    <RefreshView
+      refreshing={refreshing}
+      onRefresh={handleRefresh}
+      accessibilityLabel="Pulsskärm"
+      accessibilityHint="Dra nedåt för att uppdatera pulsdata"
+    >
+      <ThemedView
+        style={styles.container}
+        accessible={true}
+        accessibilityLabel={`Pulsskärm, aktuell puls: ${pulseData.value} ${PULSE_CONFIG.unit}`}
+        accessibilityRole="none"
+      >
         <SensorIndicator
           icon={pulseData.icon}
           value={pulseData.value}
@@ -49,6 +82,8 @@ const Pulse = () => {
           type={PULSE_CONFIG.type}
           valueLabel={PULSE_CONFIG.unit}
           status={status}
+          accessibilityLabel={`Puls: ${pulseData.value} ${PULSE_CONFIG.unit}, status: ${status}`}
+          accessibilityHint="Visar aktuell pulsmätning"
         />
         <ThemedLineChart
           weeklyData={weeklyData}
@@ -58,6 +93,8 @@ const Pulse = () => {
           valueKey="pulse"
           dangerThreshold={PULSE_CONFIG.dangerThreshold}
           maxValue={PULSE_CONFIG.maxValue}
+          accessibilityLabel="Pulsdiagram"
+          accessibilityHint="Visar historisk pulsdata i diagram"
         />
       </ThemedView>
     </RefreshView>

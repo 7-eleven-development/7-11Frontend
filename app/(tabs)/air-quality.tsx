@@ -62,8 +62,18 @@ const AirQuality = () => {
 
   if (isLoading && !refreshing) {
     return (
-      <RefreshView refreshing={refreshing} onRefresh={handleRefresh}>
-        <ThemedView style={styles.container}>
+      <RefreshView
+        refreshing={refreshing}
+        onRefresh={handleRefresh}
+        accessibilityLabel="Laddar luftkvalitetsdata"
+        accessibilityHint="Dra nedåt för att uppdatera"
+      >
+        <ThemedView
+          style={styles.container}
+          accessible={true}
+          accessibilityLabel="Laddar luftkvalitetsdata"
+          accessibilityRole="none"
+        >
           <LoadingSpinner color={text} />
         </ThemedView>
       </RefreshView>
@@ -72,17 +82,40 @@ const AirQuality = () => {
 
   if (error) {
     return (
-      <RefreshView refreshing={refreshing} onRefresh={handleRefresh}>
-        <ThemedView style={styles.container}>
-          <ErrorMessage colorScheme={colorScheme} />
+      <RefreshView
+        refreshing={refreshing}
+        onRefresh={handleRefresh}
+        accessibilityLabel="Fel vid hämtning av luftkvalitetsdata"
+        accessibilityHint="Dra nedåt för att försöka igen"
+      >
+        <ThemedView
+          style={styles.container}
+          accessible={true}
+          accessibilityLabel="Fel vid hämtning av luftkvalitetsdata"
+          accessibilityRole="alert"
+        >
+          <ErrorMessage
+            colorScheme={colorScheme}
+            accessibilityLabel="Fel vid hämtning av luftkvalitetsdata"
+          />
         </ThemedView>
       </RefreshView>
     );
   }
 
   return (
-    <RefreshView refreshing={refreshing} onRefresh={handleRefresh}>
-      <ThemedView style={styles.container}>
+    <RefreshView
+      refreshing={refreshing}
+      onRefresh={handleRefresh}
+      accessibilityLabel="Luftkvalitetsskärm"
+      accessibilityHint="Dra nedåt för att uppdatera luftkvalitetsdata"
+    >
+      <ThemedView
+        style={styles.container}
+        accessible={true}
+        accessibilityLabel={`Luftkvalitetsskärm, vald sensor: ${config.title}, värde: ${selected.value} ${config.unit}`}
+        accessibilityRole="none"
+      >
         <AirQualitySensorList
           sensors={sensors}
           selectedSensor={selectedSensor}
@@ -91,6 +124,9 @@ const AirQuality = () => {
           }
           style={styles.sensorsScrollView}
           contentStyle={styles.sensorsScrollContent}
+          accessibilityLabel="Lista över luftkvalitetssensorer"
+          accessibilityHint="Välj en sensor för att se dess diagram"
+          accessibilityRole="tablist"
         />
         <ThemedLineChart
           key={selectedSensor}
@@ -101,6 +137,8 @@ const AirQuality = () => {
           valueKey={config.key}
           dangerThreshold={config.dangerThreshold}
           maxValue={config.maxValue}
+          accessibilityLabel={`${config.title} diagram`}
+          accessibilityHint={`Visar historisk ${config.title.toLowerCase()}data i diagram`}
         />
       </ThemedView>
     </RefreshView>

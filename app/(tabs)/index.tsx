@@ -19,7 +19,11 @@ const Index = () => {
   const keyExtractor = (item: CardData) => item.type;
 
   return (
-    <ThemedView style={styles.container}>
+    <ThemedView
+      style={styles.container}
+      accessibilityLabel="Hemskärm"
+      accessibilityRole="none"
+    >
       <Header
         locationName={homeData.location.name}
         temperature={homeData.temperature}
@@ -33,6 +37,9 @@ const Index = () => {
         refreshing={refreshing}
         onRefresh={handleRefresh}
         bounces={true}
+        accessibilityLabel="Lista över sensorer och miljödata"
+        accessibilityHint="Dra nedåt för att uppdatera data"
+        accessibilityRole="list"
       />
     </ThemedView>
   );

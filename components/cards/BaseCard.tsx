@@ -28,6 +28,23 @@ const BaseCard = ({ cardData, children }: BaseCardProps) => {
 
   const handlePress = () => router.push(config.route);
 
+  // Create accessibility label based on card type and data
+  const getAccessibilityLabel = () => {
+    switch (type) {
+      case "airQuality":
+        const airData = cardData.data;
+        return `Luftkvalitet: Rök ${airData.smoke}, Koldioxid ${airData.co2}, Propan ${airData.propane}`;
+      case "soundLevel":
+        const soundData = cardData.data;
+        return `Ljudnivå: ${soundData.soundLevel} decibel`;
+      case "pulse":
+        const pulseData = cardData.data;
+        return `Puls: ${pulseData.pulse} slag per minut`;
+      default:
+        return config.title;
+    }
+  };
+
   return (
     <ThemedView
       style={styles.card}
@@ -37,6 +54,10 @@ const BaseCard = ({ cardData, children }: BaseCardProps) => {
       <Pressable
         style={({ pressed }) => [styles.pressable, pressed && { opacity: 0.9 }]}
         onPress={handlePress}
+        accessible={true}
+        accessibilityRole="button"
+        accessibilityLabel={getAccessibilityLabel()}
+        accessibilityHint={`Tryck för att se ${config.title.toLowerCase()}diagram`}
       >
         <View style={styles.header}>
           {config.icon()}

@@ -27,8 +27,18 @@ const SoundLevel = () => {
 
   if (isLoading && !refreshing) {
     return (
-      <RefreshView refreshing={refreshing} onRefresh={handleRefresh}>
-        <ThemedView style={styles.container}>
+      <RefreshView
+        refreshing={refreshing}
+        onRefresh={handleRefresh}
+        accessibilityLabel="Laddar ljudnivådata"
+        accessibilityHint="Dra nedåt för att uppdatera"
+      >
+        <ThemedView
+          style={styles.container}
+          accessible={true}
+          accessibilityLabel="Laddar ljudnivådata"
+          accessibilityRole="none"
+        >
           <LoadingSpinner color={text} />
         </ThemedView>
       </RefreshView>
@@ -37,17 +47,40 @@ const SoundLevel = () => {
 
   if (error) {
     return (
-      <RefreshView refreshing={refreshing} onRefresh={handleRefresh}>
-        <ThemedView style={styles.container}>
-          <ErrorMessage colorScheme={colorScheme} />
+      <RefreshView
+        refreshing={refreshing}
+        onRefresh={handleRefresh}
+        accessibilityLabel="Fel vid hämtning av ljudnivådata"
+        accessibilityHint="Dra nedåt för att försöka igen"
+      >
+        <ThemedView
+          style={styles.container}
+          accessible={true}
+          accessibilityLabel="Fel vid hämtning av ljudnivådata"
+          accessibilityRole="alert"
+        >
+          <ErrorMessage
+            colorScheme={colorScheme}
+            accessibilityLabel="Fel vid hämtning av ljudnivådata"
+          />
         </ThemedView>
       </RefreshView>
     );
   }
 
   return (
-    <RefreshView refreshing={refreshing} onRefresh={handleRefresh}>
-      <ThemedView style={styles.container}>
+    <RefreshView
+      refreshing={refreshing}
+      onRefresh={handleRefresh}
+      accessibilityLabel="Ljudnivåskärm"
+      accessibilityHint="Dra nedåt för att uppdatera ljudnivådata"
+    >
+      <ThemedView
+        style={styles.container}
+        accessible={true}
+        accessibilityLabel={`Ljudnivåskärm, aktuell ljudnivå: ${soundLevelData.value} ${SOUND_LEVEL_CONFIG.unit}`}
+        accessibilityRole="none"
+      >
         <SensorIndicator
           icon={soundLevelData.icon}
           value={soundLevelData.value}
@@ -55,6 +88,8 @@ const SoundLevel = () => {
           type={SOUND_LEVEL_CONFIG.type}
           valueLabel={SOUND_LEVEL_CONFIG.unit}
           status={status}
+          accessibilityLabel={`Ljudnivå: ${soundLevelData.value} ${SOUND_LEVEL_CONFIG.unit}, status: ${status}`}
+          accessibilityHint="Visar aktuell ljudnivåmätning"
         />
         <ThemedLineChart
           weeklyData={weeklyData}
@@ -64,6 +99,8 @@ const SoundLevel = () => {
           valueKey="sound"
           dangerThreshold={SOUND_LEVEL_CONFIG.dangerThreshold}
           maxValue={SOUND_LEVEL_CONFIG.maxValue}
+          accessibilityLabel="Ljudnivådiagram"
+          accessibilityHint="Visar historisk ljudnivådata i diagram"
         />
       </ThemedView>
     </RefreshView>
