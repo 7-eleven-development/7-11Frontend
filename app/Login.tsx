@@ -84,6 +84,7 @@ export default function Login() {
         </ThemedView>
 
         <TextInput
+        testID="email-input"
           value={email}
           onChangeText={(text) => {
             setEmail(text);
@@ -100,6 +101,7 @@ export default function Login() {
         />
 
         <TextInput
+        testID="password-input"
           value={password}
           onChangeText={(text) => {
             setPassword(text);
