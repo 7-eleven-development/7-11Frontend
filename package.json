@@ -13,10 +13,7 @@
     "lint": "expo lint"
   },
   "jest": {
-    "preset": "jest-expo",
-    "setupFilesAfterEnv": [
-      "@testing-library/jest-native/extend-expect"
-    ]
+    "preset": "jest-expo"
   },
   "dependencies": {
     "@expo/vector-icons": "^14.0.2",
@@ -39,7 +36,7 @@
     "expo-system-ui": "~5.0.7",
     "expo-updates": "^0.28.13",
     "expo-web-browser": "~14.1.6",
-    "react": "19.0.0",
+    "react": "19.1.0",
     "react-dom": "19.0.0",
     "react-native": "0.79.2",
     "react-native-gesture-handler": "~2.24.0",
@@ -55,7 +52,6 @@
   "devDependencies": {
     "@babel/core": "^7.25.2",
     "@testing-library/dom": "^10.4.0",
-    "@testing-library/jest-native": "^5.4.3",
     "@testing-library/react": "^16.3.0",
     "@testing-library/react-native": "^13.2.0",
     "@types/jest": "^29.5.12",
