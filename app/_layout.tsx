@@ -1,7 +1,6 @@
 import { StyleSheet, Platform, StatusBar, SafeAreaView } from "react-native";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { useAppUpdates } from "@/hooks/useAppUpdates";
-import { Colors } from "@/theme/Colors";
 import ThemedView from "@/components/ThemedView";
 import AppProviders from "@/app/Providers";
 import AppStatusBar from "@/components/AppStatusBar";

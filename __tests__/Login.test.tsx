@@ -1,7 +1,6 @@
-import React from "react";
+import Login from "@/app/Login";
+import AuthProvider from "@/context/auth/AuthProvider";
 import { render, waitFor } from "@testing-library/react-native";
-import Login from "../Login";
-import AuthProvider from "../../context/auth/AuthProvider";
 
 const customRender = (ui: React.ReactElement) => {
   return render(<AuthProvider>{ui}</AuthProvider>);
